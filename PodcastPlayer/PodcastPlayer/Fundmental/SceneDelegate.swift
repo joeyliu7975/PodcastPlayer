@@ -20,8 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         window?.makeKeyAndVisible()
-        
-        let homeViewController = HomepageViewController()
+
+        let remoteFeedLoader = AlamofireEpisodeFeedLoader()
+        let homeViewController = HomepageViewController(loader: remoteFeedLoader)
         
         window?.rootViewController = homeViewController
     }
