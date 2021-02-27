@@ -76,6 +76,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		712CB8FC25E9E46800034CE7 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				7183AAC725E764A300E1AD98 /* Main.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		712CB8FD25E9E47A00034CE7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7183AACC25E764A400E1AD98 /* LaunchScreen.storyboard */,
+				7183AACF25E764A400E1AD98 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		712CB8FE25E9E48400034CE7 /* Fundmental */ = {
+			isa = PBXGroup;
+			children = (
+				7183AAC125E764A300E1AD98 /* AppDelegate.swift */,
+				7183AAC325E764A300E1AD98 /* SceneDelegate.swift */,
+			);
+			path = Fundmental;
+			sourceTree = "<group>";
+		};
+		712CB90525E9E4F500034CE7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7183AAC525E764A300E1AD98 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		7183AAB525E764A300E1AD98 = {
 			isa = PBXGroup;
 			children = (
@@ -99,13 +133,11 @@
 		7183AAC025E764A300E1AD98 /* PodcastPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				7183AAC125E764A300E1AD98 /* AppDelegate.swift */,
-				7183AAC325E764A300E1AD98 /* SceneDelegate.swift */,
-				7183AAC525E764A300E1AD98 /* ViewController.swift */,
-				7183AAC725E764A300E1AD98 /* Main.storyboard */,
+				712CB90525E9E4F500034CE7 /* Controller */,
+				712CB8FC25E9E46800034CE7 /* Storyboard */,
 				7183AACA25E764A400E1AD98 /* Assets.xcassets */,
-				7183AACC25E764A400E1AD98 /* LaunchScreen.storyboard */,
-				7183AACF25E764A400E1AD98 /* Info.plist */,
+				712CB8FE25E9E48400034CE7 /* Fundmental */,
+				712CB8FD25E9E47A00034CE7 /* Supporting Files */,
 			);
 			path = PodcastPlayer;
 			sourceTree = "<group>";
@@ -438,7 +470,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XTR83A4K57;
-				INFOPLIST_FILE = PodcastPlayer/Info.plist;
+				INFOPLIST_FILE = "PodcastPlayer/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -457,7 +489,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XTR83A4K57;
-				INFOPLIST_FILE = PodcastPlayer/Info.plist;
+				INFOPLIST_FILE = "PodcastPlayer/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
