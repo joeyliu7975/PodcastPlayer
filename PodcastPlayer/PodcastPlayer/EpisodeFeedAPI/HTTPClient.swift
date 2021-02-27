@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import Alamofire
-import AlamofireRSSParser
 
 public protocol HTTPClient {
     typealias Result = Swift.Result<(Data, HTTPURLResponse), Error>
