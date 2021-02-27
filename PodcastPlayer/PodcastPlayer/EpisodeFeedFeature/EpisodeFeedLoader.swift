@@ -11,5 +11,5 @@ import AlamofireRSSParser
 public protocol EpisodeFeedLoader {
     typealias Result = Swift.Result<RSSFeed, Error>
     
-    func load(completion: (Result) -> Void)
+    func load(completion: @escaping (Result) -> Void)
 }
