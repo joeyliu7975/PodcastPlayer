@@ -15,8 +15,12 @@ public final class HomepageViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             guard let tableView = tableView else { return }
+            
             tableView.delegate = self
             tableView.dataSource = self
+            
+            tableView.tableHeaderView = headerView
+            tableView.separatorStyle = .none
 
             tableView.register(with: EpisodeFeedTableViewCell.reuseID)
         }
@@ -24,9 +28,16 @@ public final class HomepageViewController: UIViewController {
     
     private var loader: EpisodeFeedLoader?
     
+    private lazy var headerView: HomepageTableHeaderView = {
+        let headerView = HomepageTableHeaderView(frame: .zero)
+        
+        return headerView
+    }()
+    
     private var feed: RSSFeed? {
         didSet {
             guard let feed = feed else { return }
+            
             self.episodeFeeds = feed.items
         }
     }
@@ -45,11 +56,21 @@ public final class HomepageViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        setup()
         sendRequest()
+    }
+    
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateHeaderViewHeight(for: tableView.tableHeaderView)
     }
 }
 
-extension HomepageViewController {
+private extension HomepageViewController {
+    func setup() {
+        self.navigationItem.title = "Homepage"
+    }
+    
     func sendRequest() {
         let url = URL(string: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")!
         
@@ -61,6 +82,13 @@ extension HomepageViewController {
                 print(error)
             }
         })
+    }
+    
+    func updateHeaderViewHeight(for header: UIView?) {
+        guard let header = header else { return }
+        
+        header.frame.size.height = 80
+        header.clipsToBounds = true
     }
 }
 
@@ -79,7 +107,8 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
         let cellModel = episodeFeeds[indexPath.row]
         
         cell.configure(with: cellModel)
-        
+
         return cell
     }
 }
+

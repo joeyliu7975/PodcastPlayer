@@ -41,10 +41,6 @@ public final class EpisodeFeedTableViewCell: UITableViewCell {
         
         episodeImageView.kf.setImage(
             with: url,
-            placeholder: UIImage(named: "placeholderImage"),
-            options: [
-                .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(1)),
-                .cacheOriginalImage
-            ])    }
+            placeholder: UIImage(named: "placeholderImage"))
+    }
 }
