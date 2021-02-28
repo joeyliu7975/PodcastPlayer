@@ -25,11 +25,20 @@ public final class HomepageViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
+        setup()
         sendRequest()
     }
 }
 
 extension HomepageViewController {
+    
+    func setup() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.register(with: EpisodeFeedTableViewCell.reuseID)
+    }
+    
     func sendRequest() {
         let url = URL(string: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")!
         
@@ -44,3 +53,26 @@ extension HomepageViewController {
         })
     }
 }
+
+extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let feed = self.feed else { return 0 }
+        
+        return feed.items.count
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: EpisodeFeedTableViewCell.reuseID, for: indexPath) as! EpisodeFeedTableViewCell
+        
+        guard let cellModel = feed?.items[indexPath.row] else { return cell }
+        
+        cell.configure(with: cellModel)
+        
+        return cell
+    }
+}
+
