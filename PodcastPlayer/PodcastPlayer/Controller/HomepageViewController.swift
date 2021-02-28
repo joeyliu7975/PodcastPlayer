@@ -31,9 +31,11 @@ public final class HomepageViewController: UIViewController {
     private lazy var headerView: HomepageTableHeaderView = {
         let headerView = HomepageTableHeaderView(frame: .zero)
         
+        headerView.clipsToBounds = true
+        
         return headerView
     }()
-    
+
     private var feed: RSSFeed? {
         didSet {
             guard let feed = feed else { return }
@@ -46,6 +48,14 @@ public final class HomepageViewController: UIViewController {
         didSet {
             self.tableView.reloadData()
         }
+    }
+    
+    private var tableHeaderHeight: CGFloat {
+        return 80.0
+    }
+    
+    private var navigationTitle: String {
+        return "Homepage"
     }
     
     public convenience init(loader: EpisodeFeedLoader = AlamofireEpisodeFeedLoader()){
@@ -68,7 +78,7 @@ public final class HomepageViewController: UIViewController {
 
 private extension HomepageViewController {
     func setup() {
-        self.navigationItem.title = "Homepage"
+        self.navigationItem.title = navigationTitle
     }
     
     func sendRequest() {
@@ -87,8 +97,7 @@ private extension HomepageViewController {
     func updateHeaderViewHeight(for header: UIView?) {
         guard let header = header else { return }
         
-        header.frame.size.height = 80
-        header.clipsToBounds = true
+        header.frame.size.height = tableHeaderHeight
     }
 }
 
