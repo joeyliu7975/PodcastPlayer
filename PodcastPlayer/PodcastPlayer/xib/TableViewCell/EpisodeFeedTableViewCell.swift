@@ -32,10 +32,7 @@ public final class EpisodeFeedTableViewCell: UITableViewCell {
         titleLabel.text = model.title
         
         if let date = model.pubDate {
-            let dateFormat = DateFormatter()
-            dateFormat.dateFormat = "yyyy-MM-dd"
-            
-            publishedDataLabel.text = dateFormat.string(from: date)
+            publishedDataLabel.text = DateFormatter.getDateString(with: date, dateType: .yearMonthDay)
         } else {
             publishedDataLabel.text = "Unknown"
         }
