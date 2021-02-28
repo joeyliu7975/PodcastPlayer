@@ -144,7 +144,7 @@
 		712CB90525E9E4F500034CE7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */,
+				71AE978525EBFB8400E9284F /* Home */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -213,7 +213,6 @@
 			children = (
 				71AE977A25EBF8A100E9284F /* Helper */,
 				713D496925EB717400058FD4 /* Extension */,
-				71CFF17B25EA869000C0D278 /* xib */,
 				712CB91125E9E69B00034CE7 /* EpisodeFeedFeature */,
 				712CB91A25E9E9B300034CE7 /* EpisodeFeedAPI */,
 				71AE976B25EBC05D00E9284F /* View */,
@@ -246,7 +245,8 @@
 		71AE976B25EBC05D00E9284F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				71AE976C25EBC07D00E9284F /* HomepageTableHeaderView.swift */,
+				713D494D25EB5BE400058FD4 /* TableViewCell */,
+				71AE978625EBFBCA00E9284F /* TableHeader */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -259,13 +259,21 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
-		71CFF17B25EA869000C0D278 /* xib */ = {
+		71AE978525EBFB8400E9284F /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				713D494D25EB5BE400058FD4 /* TableViewCell */,
+				71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */,
 				71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */,
 			);
-			path = xib;
+			path = Home;
+			sourceTree = "<group>";
+		};
+		71AE978625EBFBCA00E9284F /* TableHeader */ = {
+			isa = PBXGroup;
+			children = (
+				71AE976C25EBC07D00E9284F /* HomepageTableHeaderView.swift */,
+			);
+			path = TableHeader;
 			sourceTree = "<group>";
 		};
 		9F9ECF8174348305F475B55F /* Pods */ = {
