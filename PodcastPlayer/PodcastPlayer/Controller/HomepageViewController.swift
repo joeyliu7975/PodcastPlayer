@@ -11,11 +11,30 @@ import AlamofireRSSParser
 
 public final class HomepageViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView! {
+        didSet {
+            guard let tableView = tableView else { return }
+            tableView.delegate = self
+            tableView.dataSource = self
+
+            tableView.register(with: EpisodeFeedTableViewCell.reuseID)
+        }
+    }
     
     private var loader: EpisodeFeedLoader?
     
-    private var feed: RSSFeed?
+    private var feed: RSSFeed? {
+        didSet {
+            guard let feed = feed else { return }
+            self.episodeFeeds = feed.items
+        }
+    }
+    
+    private var episodeFeeds: [RSSItem] = [] {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
     
     public convenience init(loader: EpisodeFeedLoader = AlamofireEpisodeFeedLoader()){
         self.init()
@@ -24,21 +43,11 @@ public final class HomepageViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-
-        setup()
         sendRequest()
     }
 }
 
 extension HomepageViewController {
-    
-    func setup() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        tableView.register(with: EpisodeFeedTableViewCell.reuseID)
-    }
-    
     func sendRequest() {
         let url = URL(string: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")!
         
@@ -46,7 +55,6 @@ extension HomepageViewController {
             switch result {
             case let .success(feed):
                 self?.feed = feed
-                self?.tableView.reloadData()
             case let .failure(error):
                 print(error)
             }
@@ -56,9 +64,7 @@ extension HomepageViewController {
 
 extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let feed = self.feed else { return 0 }
-        
-        return feed.items.count
+        return episodeFeeds.count
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -68,7 +74,7 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseID, for: indexPath)
         
-        guard let cellModel = feed?.items[indexPath.row] else { return cell }
+        let cellModel = episodeFeeds[indexPath.row]
         
         cell.configure(with: cellModel)
         
