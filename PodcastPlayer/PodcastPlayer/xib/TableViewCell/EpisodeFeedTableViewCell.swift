@@ -10,7 +10,7 @@ import AlamofireRSSParser
 import Alamofire
 
 public final class EpisodeFeedTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var publishedDataLabel: UILabel!
@@ -21,10 +21,10 @@ public final class EpisodeFeedTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     public override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -36,5 +36,15 @@ public final class EpisodeFeedTableViewCell: UITableViewCell {
         } else {
             publishedDataLabel.text = "Unknown"
         }
-    }
+        
+        let url = URL(string: "https://i1.sndcdn.com/artworks-Z7zJRFuDjv63KCHv-5W8whA-t3000x3000.jpg")!
+        
+        episodeImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholderImage"),
+            options: [
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ])    }
 }

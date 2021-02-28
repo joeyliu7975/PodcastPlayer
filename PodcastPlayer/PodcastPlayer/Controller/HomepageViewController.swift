@@ -8,6 +8,7 @@
 import UIKit
 import Alamofire
 import AlamofireRSSParser
+import Kingfisher
 
 public final class HomepageViewController: UIViewController {
 
@@ -43,6 +44,7 @@ public final class HomepageViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
         sendRequest()
     }
 }
@@ -81,4 +83,3 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 }
-

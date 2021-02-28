@@ -8,6 +8,7 @@ target 'PodcastPlayer' do
   # Pods for PodcastPlayer
 
 	pod 'AlamofireRSSParser'
+	pod 'Kingfisher'
 
   target 'PodcastPlayerTests' do
     inherit! :search_paths
