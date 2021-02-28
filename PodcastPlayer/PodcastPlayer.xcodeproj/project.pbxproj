@@ -21,6 +21,9 @@
 		7183AAD925E764A500E1AD98 /* PodcastPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7183AAD825E764A500E1AD98 /* PodcastPlayerTests.swift */; };
 		7183AAE425E764A500E1AD98 /* PodcastPlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7183AAE325E764A500E1AD98 /* PodcastPlayerUITests.swift */; };
 		71AE976D25EBC07D00E9284F /* HomepageTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE976C25EBC07D00E9284F /* HomepageTableHeaderView.swift */; };
+		71AE977625EBCBDB00E9284F /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE977525EBCBDB00E9284F /* UINavigationController+Extension.swift */; };
+		71AE977C25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */; };
+		71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */; };
 		71CFF16E25EA4D6900C0D278 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFF16D25EA4D6900C0D278 /* HTTPClient.swift */; };
 		71CFF17F25EA86B800C0D278 /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */; };
 		71CFF18025EA86B800C0D278 /* HomepageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */; };
@@ -68,6 +71,9 @@
 		7183AAE325E764A500E1AD98 /* PodcastPlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastPlayerUITests.swift; sourceTree = "<group>"; };
 		7183AAE525E764A500E1AD98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71AE976C25EBC07D00E9284F /* HomepageTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageTableHeaderView.swift; sourceTree = "<group>"; };
+		71AE977525EBCBDB00E9284F /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
+		71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReuseIdentifying+Protocol.swift"; sourceTree = "<group>"; };
+		71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		71CFF16D25EA4D6900C0D278 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
 		71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomepageViewController.xib; sourceTree = "<group>"; };
@@ -174,6 +180,8 @@
 			children = (
 				713D496A25EB719700058FD4 /* UITableView+Extension.swift */,
 				713D496F25EB745F00058FD4 /* DateFormatter+Extension.swift */,
+				71AE977525EBCBDB00E9284F /* UINavigationController+Extension.swift */,
+				71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -203,6 +211,7 @@
 		7183AAC025E764A300E1AD98 /* PodcastPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				71AE977A25EBF8A100E9284F /* Helper */,
 				713D496925EB717400058FD4 /* Extension */,
 				71CFF17B25EA869000C0D278 /* xib */,
 				712CB91125E9E69B00034CE7 /* EpisodeFeedFeature */,
@@ -240,6 +249,14 @@
 				71AE976C25EBC07D00E9284F /* HomepageTableHeaderView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		71AE977A25EBF8A100E9284F /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		71CFF17B25EA869000C0D278 /* xib */ = {
@@ -504,7 +521,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				713D497E25EB915600058FD4 /* RSSItem.swift in Sources */,
+				71AE977C25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift in Sources */,
 				713D495025EB5C0D00058FD4 /* EpisodeFeedTableViewCell.swift in Sources */,
+				71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */,
+				71AE977625EBCBDB00E9284F /* UINavigationController+Extension.swift in Sources */,
 				71AE976D25EBC07D00E9284F /* HomepageTableHeaderView.swift in Sources */,
 				7183AAC225E764A300E1AD98 /* AppDelegate.swift in Sources */,
 				713D497025EB745F00058FD4 /* DateFormatter+Extension.swift in Sources */,

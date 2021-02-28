@@ -14,9 +14,7 @@ public final class EpisodeFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var publishedDataLabel: UILabel!
-    
-    static let reuseID = String(describing: EpisodeFeedTableViewCell.self)
-    
+        
     public override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

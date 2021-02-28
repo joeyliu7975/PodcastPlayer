@@ -22,7 +22,7 @@ public final class HomepageViewController: UIViewController {
             tableView.tableHeaderView = headerView
             tableView.separatorStyle = .none
 
-            tableView.register(with: EpisodeFeedTableViewCell.reuseID)
+            tableView.register(with: EpisodeFeedTableViewCell.reuseIdentifier)
         }
     }
     
@@ -65,7 +65,6 @@ public final class HomepageViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         setup()
         sendRequest()
     }
@@ -79,6 +78,7 @@ public final class HomepageViewController: UIViewController {
 private extension HomepageViewController {
     func setup() {
         self.navigationItem.title = navigationTitle
+        self.navigationController?.setupNavigationBar()
     }
     
     func sendRequest() {
@@ -111,7 +111,7 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseID, for: indexPath)
+        let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseIdentifier, for: indexPath)
         
         let cellModel = episodeFeeds[indexPath.row]
         
