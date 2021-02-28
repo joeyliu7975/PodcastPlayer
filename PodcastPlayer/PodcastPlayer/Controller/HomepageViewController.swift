@@ -66,7 +66,7 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: EpisodeFeedTableViewCell.reuseID, for: indexPath) as! EpisodeFeedTableViewCell
+        let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseID, for: indexPath)
         
         guard let cellModel = feed?.items[indexPath.row] else { return cell }
         
