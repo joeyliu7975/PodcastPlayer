@@ -16,9 +16,7 @@ class HomepageTableHeaderView: UIView {
            super.init(frame: frame)
         
         imageView.contentMode = .scaleAspectFill
-        
-        imageView.image = UIImage(named: "homepageChannel_Image")
-        
+                
         addSubview(imageView)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,8 +33,8 @@ class HomepageTableHeaderView: UIView {
            fatalError("init(coder:) has not been implemented")
        }
     
-    func configure(with url: URL) {
-        
+    func configure(with url: URL?) {
+        imageView.kf.setImage(with: url, placeholder: UIImage.placeholder)
     }
 
 }

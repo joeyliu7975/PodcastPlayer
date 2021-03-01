@@ -7,20 +7,21 @@
 
 import Foundation
 import Alamofire
-import AlamofireRSSParser
 
 public protocol EpisodeFeedLoader {
-    typealias Result = Swift.Result<RSSFeed, Error>
+    typealias Result = Swift.Result<ChannelFeed, Error>
     
-    func load(url: URL, completion: @escaping (Result) -> Void)
+    func load(completion: @escaping (Result) -> Void)
 }
 
-public final class AlamofireEpisodeFeedLoader: EpisodeFeedLoader {
+public final class RemoteEpisodeFeedLoader: EpisodeFeedLoader {
     
-    private let session: Session
+    private let client: HTTPClient
+    private let url: URL
     
-    public init(session: Session = AF) {
-        self.session = session
+    public init(client: HTTPClient, url: URL) {
+        self.client = client
+        self.url = url
     }
     
     public enum Error: Swift.Error {
@@ -30,15 +31,18 @@ public final class AlamofireEpisodeFeedLoader: EpisodeFeedLoader {
     
     public typealias Result = EpisodeFeedLoader.Result
     
-    public func load(url: URL, completion: @escaping (Result) -> Void) {
-        
-        AF.request(url).responseRSS { (response) in
-            if let feeds = response.value {
-                completion(.success(feeds))
-            } else if let _ = response.error {
+    public func load(completion: @escaping (Result) -> Void) {
+        client.get(from: url) { (result) in
+            switch result {
+            case let .success(data, response):
+                let xmlParser = XMLParser(data: data)
+                let delegate = HomeXMLParser()
+                xmlParser.delegate = delegate
+                if xmlParser.parse() {
+                    completion(.success(delegate.channelFeed))
+                }
+            case .failure(_):
                 completion(.failure(Error.connectivityError))
-            } else {
-                completion(.failure(Error.invalidData))
             }
         }
     }

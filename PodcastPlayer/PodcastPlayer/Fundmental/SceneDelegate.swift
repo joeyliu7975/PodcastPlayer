@@ -20,8 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         window?.makeKeyAndVisible()
+        
+        let url = URL(string: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")!
 
-        let remoteFeedLoader = AlamofireEpisodeFeedLoader()
+        let remoteFeedLoader = RemoteEpisodeFeedLoader(client: URLSessionHTTPClient(), url: url)
         let homeViewController = HomepageViewController(loader: remoteFeedLoader)
         
         window?.rootViewController = homeViewController

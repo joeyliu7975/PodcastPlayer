@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct Episode: Equatable {
+public struct Episode: Equatable {
     var coverImage: URL?
     var title = String()
     var releaseDate = String()
 }
 
-struct ChannelFeed: Equatable {
+public struct ChannelFeed: Equatable {
     var episodes: [Episode] = []
     var profileImage: URL?
 }

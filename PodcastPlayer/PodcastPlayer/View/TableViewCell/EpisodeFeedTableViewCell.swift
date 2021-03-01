@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import AlamofireRSSParser
-import Alamofire
 
 public final class EpisodeFeedTableViewCell: UITableViewCell {
     
@@ -26,37 +24,13 @@ public final class EpisodeFeedTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func render(with model: EpisodeFeedCellViewModel) {
+    func render(with model: Episode) {
         titleLabel.text = model.title
         
-        publishedDataLabel.text = model.date
+        publishedDataLabel.text = model.releaseDate
         
         episodeImageView.kf.setImage(
-            with: model.imageURL,
-            placeholder: UIImage(named: "placeholderImage"))
-    }
-}
-
-extension EpisodeFeedCellViewModel {
-    static func configure(with models: [RSSItem], at indexPath: IndexPath) -> EpisodeFeedCellViewModel {
-        let title: String?
-        let date: String?
-        let imageURL: URL
-        
-        let model = models[indexPath.row]
-        
-        title = model.title
-        
-        if let receivedDate = model.pubDate {
-            date = DateFormatter.getDateString(with: receivedDate, dateType: .yearMonthDay)
-        } else {
-            date = "Unknown"
-        }
-       
-        imageURL = URL(string: "https://i1.sndcdn.com/artworks-Z7zJRFuDjv63KCHv-5W8whA-t3000x3000.jpg")!
-        
-        return EpisodeFeedCellViewModel(title: title,
-                                        date: date,
-                                        imageURL: imageURL)
+            with: model.coverImage,
+            placeholder: UIImage.placeholder)
     }
 }

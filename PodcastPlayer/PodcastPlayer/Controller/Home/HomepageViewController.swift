@@ -7,7 +7,6 @@
 
 import UIKit
 import Alamofire
-import AlamofireRSSParser
 import Kingfisher
 
 public final class HomepageViewController: UIViewController {
@@ -36,29 +35,33 @@ public final class HomepageViewController: UIViewController {
         return headerView
     }()
 
-    private var feed: RSSFeed? {
+    private var feed: ChannelFeed? {
         didSet {
             guard let feed = feed else { return }
             
-            self.episodeFeeds = feed.items
+            self.episodes = feed.episodes
+            
+            if let imageURL = feed.profileImage {
+                self.headerView.configure(with: feed.profileImage)
+            }
         }
     }
     
-    private var episodeFeeds: [RSSItem] = [] {
+    private var episodes: [Episode] = [] {
         didSet {
             self.tableView.reloadData()
         }
     }
     
     private var tableHeaderHeight: CGFloat {
-        return 80.0
+        return 160.0
     }
     
     private var navigationTitle: String {
         return "Homepage"
     }
     
-    public convenience init(loader: EpisodeFeedLoader = AlamofireEpisodeFeedLoader()){
+    public convenience init(loader: EpisodeFeedLoader){
         self.init()
         self.loader = loader
     }
@@ -66,7 +69,7 @@ public final class HomepageViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        sendRequest()
+        load()
     }
     
     public override func viewWillLayoutSubviews() {
@@ -81,19 +84,17 @@ private extension HomepageViewController {
         self.navigationController?.setupNavigationBar()
     }
     
-    func sendRequest() {
-        let url = URL(string: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")!
-        
-        AF.request(url).response { (response) in
-            if let data = response.data {
-                let xmlParser = XMLParser(data: data)
-                let delegate = HomeXMLParser()
-                xmlParser.delegate = delegate
-                if xmlParser.parse() {
-                    print(delegate.channelFeed)
+    func load() {
+        loader?.load(completion: { [weak self] (result) in
+            switch result {
+            case let .success(channelFeeds):
+                DispatchQueue.main.async {
+                    self?.feed = channelFeeds
                 }
+            case let .failure(error):
+                print(error)
             }
-        }
+        })
     }
     
     func updateHeaderViewHeight(for header: UIView?) {
@@ -105,7 +106,7 @@ private extension HomepageViewController {
 
 extension HomepageViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let _ = episodeFeeds[indexPath.row]
+        let _ = episodes[indexPath.row]
         
         let nav = UINavigationController(rootViewController: EpisodeViewController())
         
@@ -117,7 +118,7 @@ extension HomepageViewController: UITableViewDelegate {
 
 extension HomepageViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return episodeFeeds.count
+        return episodes.count
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -127,7 +128,7 @@ extension HomepageViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseIdentifier, for: indexPath)
        
-        let cellModel = EpisodeFeedCellViewModel.configure(with: episodeFeeds, at: indexPath)
+        let cellModel = episodes[indexPath.row]
         
         cell.render(with: cellModel)
 
