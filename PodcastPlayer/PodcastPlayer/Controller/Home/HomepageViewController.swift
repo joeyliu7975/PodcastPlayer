@@ -57,10 +57,6 @@ public final class HomepageViewController: UIViewController {
         return 160.0
     }
     
-    private var navigationTitle: String {
-        return "Homepage"
-    }
-    
     public convenience init(loader: EpisodeFeedLoader){
         self.init()
         self.loader = loader
