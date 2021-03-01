@@ -101,7 +101,13 @@ private extension HomepageViewController {
     }
 }
 
-extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
+extension HomepageViewController: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let episode = episodeFeeds[indexPath.row]
+    }
+}
+
+extension HomepageViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return episodeFeeds.count
     }
@@ -113,11 +119,10 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseIdentifier, for: indexPath)
         
-        let cellModel = episodeFeeds[indexPath.row]
+        let cellModel = EpisodeFeedCellViewModel.configure(with: episodeFeeds, at: indexPath)
         
-        cell.configure(with: cellModel)
+        cell.render(with: cellModel)
 
         return cell
     }
 }
-

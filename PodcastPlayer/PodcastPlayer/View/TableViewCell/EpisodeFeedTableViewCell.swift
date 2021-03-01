@@ -26,19 +26,37 @@ public final class EpisodeFeedTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configure(with model: RSSItem) {
+    func render(with model: EpisodeFeedCellViewModel) {
         titleLabel.text = model.title
         
-        if let date = model.pubDate {
-            publishedDataLabel.text = DateFormatter.getDateString(with: date, dateType: .yearMonthDay)
-        } else {
-            publishedDataLabel.text = "Unknown"
-        }
-        
-        let url = URL(string: "https://i1.sndcdn.com/artworks-Z7zJRFuDjv63KCHv-5W8whA-t3000x3000.jpg")!
+        publishedDataLabel.text = model.date
         
         episodeImageView.kf.setImage(
-            with: url,
+            with: model.imageURL,
             placeholder: UIImage(named: "placeholderImage"))
+    }
+}
+
+extension EpisodeFeedCellViewModel {
+    static func configure(with models: [RSSItem], at indexPath: IndexPath) -> EpisodeFeedCellViewModel {
+        let title: String?
+        let date: String?
+        let imageURL: URL
+        
+        let model = models[indexPath.row]
+        
+        title = model.title
+        
+        if let receivedDate = model.pubDate {
+            date = DateFormatter.getDateString(with: receivedDate, dateType: .yearMonthDay)
+        } else {
+            date = "Unknown"
+        }
+       
+        imageURL = URL(string: "https://i1.sndcdn.com/artworks-Z7zJRFuDjv63KCHv-5W8whA-t3000x3000.jpg")!
+        
+        return EpisodeFeedCellViewModel(title: title,
+                                        date: date,
+                                        imageURL: imageURL)
     }
 }
