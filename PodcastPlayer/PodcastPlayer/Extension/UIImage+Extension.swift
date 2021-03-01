@@ -9,9 +9,9 @@ import UIKit
 
 extension UIImage {
     
-    static let placeholder = UIImage.make(.placeholder)
+    static let placeholder = UIImage.makeImage(.placeholder)
     
-    static func make(_ type: UIImage.LocalImageType) -> UIImage {
+    static func makeImage(_ type: UIImage.LocalImageType) -> UIImage {
         
         var image: UIImage?
         
