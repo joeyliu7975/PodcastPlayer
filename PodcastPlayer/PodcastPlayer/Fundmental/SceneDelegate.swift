@@ -23,9 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let remoteFeedLoader = AlamofireEpisodeFeedLoader()
         let homeViewController = HomepageViewController(loader: remoteFeedLoader)
-        let navigationController = UINavigationController(rootViewController: homeViewController)
         
-        window?.rootViewController = navigationController
+        window?.rootViewController = homeViewController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

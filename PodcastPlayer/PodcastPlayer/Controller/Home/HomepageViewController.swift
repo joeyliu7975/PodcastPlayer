@@ -84,14 +84,16 @@ private extension HomepageViewController {
     func sendRequest() {
         let url = URL(string: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")!
         
-        loader?.load(url: url, completion: { [weak self] (result) in
-            switch result {
-            case let .success(feed):
-                self?.feed = feed
-            case let .failure(error):
-                print(error)
+        AF.request(url).response { (response) in
+            if let data = response.data {
+                let xmlParser = XMLParser(data: data)
+                let delegate = HomeXMLParser()
+                xmlParser.delegate = delegate
+                if xmlParser.parse() {
+                    print(delegate.channelFeed)
+                }
             }
-        })
+        }
     }
     
     func updateHeaderViewHeight(for header: UIView?) {
@@ -103,7 +105,13 @@ private extension HomepageViewController {
 
 extension HomepageViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let episode = episodeFeeds[indexPath.row]
+        let _ = episodeFeeds[indexPath.row]
+        
+        let nav = UINavigationController(rootViewController: EpisodeViewController())
+        
+        nav.navigationBar.isHidden = true
+        
+        present(nav, animated: true)
     }
 }
 
@@ -118,7 +126,7 @@ extension HomepageViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseIdentifier, for: indexPath)
-        
+       
         let cellModel = EpisodeFeedCellViewModel.configure(with: episodeFeeds, at: indexPath)
         
         cell.render(with: cellModel)
