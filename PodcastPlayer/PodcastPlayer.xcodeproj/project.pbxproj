@@ -156,6 +156,7 @@
 			children = (
 				71AE978525EBFB8400E9284F /* Home */,
 				718C9D7F25ECA49100B864E4 /* Episode */,
+				71BC0B1C25ECEF52004FEE0F /* Player */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -305,6 +306,13 @@
 				71AE976C25EBC07D00E9284F /* HomepageTableHeaderView.swift */,
 			);
 			path = TableHeader;
+			sourceTree = "<group>";
+		};
+		71BC0B1C25ECEF52004FEE0F /* Player */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Player;
 			sourceTree = "<group>";
 		};
 		9F9ECF8174348305F475B55F /* Pods */ = {

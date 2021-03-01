@@ -16,7 +16,6 @@ public final class EpisodeViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         setup()
     }
 }

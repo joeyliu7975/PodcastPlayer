@@ -64,7 +64,6 @@ public final class HomepageViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
         load()
     }
     
@@ -75,11 +74,6 @@ public final class HomepageViewController: UIViewController {
 }
 
 private extension HomepageViewController {
-    func setup() {
-        self.navigationItem.title = navigationTitle
-        self.navigationController?.setupNavigationBar()
-    }
-    
     func load() {
         loader?.load(completion: { [weak self] (result) in
             switch result {
@@ -108,7 +102,7 @@ extension HomepageViewController: UITableViewDelegate {
         
         nav.navigationBar.isHidden = true
         
-        present(nav, animated: true)
+        present(nav, animated: true) { tableView.deselectRow(at: indexPath, animated: true) }
     }
 }
 
