@@ -18,6 +18,15 @@ public final class EpisodeViewController: UIViewController {
 
         setup()
     }
+    
+    @IBAction func pressPlay(_ sender: UIButton) {
+        let playerVC  = PlayerViewController()
+                
+        playerVC.view.backgroundColor = .red
+        
+        self.navigationController?.pushViewController(playerVC, animated: true)
+    }
+    
 }
 
 private extension EpisodeViewController {

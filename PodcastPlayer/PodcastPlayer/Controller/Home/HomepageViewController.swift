@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Alamofire
 import Kingfisher
 
 public final class HomepageViewController: UIViewController {

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Alamofire
 
 public protocol EpisodeFeedLoader {
     typealias Result = Swift.Result<ChannelFeed, Error>

@@ -49,6 +49,9 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" image="customPlay_Image"/>
+                    <connections>
+                        <action selector="pressPlay:" destination="-1" eventType="touchUpInside" id="Mbj-s6-RkV"/>
+                    </connections>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
