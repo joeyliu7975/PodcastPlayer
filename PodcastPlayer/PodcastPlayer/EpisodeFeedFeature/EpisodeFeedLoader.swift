@@ -33,12 +33,15 @@ public final class RemoteEpisodeFeedLoader: EpisodeFeedLoader {
     public func load(completion: @escaping (Result) -> Void) {
         client.get(from: url) { (result) in
             switch result {
-            case let .success(data, response):
+            case let .success((data, response)):
                 let xmlParser = XMLParser(data: data)
                 let delegate = HomeXMLParser()
                 xmlParser.delegate = delegate
-                if xmlParser.parse() {
+                
+                if 200 ... 299 ~= response.statusCode && xmlParser.parse() {
                     completion(.success(delegate.channelFeed))
+                } else {
+                    completion(.failure(Error.invalidData))
                 }
             case .failure(_):
                 completion(.failure(Error.connectivityError))
