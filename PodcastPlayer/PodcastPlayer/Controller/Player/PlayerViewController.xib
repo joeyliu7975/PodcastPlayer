@@ -1,22 +1,109 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlayerViewController" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlayerViewController" customModule="PodcastPlayer" customModuleProvider="target">
             <connections>
+                <outlet property="episodeImageView" destination="PqP-Qn-yw5" id="bzU-4p-Kzb"/>
+                <outlet property="episodeLabel" destination="A8u-4q-1HY" id="2kj-3g-laS"/>
+                <outlet property="fastforwardButton" destination="KRe-At-oMK" id="x0X-i8-6uI"/>
+                <outlet property="playButton" destination="oXQ-Al-TzQ" id="PZl-1g-3Ft"/>
+                <outlet property="progressView" destination="JWO-uk-hAc" id="FeM-dR-JCb"/>
+                <outlet property="rewindButton" destination="ldc-EC-6xY" id="5cO-Ll-VH6"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PqP-Qn-yw5" userLabel="episodeImage">
+                    <rect key="frame" x="10" y="54" width="394" height="403"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我愛科技島讀我愛科技島讀我愛科技島讀我愛科技島讀我愛科技島讀" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A8u-4q-1HY" userLabel="episodeLabel">
+                    <rect key="frame" x="23.5" y="507" width="367" height="43"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jgv-o1-XYt">
+                    <rect key="frame" x="122" y="782" width="170" height="50"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ldc-EC-6xY" userLabel="rewindButton">
+                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="1RB-Qs-3J6"/>
+                                <constraint firstAttribute="width" constant="50" id="7Nu-Vb-0sx"/>
+                            </constraints>
+                            <state key="normal" title="Button" image="rewind_hollow"/>
+                            <connections>
+                                <action selector="clickButton:" destination="-1" eventType="touchUpInside" id="hnu-qn-CyS"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oXQ-Al-TzQ" userLabel="playButton">
+                            <rect key="frame" x="60" y="0.0" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="XfI-lq-8iU"/>
+                                <constraint firstAttribute="height" constant="50" id="paZ-ol-UY6"/>
+                            </constraints>
+                            <state key="normal" image="custom_play_hollow"/>
+                            <connections>
+                                <action selector="clickButton:" destination="-1" eventType="touchUpInside" id="HKA-Iq-VpA"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRe-At-oMK" userLabel="fastForwardButton">
+                            <rect key="frame" x="120" y="0.0" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="4GE-Js-ceP"/>
+                                <constraint firstAttribute="width" constant="50" id="9tk-DA-GWP"/>
+                            </constraints>
+                            <state key="normal" title="Button" image="fast_forward_hollow"/>
+                            <connections>
+                                <action selector="clickButton:" destination="-1" eventType="touchUpInside" id="VAy-9r-oNY"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JWO-uk-hAc">
+                    <rect key="frame" x="60" y="732" width="294" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="15" id="Jld-SO-5km"/>
+                    </constraints>
+                </progressView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="A8u-4q-1HY" firstAttribute="top" secondItem="PqP-Qn-yw5" secondAttribute="bottom" constant="50" id="3m0-7M-e3M"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="A8u-4q-1HY" secondAttribute="trailing" constant="15" id="EVq-LS-14p"/>
+                <constraint firstAttribute="trailing" secondItem="PqP-Qn-yw5" secondAttribute="trailing" constant="10" id="KDk-sI-caX"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="jgv-o1-XYt" secondAttribute="bottom" constant="30" id="Qsu-GO-fIf"/>
+                <constraint firstItem="PqP-Qn-yw5" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.45" id="Sac-ZS-LbH"/>
+                <constraint firstItem="jgv-o1-XYt" firstAttribute="top" secondItem="JWO-uk-hAc" secondAttribute="bottom" constant="35" id="eok-wk-zpA"/>
+                <constraint firstItem="A8u-4q-1HY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jLH-Bg-FTz"/>
+                <constraint firstItem="PqP-Qn-yw5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="k0d-Ui-fiA"/>
+                <constraint firstItem="PqP-Qn-yw5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="oH0-eP-RaU"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="JWO-uk-hAc" secondAttribute="trailing" constant="60" id="rBq-rD-d5r"/>
+                <constraint firstItem="jgv-o1-XYt" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tAd-27-mvG"/>
+                <constraint firstItem="A8u-4q-1HY" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="x7C-gt-Qtb"/>
+                <constraint firstItem="JWO-uk-hAc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="60" id="z38-U8-VhS"/>
+            </constraints>
+            <point key="canvasLocation" x="-39" y="84"/>
         </view>
     </objects>
+    <resources>
+        <image name="custom_play_hollow" width="50" height="50"/>
+        <image name="fast_forward_hollow" width="50" height="50"/>
+        <image name="rewind_hollow" width="50" height="50"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

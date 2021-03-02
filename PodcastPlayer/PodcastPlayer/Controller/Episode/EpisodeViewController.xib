@@ -24,7 +24,7 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9mY-zN-Scs">
                     <rect key="frame" x="10" y="54" width="394" height="648"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="mLn-IT-4zm">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder_image" translatesAutoresizingMaskIntoConstraints="NO" id="mLn-IT-4zm">
                             <rect key="frame" x="0.0" y="0.0" width="394" height="421"/>
                         </imageView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KIg-Nw-I3X">
@@ -48,7 +48,7 @@
                         <constraint firstAttribute="height" constant="100" id="vyG-NT-NQ8"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" image="customPlay_Image"/>
+                    <state key="normal" image="custom_play"/>
                     <connections>
                         <action selector="pressPlay:" destination="-1" eventType="touchUpInside" id="Mbj-s6-RkV"/>
                     </connections>
@@ -68,8 +68,8 @@
         </view>
     </objects>
     <resources>
-        <image name="customPlay_Image" width="50" height="50"/>
-        <image name="placeholderImage" width="1140" height="760"/>
+        <image name="custom_play" width="50" height="50"/>
+        <image name="placeholder_image" width="1140" height="760"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

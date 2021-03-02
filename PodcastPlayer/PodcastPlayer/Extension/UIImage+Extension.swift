@@ -17,7 +17,7 @@ extension UIImage {
         
         switch type {
         case .placeholder:
-            image = UIImage(named: "placeholderImage")
+            image = UIImage(named: "placeholder_image")
         }
         
         return image ?? UIImage()

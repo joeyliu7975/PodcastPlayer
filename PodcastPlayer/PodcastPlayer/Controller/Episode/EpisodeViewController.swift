@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 
 public final class EpisodeViewController: UIViewController {
 
@@ -20,10 +21,11 @@ public final class EpisodeViewController: UIViewController {
     }
     
     @IBAction func pressPlay(_ sender: UIButton) {
-        let playerVC  = PlayerViewController()
-                
-        playerVC.view.backgroundColor = .red
         
+        let url = URL(string: "https://feeds.soundcloud.com/stream/921421315-daodutech-ep119-stripe.mp3")!
+        
+        let playerVC  = PlayerViewController(player: .shared, url: url)
+                        
         self.navigationController?.pushViewController(playerVC, animated: true)
     }
     

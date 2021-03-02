@@ -24,6 +24,7 @@
 		7189CE8325ED20F900434D6C /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CE8125ED20F900434D6C /* PlayerViewController.swift */; };
 		7189CE8425ED20F900434D6C /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7189CE8225ED20F900434D6C /* PlayerViewController.xib */; };
 		7189CE8925ED390200434D6C /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CE8825ED390200434D6C /* HTTPClient.swift */; };
+		7189CEC125EE2E8100434D6C /* AudioPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */; };
 		718C9D7B25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718C9D7A25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift */; };
 		718C9D8225ECA4F200B864E4 /* EpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */; };
 		718C9D8325ECA4F200B864E4 /* EpisodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 718C9D8125ECA4F200B864E4 /* EpisodeViewController.xib */; };
@@ -82,6 +83,7 @@
 		7189CE8125ED20F900434D6C /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		7189CE8225ED20F900434D6C /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		7189CE8825ED390200434D6C /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerController.swift; sourceTree = "<group>"; };
 		718C9D7A25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeFeedCellViewModel.swift; sourceTree = "<group>"; };
 		718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewController.swift; sourceTree = "<group>"; };
 		718C9D8125ECA4F200B864E4 /* EpisodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeViewController.xib; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				713D496925EB717400058FD4 /* Extension */,
 				712CB91125E9E69B00034CE7 /* EpisodeFeedFeature */,
 				712CB91A25E9E9B300034CE7 /* EpisodeFeedAPI */,
+				7189CEB425EDE78C00434D6C /* AudioPlayerFeature */,
 				71AE976B25EBC05D00E9284F /* View */,
 				712CB90525E9E4F500034CE7 /* Controller */,
 				7183AACA25E764A400E1AD98 /* Assets.xcassets */,
@@ -261,6 +264,14 @@
 				7183AAE525E764A500E1AD98 /* Info.plist */,
 			);
 			path = PodcastPlayerUITests;
+			sourceTree = "<group>";
+		};
+		7189CEB425EDE78C00434D6C /* AudioPlayerFeature */ = {
+			isa = PBXGroup;
+			children = (
+				7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */,
+			);
+			path = AudioPlayerFeature;
 			sourceTree = "<group>";
 		};
 		718C9D7925EC9EC100B864E4 /* Model */ = {
@@ -587,6 +598,7 @@
 				718C9D8E25ECD20A00B864E4 /* HomeXMLParser.swift in Sources */,
 				71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */,
 				71AE977625EBCBDB00E9284F /* UINavigationController+Extension.swift in Sources */,
+				7189CEC125EE2E8100434D6C /* AudioPlayerController.swift in Sources */,
 				71AE976D25EBC07D00E9284F /* HomepageTableHeaderView.swift in Sources */,
 				7183AAC225E764A300E1AD98 /* AppDelegate.swift in Sources */,
 				713D497025EB745F00058FD4 /* DateFormatter+Extension.swift in Sources */,
