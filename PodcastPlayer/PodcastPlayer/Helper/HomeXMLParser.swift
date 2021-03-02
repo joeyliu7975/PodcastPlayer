@@ -32,6 +32,10 @@ public final class HomeXMLParser: NSObject, XMLParserDelegate {
         case "image" where newEpisode == nil:
             imageURLStr = "profileImage"
             self.state = .none
+        case "enclosure" where newEpisode != nil:
+            if elementName == "enclosure", let soundURL = attributeDict["url"] {
+                self.newEpisode?.soundURL = URL(string: soundURL)
+            }
         case "itunes:image" where newEpisode != nil:
             if elementName == "itunes:image", let imageURL = attributeDict["href"] {
                 self.newEpisode?.coverImage = URL(string: imageURL)

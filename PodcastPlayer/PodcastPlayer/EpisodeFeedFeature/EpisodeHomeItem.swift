@@ -11,6 +11,7 @@ public struct Episode: Equatable {
     var coverImage: URL?
     var title = String()
     var releaseDate = String()
+    var soundURL: URL?
 }
 
 public struct ChannelFeed: Equatable {
