@@ -11,12 +11,17 @@ public final class PlayerViewController: UIViewController {
     
     private var player: AudioPlayerController?
     
+    private var episodes:[Episode] = []
+    private var currentIndex: Int?
+    
     private var url: URL? {
-        didSet {
-            guard let url = url else { return }
-            player?.configure(with: url)
-        }
+        guard let index = currentIndex,
+              let url = episodes[index].soundURL else { return nil }
+        
+        return url
     }
+    
+    private(set) var isPlaying: Bool = false
     
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
@@ -25,10 +30,11 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var fastforwardButton: UIButton!
     @IBOutlet weak var rewindButton: UIButton!
     
-    convenience init(player: AudioPlayerController, url: URL) {
+    convenience init(player: AudioPlayerController, episodes: [Episode], currentIndex: Int) {
         self.init()
         self.player = player
-        self.url = url
+        self.episodes = episodes
+        self.currentIndex = currentIndex
     }
     
     public override func viewDidLoad() {

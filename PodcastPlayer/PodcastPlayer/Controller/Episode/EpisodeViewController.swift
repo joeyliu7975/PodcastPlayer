@@ -13,6 +13,18 @@ public final class EpisodeViewController: UIViewController {
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var playButton: UIButton!
+    
+    private var episodes:[Episode] = []
+    private var currentEpisodeIndex: Int?
+    private var currentEpisode: Episode {
+        return episodes[currentEpisodeIndex ?? 0]
+    }
+    
+    convenience init(episodes: [Episode], currentEpisodeIndex: Int) {
+        self.init()
+        self.episodes = episodes
+        self.currentEpisodeIndex = currentEpisodeIndex
+    }
         
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,10 +33,9 @@ public final class EpisodeViewController: UIViewController {
     }
     
     @IBAction func pressPlay(_ sender: UIButton) {
+        guard let currentIndex = currentEpisodeIndex else { return }
         
-        let url = URL(string: "https://feeds.soundcloud.com/stream/921421315-daodutech-ep119-stripe.mp3")!
-        
-        let playerVC  = PlayerViewController(player: .shared, url: url)
+        let playerVC = PlayerViewController(player: .shared, episodes: episodes, currentIndex: currentIndex)
                         
         self.navigationController?.pushViewController(playerVC, animated: true)
     }

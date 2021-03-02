@@ -39,16 +39,8 @@ public final class AudioPlayerController {
         player?.play()
     }
     
-    public func pauseVideo() {
+    public func pause() {
         player?.pause()
-    }
-    
-    public func mute() {
-        player?.isMuted = true
-    }
-    
-    public func unmute() {
-        player?.isMuted = false
     }
     
     func rewindVideo(by seconds: Float64 = 5.0) {
