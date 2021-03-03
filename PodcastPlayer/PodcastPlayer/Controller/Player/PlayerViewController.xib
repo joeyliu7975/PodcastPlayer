@@ -14,8 +14,8 @@
                 <outlet property="episodeLabel" destination="A8u-4q-1HY" id="2kj-3g-laS"/>
                 <outlet property="fastforwardButton" destination="KRe-At-oMK" id="x0X-i8-6uI"/>
                 <outlet property="playButton" destination="oXQ-Al-TzQ" id="PZl-1g-3Ft"/>
-                <outlet property="progressView" destination="JWO-uk-hAc" id="FeM-dR-JCb"/>
                 <outlet property="rewindButton" destination="ldc-EC-6xY" id="5cO-Ll-VH6"/>
+                <outlet property="slider" destination="dIX-tH-ray" id="YM1-g9-YaZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -71,31 +71,31 @@
                         </button>
                     </subviews>
                 </stackView>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JWO-uk-hAc">
-                    <rect key="frame" x="60" y="732" width="294" height="16"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="15" id="Jld-SO-5km"/>
-                    </constraints>
-                </progressView>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="dIX-tH-ray">
+                    <rect key="frame" x="38" y="722" width="338" height="31"/>
+                    <connections>
+                        <action selector="drag:" destination="-1" eventType="valueChanged" id="vdX-Tn-qpr"/>
+                    </connections>
+                </slider>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="A8u-4q-1HY" firstAttribute="top" secondItem="PqP-Qn-yw5" secondAttribute="bottom" constant="50" id="3m0-7M-e3M"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dIX-tH-ray" secondAttribute="trailing" constant="40" id="43z-34-irj"/>
+                <constraint firstItem="dIX-tH-ray" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="89S-Nd-nhB"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="A8u-4q-1HY" secondAttribute="trailing" constant="15" id="EVq-LS-14p"/>
                 <constraint firstAttribute="trailing" secondItem="PqP-Qn-yw5" secondAttribute="trailing" constant="10" id="KDk-sI-caX"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="jgv-o1-XYt" secondAttribute="bottom" constant="30" id="Qsu-GO-fIf"/>
                 <constraint firstItem="PqP-Qn-yw5" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.45" id="Sac-ZS-LbH"/>
-                <constraint firstItem="jgv-o1-XYt" firstAttribute="top" secondItem="JWO-uk-hAc" secondAttribute="bottom" constant="35" id="eok-wk-zpA"/>
                 <constraint firstItem="A8u-4q-1HY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jLH-Bg-FTz"/>
                 <constraint firstItem="PqP-Qn-yw5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="k0d-Ui-fiA"/>
                 <constraint firstItem="PqP-Qn-yw5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="oH0-eP-RaU"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="JWO-uk-hAc" secondAttribute="trailing" constant="60" id="rBq-rD-d5r"/>
                 <constraint firstItem="jgv-o1-XYt" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tAd-27-mvG"/>
                 <constraint firstItem="A8u-4q-1HY" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="x7C-gt-Qtb"/>
-                <constraint firstItem="JWO-uk-hAc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="60" id="z38-U8-VhS"/>
+                <constraint firstItem="jgv-o1-XYt" firstAttribute="top" secondItem="dIX-tH-ray" secondAttribute="bottom" constant="30" id="xra-uk-ghX"/>
             </constraints>
-            <point key="canvasLocation" x="-39" y="84"/>
+            <point key="canvasLocation" x="-39.130434782608695" y="83.705357142857139"/>
         </view>
     </objects>
     <resources>

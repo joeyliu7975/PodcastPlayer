@@ -95,11 +95,8 @@ private extension HomepageViewController {
 
 extension HomepageViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nav = UINavigationController(rootViewController: EpisodeViewController(episodes: episodes, currentEpisodeIndex: indexPath.row))
-        
-        nav.navigationBar.isHidden = true
-        
-        present(nav, animated: true) { tableView.deselectRow(at: indexPath, animated: true) }
+        let episodeViewController = EpisodeViewController(episodes: episodes, currentEpisodeIndex: indexPath.row)
+        navigationController?.pushViewController(episodeViewController, animated: true)
     }
 }
 

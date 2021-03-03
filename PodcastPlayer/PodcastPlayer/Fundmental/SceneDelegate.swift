@@ -25,8 +25,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let remoteFeedLoader = RemoteEpisodeFeedLoader(client: URLSessionHTTPClient(), url: url)
         let homeViewController = HomepageViewController(loader: remoteFeedLoader)
-        
-        window?.rootViewController = homeViewController
+        let nav = UINavigationController(rootViewController: homeViewController)
+        nav.navigationBar.tintColor = .black
+        window?.rootViewController = nav
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -35,8 +35,12 @@ public final class AudioPlayerController {
         player = AVPlayer(playerItem: playerItem)
     }
     
-    public func play() {
+    public func play(completion: @escaping (Float) -> Void) {
         player?.play()
+        if let currentTime = player?.currentTime(), let duration = player?.currentItem?.duration {
+            let value = CMTimeGetSeconds(currentTime) / CMTimeGetSeconds(duration)
+            completion(Float(value))
+        }
     }
     
     public func pause() {
@@ -59,7 +63,9 @@ public final class AudioPlayerController {
             if newTime >= CMTimeGetSeconds(duration) {
                 newTime = CMTimeGetSeconds(duration)
             }
+            
             player?.seek(to: CMTime(value: CMTimeValue(newTime * 1000), timescale: 1000))
         }
     }
+
 }

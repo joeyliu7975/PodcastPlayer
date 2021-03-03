@@ -37,7 +37,7 @@ public final class EpisodeViewController: UIViewController {
         
         let playerVC = PlayerViewController(player: .shared, episodes: episodes, currentIndex: currentIndex)
                         
-        self.navigationController?.pushViewController(playerVC, animated: true)
+        present(playerVC, animated: true)
     }
     
 }

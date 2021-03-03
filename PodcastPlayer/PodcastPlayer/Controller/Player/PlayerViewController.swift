@@ -25,10 +25,16 @@ public final class PlayerViewController: UIViewController {
     
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
-    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var fastforwardButton: UIButton!
     @IBOutlet weak var rewindButton: UIButton!
+    @IBOutlet weak var slider: UISlider! {
+        didSet {
+            slider.minimumValue = 0
+            slider.value = 0
+            slider.maximumValue = 1
+        }
+    }
     
     convenience init(player: AudioPlayerController, episodes: [Episode], currentIndex: Int) {
         self.init()
@@ -47,7 +53,9 @@ public final class PlayerViewController: UIViewController {
     @IBAction func clickButton(_ sender: UIButton) {
         switch sender {
         case playButton:
-            player?.play()
+            player?.play(completion: { (value) in
+                
+            })
         case fastforwardButton:
             player?.forwardVideo()
         case rewindButton:
@@ -56,6 +64,11 @@ public final class PlayerViewController: UIViewController {
             break
         }
     }
+    
+    @IBAction func drag(_ sender: UISlider) {
+        let value = sender.value
+    }
+    
 }
 
 extension PlayerViewController {
