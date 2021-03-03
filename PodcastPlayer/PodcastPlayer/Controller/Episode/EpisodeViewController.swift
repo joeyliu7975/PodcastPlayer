@@ -7,7 +7,6 @@
 
 import UIKit
 import Kingfisher
-import AVFoundation
 
 public final class EpisodeViewController: UIViewController {
 
@@ -37,7 +36,9 @@ public final class EpisodeViewController: UIViewController {
     @IBAction func pressPlay(_ sender: UIButton) {
         guard let currentIndex = currentEpisodeIndex else { return }
         
-        let playerVC = PlayerViewController(player: .shared, episodes: episodes, currentIndex: currentIndex)
+        let audioPlayer = AudioPlayerController()
+        
+        let playerVC = PlayerViewController(player: audioPlayer, episodes: episodes, currentIndex: currentIndex)
                         
         present(playerVC, animated: true)
     }

@@ -12,9 +12,9 @@
             <connections>
                 <outlet property="episodeImageView" destination="PqP-Qn-yw5" id="bzU-4p-Kzb"/>
                 <outlet property="episodeLabel" destination="A8u-4q-1HY" id="2kj-3g-laS"/>
-                <outlet property="fastforwardButton" destination="KRe-At-oMK" id="x0X-i8-6uI"/>
+                <outlet property="nextEPButton" destination="KRe-At-oMK" id="x0X-i8-6uI"/>
                 <outlet property="playButton" destination="oXQ-Al-TzQ" id="PZl-1g-3Ft"/>
-                <outlet property="rewindButton" destination="ldc-EC-6xY" id="5cO-Ll-VH6"/>
+                <outlet property="previousEPButton" destination="ldc-EC-6xY" id="5cO-Ll-VH6"/>
                 <outlet property="slider" destination="dIX-tH-ray" id="YM1-g9-YaZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

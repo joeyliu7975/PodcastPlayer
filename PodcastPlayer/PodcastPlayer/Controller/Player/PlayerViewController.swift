@@ -26,8 +26,8 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var fastforwardButton: UIButton!
-    @IBOutlet weak var rewindButton: UIButton!
+    @IBOutlet weak var nextEPButton: UIButton!
+    @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider! {
         didSet {
             slider.minimumValue = 0
@@ -46,34 +46,56 @@ public final class PlayerViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        // # 初始化 Player 的設定1
         configure()
     }
     
     @IBAction func clickButton(_ sender: UIButton) {
         switch sender {
         case playButton:
-            player?.play(completion: { (value) in
+            if isPlaying {
+                player?.play()
+            } else {
+                player?.pause()
+            }
+            
+            isPlaying.toggle()
+        case nextEPButton:
+            guard let index = currentIndex else { return }
+            
+            let nextIndex = index + 1
+            
+            if episodes.indices.contains(nextIndex) {
+                player?.previousEp(currentEpisode: (episodes[index], index), completion: { (episode, index) in
+                    
+                })
                 
-            })
-        case fastforwardButton:
-            player?.forwardVideo()
-        case rewindButton:
-            player?.rewindVideo()
+                isPlaying = true
+            }
+        case previousEPButton:
+            guard let index = currentIndex else { return }
+            
+            let previousIndex = index - 1
+            
+            if episodes.indices.contains(previousIndex) {
+                player?.previousEp(currentEpisode: (episodes[index], index), completion: { (episode, index) in
+                    
+                })
+                
+                isPlaying = true
+            }
         default:
             break
         }
     }
     
-    @IBAction func drag(_ sender: UISlider) {
-        let value = sender.value
-    }
+    @IBAction func drag(_ sender: UISlider) {}
     
 }
 
 extension PlayerViewController {
-    private func configure() {
+    func configure() {
         guard let url = url else { return }
-        player?.configure(with: url)
+        player?.url = url
     }
 }

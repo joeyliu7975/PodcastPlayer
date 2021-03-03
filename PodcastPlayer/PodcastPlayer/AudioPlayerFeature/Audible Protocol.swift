@@ -7,21 +7,16 @@
 
 import Foundation
 
-public protocol Playable {
+public protocol Playable: AnyObject {
     func play()
     func pause()
 }
 // Audio 進度調整和前一集、下一集
-public protocol Controllable {
-    associatedtype Number
-    typealias Completion = (Episode, Int) -> Void
+public protocol Controllable: AnyObject {
+    typealias EpisodeInfo = (Episode, Int)
+    typealias Completion = (EpisodeInfo) -> Void
     
-    func progressControl(value: Number)
-    func nextEp(currentEpisode: Int, completion: Completion)
-    func previousEp(currentEpisode: Int, completion: Completion)
-}
-
-public protocol AudioProtocol: Playable, Controllable {
-    var currentEpisodeIndex: Int? { get set }
-    var currentEpisode: Episode? { get set }
+    func progressControl(value: Float)
+    func nextEp(currentEpisode: EpisodeInfo, completion: Completion)
+    func previousEp(currentEpisode: EpisodeInfo, completion: Completion)
 }
