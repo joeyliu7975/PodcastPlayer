@@ -86,4 +86,27 @@ public final class HomeXMLParser: NSObject, XMLParserDelegate {
 
     public func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
     }
+    
+    private func parse(data: Data) throws -> ChannelFeed {
+        //MARK:- 生成一個 XMLParse 並 delegate 給 HMLParser 進行解包, 也是實際 parse data 的地方。parse 後成功丟 parsed 完的資料，失敗拋出 invalidData:
+        let xmlParser = XMLParser(data: data)
+        xmlParser.delegate = self
+        
+        if xmlParser.parse() {
+            return channelFeed
+        } else {
+            throw RemoteEpisodeFeedLoader.Error.invalidData
+        }
+    }
+}
+
+extension HomeXMLParser: FeedMapper {
+    public func map(data: Data, response: HTTPURLResponse) throws -> ChannelFeed {
+        //MARK:- 如果 response 是正常的，且 data 可以被成功解析...不然就 throw error
+        if 200 ... 299 ~= response.statusCode, let feed = try? parse(data: data) {
+            return feed
+        } else {
+            throw RemoteEpisodeFeedLoader.Error.invalidData
+        }
+    }
 }
