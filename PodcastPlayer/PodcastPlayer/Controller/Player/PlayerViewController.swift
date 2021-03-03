@@ -7,18 +7,47 @@
 
 import UIKit
 
+public final class PlayerModelController {
+    private(set) var episodes:[Episode] = []
+    private(set) var currentIndex: Int
+    
+     var previousIndex: Int {
+        return currentIndex - 1
+    }
+    
+    var nextIndex: Int {
+        return currentIndex + 1
+    }
+    
+    init(episodes:[Episode], currentIndex: Int) {
+        self.episodes = episodes
+        self.currentIndex = currentIndex
+    }
+    
+    public enum Error: Swift.Error {
+        case indexOutOfRange
+    }
+    
+    func getCurrentEpisode() -> Episode {
+        return episodes[currentIndex]
+    }
+}
+
 public final class PlayerViewController: UIViewController {
     
     private var player: AudioPlayerController?
+    private var modelController: PlayerModelController?
     
-    private var episodes:[Episode] = []
-    private var currentIndex: Int?
+//    private var episodes:[Episode] = []
+//    private var currentIndex: Int?
     
     private var url: URL? {
-        guard let index = currentIndex,
-              let url = episodes[index].soundURL else { return nil }
+        let episode = modelController?.getCurrentEpisode()
+        return episode?.soundURL
+//        guard let index = modelController?.currentIndex,
+//              let url = modelController?.episodes[index].soundURL else { return nil }
         
-        return url
+//        return url
     }
     
     private(set) var isPlaying: Bool = false
@@ -39,8 +68,10 @@ public final class PlayerViewController: UIViewController {
     convenience init(player: AudioPlayerController, episodes: [Episode], currentIndex: Int) {
         self.init()
         self.player = player
-        self.episodes = episodes
-        self.currentIndex = currentIndex
+        self.modelController = PlayerModelController(episodes: episodes, currentIndex: currentIndex)
+        
+//        self.episodes = episodes
+//        self.currentIndex = currentIndex
     }
     
     public override func viewDidLoad() {
@@ -53,6 +84,8 @@ public final class PlayerViewController: UIViewController {
     }
     
     @IBAction func clickButton(_ sender: UIButton) {
+        guard let model = modelController else { return }
+        
         switch sender {
         case playButton:
             if isPlaying {
@@ -63,29 +96,9 @@ public final class PlayerViewController: UIViewController {
             
             isPlaying.toggle()
         case nextEPButton:
-            guard let index = currentIndex else { return }
-            
-            let nextIndex = index + 1
-            
-            if episodes.indices.contains(nextIndex) {
-                player?.previousEp(currentEpisode: (episodes[index], index), completion: { (episode, index) in
-                    
-                })
-                
-                isPlaying = true
-            }
+            break
         case previousEPButton:
-            guard let index = currentIndex else { return }
-            
-            let previousIndex = index - 1
-            
-            if episodes.indices.contains(previousIndex) {
-                player?.previousEp(currentEpisode: (episodes[index], index), completion: { (episode, index) in
-                    
-                })
-                
-                isPlaying = true
-            }
+            break
         default:
             break
         }
@@ -96,18 +109,20 @@ public final class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController {
-    func configurePlayer() {
-        guard let url = url else { return }
-        player?.url = url
-    }
-    
     func setup() {
-        guard let index = currentIndex else { return }
+//        guard let index = currentIndex else { return }
+        guard let model = modelController else { return }
         
-        let episode = episodes[index]
+        let episode = model.getCurrentEpisode()
         
         episodeImageView.kf.setImage(with: episode.coverImage)
         episodeLabel.text = episode.title
+    }
+    
+    func configurePlayer() {
+        guard let url = url else { return }
+        
+        player?.url = url
     }
     
     func trackDuration() {
