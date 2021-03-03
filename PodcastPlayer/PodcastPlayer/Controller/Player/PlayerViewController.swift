@@ -101,9 +101,9 @@ extension PlayerViewController {
     }
     
     func trackDuration() {
-        player?.trackDuration = { [weak self] (duration) in
-            let duration = Float(duration)
-            print(duration)
+        player?.trackDuration = { [weak self] (current, total) in
+            let value = current / total
+            self?.slider.value = Float(value)
         }
     }
 }

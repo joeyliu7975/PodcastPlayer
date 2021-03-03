@@ -12,14 +12,25 @@ public final class AudioPlayerController {
     private(set) var player:AVPlayer? {
         didSet {
             guard let player = player else { return }
+                    
             player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { (CMTime) -> Void in
-                if player.currentItem?.status == .readyToPlay {
+                
+                let isReadyToPlay = self.isReadyToPlay(status: player.currentItem?.status)
+                
+                if isReadyToPlay {
+                    if self.totalDuration == nil {
+                        self.getTotalDuration(currentPlayingItem: player.currentItem) { [weak self] (totalDuration) in
+                            self?.totalDuration = totalDuration
+                        }
+                    }
+                    
                     let time : Float64 = CMTimeGetSeconds(player.currentTime())
                     self.currentDuration = time
                 }
             }
         }
     }
+    
     private(set) var asset:AVAsset?
     private(set) var playerItem:AVPlayerItem?
     
@@ -30,16 +41,20 @@ public final class AudioPlayerController {
         }
     }
     
-    public var currentDuration: Float64? {
+    private(set) var currentDuration: Float64? {
         didSet {
-            guard let currentDuration = currentDuration else { return }
-            trackDuration?(currentDuration)
+            guard let currentDuration = currentDuration,
+                  let totalDuration = totalDuration else { return }
+            
+            trackDuration?(currentDuration,totalDuration)
         }
     }
     
-    public var trackDuration: ((Float64) -> Void)?
+    private(set) var totalDuration: Float64?
     
-    init(url: URL? = nil) {
+    public var trackDuration: ((Float64, Float64) -> Void)?
+    
+    public init(url: URL? = nil) {
         self.url = url
     }
 }
@@ -59,6 +74,29 @@ extension AudioPlayerController {
         }
     }
 }
+
+private extension AudioPlayerController {
+    //MARK: #1. Check player currentItem's playing status
+    func isReadyToPlay(status: AVPlayerItem.Status?) -> Bool {
+        switch status {
+        case .readyToPlay:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    //MARK: #2. Get total duration
+    func getTotalDuration(currentPlayingItem: AVPlayerItem?,_ completion: (Float64) -> Void) {
+        guard
+            let playingItem = currentPlayingItem else { return }
+        
+        let duration = playingItem.duration
+        
+        completion(CMTimeGetSeconds(duration))
+    }
+}
+
 
 extension AudioPlayerController: Playable {
     public func play() {
