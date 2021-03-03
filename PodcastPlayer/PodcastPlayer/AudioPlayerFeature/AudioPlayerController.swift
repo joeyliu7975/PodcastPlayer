@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-public final class AudioPlayerController {
+public final class AudioPlayerController: NSObject {
     private(set) var player:AVPlayer? {
         didSet {
             guard let player = player else { return }
@@ -69,7 +69,8 @@ extension AudioPlayerController {
             
             player = AVPlayer(playerItem: playerItem)
             
-            //5. Play Video
+            player?.addObserver(self, forKeyPath: "currentLoadedRange", options: .new, context: nil)
+            
             play()
         }
     }
@@ -103,7 +104,9 @@ extension AudioPlayerController: Playable {
         player?.play()
     }
     
-    public func pause() {}
+    public func pause() {
+        player?.pause()
+    }
 }
 
 extension AudioPlayerController: Controllable {

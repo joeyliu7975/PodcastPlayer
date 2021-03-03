@@ -97,6 +97,7 @@ extension HomepageViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let episodeViewController = EpisodeViewController(episodes: episodes, currentEpisodeIndex: indexPath.row)
         navigationController?.pushViewController(episodeViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

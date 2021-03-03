@@ -48,13 +48,19 @@ public final class EpisodeViewController: UIViewController {
 private extension EpisodeViewController {
     func setup() {
         playButton.layer.borderColor = UIColor.systemBlue.cgColor
-        playButton.layer.borderWidth = 15.0
+        playButton.layer.borderWidth = 12.0
         playButton.clipsToBounds = true
         playButton.layer.cornerRadius = playButton.frame.width / 2
     }
     
     func load() {
-        episodeImageView.kf.setImage(with: currentEpisode.coverImage)
+        episodeImageView.kf.setImage(with: currentEpisode.coverImage,
+                                     placeholder: UIImage.placeholder,
+                                     options: [
+                                         .processor(DownsamplingImageProcessor(size: episodeImageView.frame.size)),
+                                         .scaleFactor(UIScreen.main.scale),
+                                         .cacheOriginalImage
+                                     ])
         descriptionTextView.text = currentEpisode.description
     }
 }

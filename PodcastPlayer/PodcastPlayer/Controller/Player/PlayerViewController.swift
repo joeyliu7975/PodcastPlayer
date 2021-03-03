@@ -11,6 +11,10 @@ public final class PlayerModelController {
     private(set) var episodes:[Episode] = []
     private(set) var currentIndex: Int
     
+    var soundURL: URL? {
+        return getCurrentEpisode().soundURL
+    }
+    
      var previousIndex: Int {
         return currentIndex - 1
     }
@@ -38,23 +42,17 @@ public final class PlayerViewController: UIViewController {
     private var player: AudioPlayerController?
     private var modelController: PlayerModelController?
     
-//    private var episodes:[Episode] = []
-//    private var currentIndex: Int?
-    
-    private var url: URL? {
-        let episode = modelController?.getCurrentEpisode()
-        return episode?.soundURL
-//        guard let index = modelController?.currentIndex,
-//              let url = modelController?.episodes[index].soundURL else { return nil }
-        
-//        return url
-    }
-    
-    private(set) var isPlaying: Bool = false
+    private(set) var isPlaying: Bool = false 
     
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
-    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var playButton: UIButton! {
+        didSet {
+            playButton.layer.cornerRadius = playButton.frame.height / 2
+            playButton.layer.borderColor = UIColor.systemBlue.cgColor
+            playButton.layer.borderWidth = 2.0
+        }
+    }
     @IBOutlet weak var nextEPButton: UIButton!
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider! {
@@ -69,9 +67,6 @@ public final class PlayerViewController: UIViewController {
         self.init()
         self.player = player
         self.modelController = PlayerModelController(episodes: episodes, currentIndex: currentIndex)
-        
-//        self.episodes = episodes
-//        self.currentIndex = currentIndex
     }
     
     public override func viewDidLoad() {
@@ -84,13 +79,15 @@ public final class PlayerViewController: UIViewController {
     }
     
     @IBAction func clickButton(_ sender: UIButton) {
-        guard let model = modelController else { return }
+        guard let _ = modelController else { return }
         
         switch sender {
         case playButton:
             if isPlaying {
+                playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
                 player?.play()
             } else {
+                playButton.setImage(UIImage(named: "custom_play_hollow"), for: .normal)
                 player?.pause()
             }
             
@@ -110,7 +107,9 @@ public final class PlayerViewController: UIViewController {
 
 extension PlayerViewController {
     func setup() {
-//        guard let index = currentIndex else { return }
+        nextEPButton.contentMode = .center
+        previousEPButton.contentMode = .center
+        
         guard let model = modelController else { return }
         
         let episode = model.getCurrentEpisode()
@@ -120,7 +119,7 @@ extension PlayerViewController {
     }
     
     func configurePlayer() {
-        guard let url = url else { return }
+        guard let url = modelController?.soundURL else { return }
         
         player?.url = url
     }
@@ -131,4 +130,8 @@ extension PlayerViewController {
             self?.slider.value = Float(value)
         }
     }
+}
+
+extension PlayerViewController {
+    
 }

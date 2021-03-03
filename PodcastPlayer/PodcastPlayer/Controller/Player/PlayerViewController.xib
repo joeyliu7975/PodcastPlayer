@@ -53,7 +53,7 @@
                                 <constraint firstAttribute="width" constant="50" id="XfI-lq-8iU"/>
                                 <constraint firstAttribute="height" constant="50" id="paZ-ol-UY6"/>
                             </constraints>
-                            <state key="normal" image="custom_play_hollow"/>
+                            <state key="normal" image="pause_hollow"/>
                             <connections>
                                 <action selector="clickButton:" destination="-1" eventType="touchUpInside" id="HKA-Iq-VpA"/>
                             </connections>
@@ -99,9 +99,9 @@
         </view>
     </objects>
     <resources>
-        <image name="custom_play_hollow" width="50" height="50"/>
-        <image name="fast_forward_hollow" width="50" height="50"/>
-        <image name="rewind_hollow" width="50" height="50"/>
+        <image name="fast_forward_hollow" width="75" height="75"/>
+        <image name="pause_hollow" width="50" height="50"/>
+        <image name="rewind_hollow" width="75" height="75"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
