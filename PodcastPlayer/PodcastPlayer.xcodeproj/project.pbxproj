@@ -26,6 +26,7 @@
 		7189CE8925ED390200434D6C /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CE8825ED390200434D6C /* HTTPClient.swift */; };
 		7189CEC125EE2E8100434D6C /* AudioPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */; };
 		7189CEDD25EF2FFC00434D6C /* Audible Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */; };
+		7189CEEA25EF7DEF00434D6C /* FeedMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEE925EF7DEF00434D6C /* FeedMapper.swift */; };
 		718C9D7B25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718C9D7A25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift */; };
 		718C9D8225ECA4F200B864E4 /* EpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */; };
 		718C9D8325ECA4F200B864E4 /* EpisodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 718C9D8125ECA4F200B864E4 /* EpisodeViewController.xib */; };
@@ -86,6 +87,7 @@
 		7189CE8825ED390200434D6C /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerController.swift; sourceTree = "<group>"; };
 		7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Audible Protocol.swift"; sourceTree = "<group>"; };
+		7189CEE925EF7DEF00434D6C /* FeedMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedMapper.swift; sourceTree = "<group>"; };
 		718C9D7A25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeFeedCellViewModel.swift; sourceTree = "<group>"; };
 		718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewController.swift; sourceTree = "<group>"; };
 		718C9D8125ECA4F200B864E4 /* EpisodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeViewController.xib; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				712CB91225E9E72600034CE7 /* EpisodeFeedLoader.swift */,
 				713D497D25EB915600058FD4 /* EpisodeHomeItem.swift */,
+				7189CEE925EF7DEF00434D6C /* FeedMapper.swift */,
 			);
 			path = EpisodeFeedFeature;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				713D495025EB5C0D00058FD4 /* EpisodeFeedTableViewCell.swift in Sources */,
 				718C9D8225ECA4F200B864E4 /* EpisodeViewController.swift in Sources */,
 				7189CE8325ED20F900434D6C /* PlayerViewController.swift in Sources */,
+				7189CEEA25EF7DEF00434D6C /* FeedMapper.swift in Sources */,
 				718C9D8E25ECD20A00B864E4 /* HomeXMLParser.swift in Sources */,
 				71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */,
 				71AE977625EBCBDB00E9284F /* UINavigationController+Extension.swift in Sources */,
