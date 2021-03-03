@@ -46,8 +46,9 @@ public final class PlayerViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        setup()
         // # 初始化 Player 的設定1
-        configure()
+        configurePlayer()
         trackDuration()
     }
     
@@ -95,9 +96,18 @@ public final class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController {
-    func configure() {
+    func configurePlayer() {
         guard let url = url else { return }
         player?.url = url
+    }
+    
+    func setup() {
+        guard let index = currentIndex else { return }
+        
+        let episode = episodes[index]
+        
+        episodeImageView.kf.setImage(with: episode.coverImage)
+        episodeLabel.text = episode.title
     }
     
     func trackDuration() {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 public final class EpisodeFeedTableViewCell: UITableViewCell {
     
@@ -31,6 +32,11 @@ public final class EpisodeFeedTableViewCell: UITableViewCell {
         
         episodeImageView.kf.setImage(
             with: model.coverImage,
-            placeholder: UIImage.placeholder)
+            placeholder: UIImage.placeholder,
+            options: [
+                .processor(DownsamplingImageProcessor(size: episodeImageView.frame.size)),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ])
     }
 }
