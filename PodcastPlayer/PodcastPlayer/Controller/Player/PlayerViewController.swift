@@ -48,15 +48,27 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var episodeLabel: UILabel!
     @IBOutlet weak var playButton: UIButton! {
         didSet {
+            playButton.tintColor = .kkBlue
             playButton.layer.cornerRadius = playButton.frame.height / 2
-            playButton.layer.borderColor = UIColor.systemBlue.cgColor
+            playButton.layer.borderColor = UIColor.kkBlue.cgColor
             playButton.layer.borderWidth = 2.0
+            playButton.imageEdgeInsets = UIEdgeInsets(top: 30,left: 30,bottom: 30,right: 30)
         }
     }
-    @IBOutlet weak var nextEPButton: UIButton!
-    @IBOutlet weak var previousEPButton: UIButton!
+    @IBOutlet weak var nextEPButton: UIButton!{
+        didSet {
+            nextEPButton.imageView?.tintColor = .kkBlue
+        }
+    }
+    @IBOutlet weak var previousEPButton: UIButton! {
+        didSet {
+            previousEPButton.imageView?.tintColor = .kkBlue
+        }
+    }
     @IBOutlet weak var slider: UISlider! {
         didSet {
+            slider.tintColor = .kkBlue
+            slider.thumbTintColor = .kkBlue
             slider.minimumValue = 0
             slider.value = 0
             slider.maximumValue = 1
@@ -107,9 +119,6 @@ public final class PlayerViewController: UIViewController {
 
 extension PlayerViewController {
     func setup() {
-        nextEPButton.contentMode = .center
-        previousEPButton.contentMode = .center
-        
         guard let model = modelController else { return }
         
         let episode = model.getCurrentEpisode()

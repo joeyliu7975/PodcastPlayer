@@ -27,6 +27,7 @@
 		7189CEC125EE2E8100434D6C /* AudioPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */; };
 		7189CEDD25EF2FFC00434D6C /* Audible Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */; };
 		7189CEEA25EF7DEF00434D6C /* FeedMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEE925EF7DEF00434D6C /* FeedMapper.swift */; };
+		7189CEEF25EFE48100434D6C /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEEE25EFE48100434D6C /* UIColor+Extension.swift */; };
 		718C9D7B25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718C9D7A25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift */; };
 		718C9D8225ECA4F200B864E4 /* EpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */; };
 		718C9D8325ECA4F200B864E4 /* EpisodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 718C9D8125ECA4F200B864E4 /* EpisodeViewController.xib */; };
@@ -88,6 +89,7 @@
 		7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerController.swift; sourceTree = "<group>"; };
 		7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Audible Protocol.swift"; sourceTree = "<group>"; };
 		7189CEE925EF7DEF00434D6C /* FeedMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedMapper.swift; sourceTree = "<group>"; };
+		7189CEEE25EFE48100434D6C /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		718C9D7A25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeFeedCellViewModel.swift; sourceTree = "<group>"; };
 		718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewController.swift; sourceTree = "<group>"; };
 		718C9D8125ECA4F200B864E4 /* EpisodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeViewController.xib; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				71AE977525EBCBDB00E9284F /* UINavigationController+Extension.swift */,
 				71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */,
 				7165B70825ECE3F900D3A79D /* UIImage+Extension.swift */,
+				7189CEEE25EFE48100434D6C /* UIColor+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -612,6 +615,7 @@
 				713D496B25EB719700058FD4 /* UITableView+Extension.swift in Sources */,
 				7165B70925ECE3F900D3A79D /* UIImage+Extension.swift in Sources */,
 				71CFF16E25EA4D6900C0D278 /* URLSessionHTTPClient.swift in Sources */,
+				7189CEEF25EFE48100434D6C /* UIColor+Extension.swift in Sources */,
 				712CB91325E9E72600034CE7 /* EpisodeFeedLoader.swift in Sources */,
 				7183AAC425E764A300E1AD98 /* SceneDelegate.swift in Sources */,
 				7189CE8925ED390200434D6C /* HTTPClient.swift in Sources */,

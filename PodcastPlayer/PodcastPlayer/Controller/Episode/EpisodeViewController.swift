@@ -12,7 +12,11 @@ public final class EpisodeViewController: UIViewController {
 
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var playButton: UIButton! {
+        didSet {
+            playButton.tintColor = .kkBlue
+        }
+    }
     
     private var episodes:[Episode] = []
     private var currentEpisodeIndex: Int?
@@ -47,7 +51,7 @@ public final class EpisodeViewController: UIViewController {
 
 private extension EpisodeViewController {
     func setup() {
-        playButton.layer.borderColor = UIColor.systemBlue.cgColor
+        playButton.layer.borderColor = UIColor.kkBlue.cgColor
         playButton.layer.borderWidth = 12.0
         playButton.clipsToBounds = true
         playButton.layer.cornerRadius = playButton.frame.width / 2
