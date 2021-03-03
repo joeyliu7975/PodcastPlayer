@@ -9,7 +9,17 @@ import Foundation
 import AVFoundation
 
 public final class AudioPlayerController {
-    private(set) var player:AVPlayer?
+    private(set) var player:AVPlayer? {
+        didSet {
+            guard let player = player else { return }
+            player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { (CMTime) -> Void in
+                if player.currentItem?.status == .readyToPlay {
+                    let time : Float64 = CMTimeGetSeconds(player.currentTime())
+                    self.currentDuration = time
+                }
+            }
+        }
+    }
     private(set) var asset:AVAsset?
     private(set) var playerItem:AVPlayerItem?
     
@@ -19,6 +29,15 @@ public final class AudioPlayerController {
             configure()
         }
     }
+    
+    public var currentDuration: Float64? {
+        didSet {
+            guard let currentDuration = currentDuration else { return }
+            trackDuration?(currentDuration)
+        }
+    }
+    
+    public var trackDuration: ((Float64) -> Void)?
     
     init(url: URL? = nil) {
         self.url = url
@@ -36,13 +55,15 @@ extension AudioPlayerController {
             player = AVPlayer(playerItem: playerItem)
             
             //5. Play Video
-            player?.play()
+            play()
         }
     }
 }
 
 extension AudioPlayerController: Playable {
-    public func play() {}
+    public func play() {
+        player?.play()
+    }
     
     public func pause() {}
 }

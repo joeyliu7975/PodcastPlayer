@@ -48,6 +48,7 @@ public final class PlayerViewController: UIViewController {
         
         // # 初始化 Player 的設定1
         configure()
+        trackDuration()
     }
     
     @IBAction func clickButton(_ sender: UIButton) {
@@ -97,5 +98,12 @@ extension PlayerViewController {
     func configure() {
         guard let url = url else { return }
         player?.url = url
+    }
+    
+    func trackDuration() {
+        player?.trackDuration = { [weak self] (duration) in
+            let duration = Float(duration)
+            print(duration)
+        }
     }
 }
