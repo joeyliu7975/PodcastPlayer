@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import AVKit
+import Kingfisher
+import AVFoundation
 
 public final class EpisodeViewController: UIViewController {
 
@@ -30,6 +31,7 @@ public final class EpisodeViewController: UIViewController {
         super.viewDidLoad()
 
         setup()
+        load()
     }
     
     @IBAction func pressPlay(_ sender: UIButton) {
@@ -48,5 +50,10 @@ private extension EpisodeViewController {
         playButton.layer.borderWidth = 15.0
         playButton.clipsToBounds = true
         playButton.layer.cornerRadius = playButton.frame.width / 2
+    }
+    
+    func load() {
+        episodeImageView.kf.setImage(with: currentEpisode.coverImage)
+        descriptionTextView.text = currentEpisode.description
     }
 }

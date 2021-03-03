@@ -11,7 +11,7 @@ public final class HomeXMLParser: NSObject, XMLParserDelegate {
     // Simple state machine to capture fields and add completed Person to array
     var channelFeed: ChannelFeed = ChannelFeed()
     enum State {
-        case none, title, pubDate, link, image, profileImage
+        case none, title, pubDate, link, image, profileImage, description
     }
 
     var imageURLStr: String?
@@ -42,6 +42,8 @@ public final class HomeXMLParser: NSObject, XMLParserDelegate {
             }
         case "url":
             self.state = .profileImage
+        case "description" where newEpisode != nil:
+            self.state = .description
         default:
             self.state = .none
         }
@@ -75,6 +77,8 @@ public final class HomeXMLParser: NSObject, XMLParserDelegate {
             self.newEpisode?.coverImage = URL(string: string)
         case .profileImage:
             self.imageURLStr = string
+        case .description:
+            self.newEpisode?.description += string
         default:
             break
         }
