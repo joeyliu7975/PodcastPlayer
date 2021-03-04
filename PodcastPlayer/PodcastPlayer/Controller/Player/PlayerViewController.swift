@@ -44,6 +44,8 @@ public final class PlayerViewController: UIViewController {
     private weak var player: AudioPlayerController?
     private var modelController: PlayerModelController?
     
+    weak var delegate: PlayPauseProtocol?
+    
     private(set) var isPlaying: Bool = true
     
     @IBOutlet weak var episodeImageView: UIImageView!
@@ -53,7 +55,7 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider!
     
-    convenience init(player: AudioPlayerController, episodes: [Episode], currentIndex: Int) {
+    convenience init(player: AudioPlayerController = .shared, episodes: [Episode], currentIndex: Int) {
         self.init()
         self.player = player
         self.modelController = PlayerModelController(episodes: episodes, currentIndex: currentIndex)
@@ -78,10 +80,10 @@ public final class PlayerViewController: UIViewController {
             
             if isPlaying {
                 playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
-                player?.play()
+                delegate?.play()
             } else {
                 playButton.setImage(UIImage(named: "custom_play_hollow"), for: .normal)
-                player?.pause()
+                delegate?.pause()
             }
         case nextEPButton:
             guard let model = modelController else { return }
@@ -126,6 +128,10 @@ public final class PlayerViewController: UIViewController {
             break
         }
     }
+    
+    deinit {
+        delegate?.pause()
+    }
 }
 
 extension PlayerViewController {
@@ -156,6 +162,8 @@ extension PlayerViewController {
     }
     
     func configurePlayer() {
+        delegate = player
+        
         guard let url = modelController?.soundURL else { return }
         
         player?.replaceNewURL(with: url)

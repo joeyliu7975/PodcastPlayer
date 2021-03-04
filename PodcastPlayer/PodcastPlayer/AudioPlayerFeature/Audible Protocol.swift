@@ -7,10 +7,11 @@
 
 import Foundation
 
-public protocol Playable: AnyObject {
+public protocol PlayPauseProtocol: AnyObject {
     func play()
     func pause()
 }
+
 // Audio 進度調整和前一集、下一集
 public protocol Controllable: AnyObject {
     typealias EpisodeInfo = (Episode, Int)

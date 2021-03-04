@@ -87,7 +87,7 @@ extension AudioPlayerController {
 
 extension AudioPlayerController {
     //MARK: #1. Check player currentItem's playing status
-    func isReadyToPlay(status: AVPlayerItem.Status?) -> Bool {
+    private func isReadyToPlay(status: AVPlayerItem.Status?) -> Bool {
         switch status {
         case .readyToPlay:
             return true
@@ -97,7 +97,7 @@ extension AudioPlayerController {
     }
     
     //MARK: #2. Get total duration
-    func getTotalDuration(currentPlayingItem: AVPlayerItem?,_ completion: (Float64) -> Void) {
+    private func getTotalDuration(currentPlayingItem: AVPlayerItem?,_ completion: (Float64) -> Void) {
         guard
             let playingItem = currentPlayingItem else { return }
         
@@ -108,7 +108,7 @@ extension AudioPlayerController {
 }
 
 
-extension AudioPlayerController: Playable {
+extension AudioPlayerController: PlayPauseProtocol {
     public func play() {
         player?.play()
     }
