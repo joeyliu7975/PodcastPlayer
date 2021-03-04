@@ -195,8 +195,6 @@ extension PlayerViewController {
             {
             let totalSecond = CMTimeGetSeconds(duration)
             
-            print("🐷🐷🐷🐷🐷🐷🐷🐷🐷" + String(describing: slider.value) + "🐷🐷🐷🐷🐷🐷🐷🐷🐷")
-            
             let value = (slider.value) * Float(totalSecond)
             let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
             
