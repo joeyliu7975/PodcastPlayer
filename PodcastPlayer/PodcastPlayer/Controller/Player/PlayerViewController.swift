@@ -18,11 +18,11 @@ public final class PlayerModelController {
     }
     
      var previousIndex: Int {
-        return currentIndex - 1
+        return currentIndex + 1
     }
     
     var nextIndex: Int {
-        return currentIndex + 1
+        return currentIndex - 1
     }
     
     init(episodes:[Episode], currentIndex: Int) {
@@ -90,13 +90,15 @@ public final class PlayerViewController: UIViewController {
             
             if model.episodes.indices.contains(nextIndex) {
                 // 改變目前的 currentIndex
-                model.currentIndex += 1
+                model.currentIndex -= 1
                 
                 let url = model.getCurrentEpisode().soundURL!
                 
                 player?.resetPlayer()
                 player?.replaceNewURL(with: url)
                 loadEpisode(with: model.getCurrentEpisode())
+            } else {
+                popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
             }
         case previousEPButton:
             guard let model = modelController else { return }
@@ -105,12 +107,14 @@ public final class PlayerViewController: UIViewController {
             
             if model.episodes.indices.contains(previousIndex) {
                 // 改變目前的 currentIndex
-                model.currentIndex -= 1
+                model.currentIndex += 1
                 
                 let url = model.getCurrentEpisode().soundURL!
                 
                 player?.replaceNewURL(with: url)
                 loadEpisode(with: model.getCurrentEpisode())
+            } else {
+                popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
             }
         default:
             break
@@ -164,12 +168,16 @@ extension PlayerViewController {
             
             if model.episodes.indices.contains(nextIndex) {
                 // 改變目前的 currentIndex
-                model.currentIndex += 1
+                model.currentIndex -= 1
                 
                 let url = model.getCurrentEpisode().soundURL!
                 
                 self?.player?.replaceNewURL(with: url)
                 self?.loadEpisode(with: model.getCurrentEpisode())
+            } else {
+                self?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+                self?.playButton.setImage(UIImage(named: "custom_play_hollow"), for: .normal)
+                self?.isPlaying = false
             }
         }
     }
