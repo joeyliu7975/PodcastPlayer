@@ -8,11 +8,12 @@
 import Foundation
 
 public final class PlayerModelController {
+    typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>
     // MARK: - Episode:
     private(set) var episodes:[Episode] = []
     
     var currentIndex: Int
- 
+    
     init(episodes:[Episode], currentIndex: Int) {
         self.episodes = episodes
         self.currentIndex = currentIndex
@@ -27,12 +28,14 @@ public final class PlayerModelController {
         case current, previous, next
     }
     
-    func getEpisode(type: EpisodeType, completion: @escaping (Result<(Episode, URL), PlayerModelController.Error>) -> Void) {
-        completion(checkEpisode(type: type, currentIndex: currentIndex))
+    func getEpisode(type: EpisodeType, completion: @escaping (Result) -> Void) {
+        completion(handle(type: type, currentIndex: currentIndex))
     }
-    
-    private func checkEpisode(type: EpisodeType, currentIndex: Int) -> Result<(Episode, URL), PlayerModelController.Error> {
-        
+}
+//MARK: Error Handling
+private extension PlayerModelController {
+    //MARK: #1 處理使用者不同的操作，用currentIndex檢驗
+    private func handle(type: EpisodeType, currentIndex: Int) -> Result {
         var checkingIndex: Int
         
         switch type {
@@ -44,29 +47,32 @@ public final class PlayerModelController {
             checkingIndex = currentIndex + 1
         }
         
-        return handle(with: checkingIndex, episodeType: type)
-    }
-    
-    private func handle(with checkingIndex: Int, episodeType: EpisodeType) -> Result<(Episode, URL), PlayerModelController.Error> {
-        if episodes.indices.contains(checkingIndex), let episode = episodes[checkingIndex].soundURL {
-            let episode = episodes[checkingIndex]
+        do {
+            let (episode, url) = try map(with: checkingIndex, episodeType: type)
             
-            guard let soundURL = episode.soundURL else {
-                return .failure(Error.noSoundURL)
-            }
+            self.currentIndex = checkingIndex
             
-            switch episodeType {
-            case .next:
-                currentIndex -= 1
-            case .previous:
-                currentIndex += 1
-            default:
-                break
-            }
-            
-            return .success((episode, soundURL))
-        } else {
-            return .failure(Error.indexOutOfRange)
+            return .success((episode, url))
+        } catch {
+            return .failure(error as! Error)
         }
+    }
+    //MARK: #2 檢查currentIndex在Episodes中是否index out of range
+    private func map(with index: Int, episodeType: EpisodeType) throws -> (Episode, URL) {
+        if episodes.indices.contains(index), let soundURL = episodes[index].soundURL
+        {
+            let episode = episodes[index]
+            return (episode, soundURL)
+        } else {
+            throw Error.indexOutOfRange
+        }
+    }
+    //MARK: #3 檢查指定episodes中的soundURL是否存在
+    private func getSoundURL(with episode: Episode) throws -> (Episode, URL) {
+        guard let url = episode.soundURL else {
+            throw Error.noSoundURL
+        }
+        
+        return (episode, url)
     }
 }
