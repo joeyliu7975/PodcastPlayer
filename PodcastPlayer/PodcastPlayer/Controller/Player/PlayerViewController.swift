@@ -8,18 +8,6 @@
 import UIKit
 import AVFoundation
 
-fileprivate enum PlayerState {
-    case playing
-    case stopped
-    
-    mutating func toggle() {
-        switch self {
-        case .playing: self = .stopped
-        case .stopped: self = .playing
-        }
-    }
-}
-
 public final class PlayerModelController {
     private(set) var episodes:[Episode] = []
     
@@ -53,10 +41,12 @@ public final class PlayerModelController {
 
 public final class PlayerViewController: UIViewController {
     
+    typealias Audible = (PlayPauseProtocol & EpisodeProgressTracking & EpisodeSoundLoader)
+    
     private weak var player: AudioPlayerController?
     private var modelController: PlayerModelController?
     
-    weak var delegate: (PlayPauseProtocol & EpisodeProgressTracking)?
+    weak var delegate: Audible?
     
     fileprivate var playerState: PlayerState = .playing
     
@@ -92,12 +82,13 @@ public final class PlayerViewController: UIViewController {
             
             switch playerState {
             case .playing:
-                playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
+                playButton.setImage(UIImage.pauseHollow, for: .normal)
                 delegate?.play()
             case .stopped:
-                playButton.setImage(UIImage(named: "custom_play_hollow"), for: .normal)
+                playButton.setImage(UIImage.playHollow, for: .normal)
                 delegate?.pause()
             }
+            
         case nextEPButton:
             guard let model = modelController else { return }
             
@@ -108,14 +99,14 @@ public final class PlayerViewController: UIViewController {
                 model.currentIndex -= 1
                 
                 let url = model.getCurrentEpisode().soundURL!
-                
-                player?.resetPlayer()
-                player?.replaceNewURL(with: url)
+
+                delegate?.load(with: url)
+
                 loadEpisode(with: model.getCurrentEpisode())
                 
                 self.playerState = .playing
                 
-                self.playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
+                self.playButton.setImage(UIImage.pauseHollow, for: .normal)
             } else {
                 popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
             }
@@ -130,12 +121,13 @@ public final class PlayerViewController: UIViewController {
                 
                 let url = model.getCurrentEpisode().soundURL!
                 
-                player?.replaceNewURL(with: url)
+                delegate?.load(with: url)
+                
                 loadEpisode(with: model.getCurrentEpisode())
                 
                 self.playerState = .playing
                 
-                self.playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
+                self.playButton.setImage(UIImage.pauseHollow, for: .normal)
             } else {
                 popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
             }
@@ -181,7 +173,7 @@ extension PlayerViewController {
         
         guard let url = modelController?.soundURL else { return }
         
-        player?.replaceNewURL(with: url)
+        delegate?.load(with: url)
     }
     
     func trackDuration() {
@@ -201,11 +193,12 @@ extension PlayerViewController {
                 
                 let url = model.getCurrentEpisode().soundURL!
                 
-                self?.player?.replaceNewURL(with: url)
+                self?.delegate?.load(with: url)
+
                 self?.loadEpisode(with: model.getCurrentEpisode())
             } else {
                 self?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
-                self?.playButton.setImage(UIImage(named: "custom_play_hollow"), for: .normal)
+                self?.playButton.setImage(UIImage.playHollow, for: .normal)
                 
                 self?.playerState = .stopped
             }
@@ -217,5 +210,17 @@ extension PlayerViewController {
         let value = slider.value
         
         delegate?.update(episodeCurrentDurationWith: value)
+    }
+}
+
+fileprivate enum PlayerState {
+    case playing
+    case stopped
+    
+    mutating func toggle() {
+        switch self {
+        case .playing: self = .stopped
+        case .stopped: self = .playing
+        }
     }
 }

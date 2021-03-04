@@ -107,7 +107,6 @@ extension AudioPlayerController {
     }
 }
 
-
 extension AudioPlayerController: PlayPauseProtocol {
     public func play() {
         player?.play()
@@ -134,12 +133,10 @@ extension AudioPlayerController: EpisodeProgressTracking {
     }
 }
 
-extension AudioPlayerController: Controllable {
-    public func nextEp(currentEpisode: EpisodeInfo, completion: (EpisodeInfo) -> Void) {}
-    
-    public func previousEp(currentEpisode: EpisodeInfo, completion: (EpisodeInfo) -> Void) {}
-    
-    public func progressControl(value: Float) {
-        
+extension AudioPlayerController: EpisodeSoundLoader {
+    public func load(with soundURL: URL) {
+        resetPlayer()
+        replaceNewURL(with: soundURL)
+        print(soundURL)
     }
 }
