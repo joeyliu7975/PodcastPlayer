@@ -8,13 +8,13 @@
 import Foundation
 import AVFoundation
 
-public final class AudioPlayerController: NSObject {
+public final class AudioPlayerController {
     private(set) var player:AVPlayer? {
         didSet {
             guard let player = player else { return }
                     
             player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { (CMTime) -> Void in
-                
+
                 let isReadyToPlay = self.isReadyToPlay(status: player.currentItem?.status)
                 
                 if isReadyToPlay {
@@ -26,22 +26,19 @@ public final class AudioPlayerController: NSObject {
                     
                     let time : Float64 = CMTimeGetSeconds(player.currentTime())
                     self.currentDuration = time
+                    
+                    if self.totalDuration == self.currentDuration {
+                        self.askForNextEP?()
+                    }
                 }
             }
         }
     }
     
-    private(set) var asset:AVAsset?
-    private(set) var playerItem:AVPlayerItem?
+    private(set) var asset: AVAsset?
+    private(set) var playerItem: AVPlayerItem?
     
-    public var url: URL? {
-        didSet {
-            guard url != nil else { return }
-            configure()
-        }
-    }
-    
-    private(set) var currentDuration: Float64? {
+     var currentDuration: Float64? {
         didSet {
             guard let currentDuration = currentDuration,
                   let totalDuration = totalDuration else { return }
@@ -54,14 +51,15 @@ public final class AudioPlayerController: NSObject {
     
     public var trackDuration: ((Float64, Float64) -> Void)?
     
-    public init(url: URL? = nil) {
-        self.url = url
-    }
+    public var askForNextEP:(() -> Void)?
+    
+    static var shared = AudioPlayerController()
+    
+    private init() {}
 }
 
 extension AudioPlayerController {
-    private func configure() {
-        if let url = url {
+    private func configure(url: URL) {
             //2. Create AVPlayer object
             asset = AVAsset(url: url)
             
@@ -69,14 +67,25 @@ extension AudioPlayerController {
             
             player = AVPlayer(playerItem: playerItem)
             
-            player?.addObserver(self, forKeyPath: "currentLoadedRange", options: .new, context: nil)
-            
             play()
-        }
+    }
+
+    // 重新換新的 url
+    func replaceNewURL(with url: URL) {
+        resetPlayer()
+        
+        self.configure(url: url)
+    }
+    
+    func resetPlayer() {
+        player?.pause()
+        asset = nil
+        playerItem = nil
+        player = nil
     }
 }
 
-private extension AudioPlayerController {
+extension AudioPlayerController {
     //MARK: #1. Check player currentItem's playing status
     func isReadyToPlay(status: AVPlayerItem.Status?) -> Bool {
         switch status {
@@ -114,5 +123,7 @@ extension AudioPlayerController: Controllable {
     
     public func previousEp(currentEpisode: EpisodeInfo, completion: (EpisodeInfo) -> Void) {}
     
-    public func progressControl(value: Float) {}
+    public func progressControl(value: Float) {
+        
+    }
 }

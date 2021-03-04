@@ -40,7 +40,9 @@ public final class EpisodeViewController: UIViewController {
     @IBAction func pressPlay(_ sender: UIButton) {
         guard let currentIndex = currentEpisodeIndex else { return }
         
-        let audioPlayer = AudioPlayerController()
+        let audioPlayer = AudioPlayerController.shared
+        
+        audioPlayer.resetPlayer()
         
         let playerVC = PlayerViewController(player: audioPlayer, episodes: episodes, currentIndex: currentIndex)
                         

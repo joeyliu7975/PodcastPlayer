@@ -56,9 +56,6 @@
                 </button>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="dIX-tH-ray">
                     <rect key="frame" x="38" y="648" width="338" height="31"/>
-                    <connections>
-                        <action selector="drag:" destination="-1" eventType="valueChanged" id="vdX-Tn-qpr"/>
-                    </connections>
                 </slider>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ldc-EC-6xY" userLabel="rewindButton">
                     <rect key="frame" x="84.5" y="747" width="45.5" height="45.5"/>

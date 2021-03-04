@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import AVFoundation
 
 public final class PlayerModelController {
     private(set) var episodes:[Episode] = []
-    private(set) var currentIndex: Int
+    
+    var currentIndex: Int
     
     var soundURL: URL? {
         return getCurrentEpisode().soundURL
@@ -39,41 +41,17 @@ public final class PlayerModelController {
 
 public final class PlayerViewController: UIViewController {
     
-    private var player: AudioPlayerController?
+    private weak var player: AudioPlayerController?
     private var modelController: PlayerModelController?
     
     private(set) var isPlaying: Bool = false 
     
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
-    @IBOutlet weak var playButton: UIButton! {
-        didSet {
-            playButton.tintColor = .kkBlue
-            playButton.layer.cornerRadius = playButton.frame.height / 2
-            playButton.layer.borderColor = UIColor.kkBlue.cgColor
-            playButton.layer.borderWidth = 2.0
-            playButton.imageEdgeInsets = UIEdgeInsets(top: 30,left: 30,bottom: 30,right: 30)
-        }
-    }
-    @IBOutlet weak var nextEPButton: UIButton!{
-        didSet {
-            nextEPButton.imageView?.tintColor = .kkBlue
-        }
-    }
-    @IBOutlet weak var previousEPButton: UIButton! {
-        didSet {
-            previousEPButton.imageView?.tintColor = .kkBlue
-        }
-    }
-    @IBOutlet weak var slider: UISlider! {
-        didSet {
-            slider.tintColor = .kkBlue
-            slider.thumbTintColor = .kkBlue
-            slider.minimumValue = 0
-            slider.value = 0
-            slider.maximumValue = 1
-        }
-    }
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var nextEPButton: UIButton!
+    @IBOutlet weak var previousEPButton: UIButton!
+    @IBOutlet weak var slider: UISlider!
     
     convenience init(player: AudioPlayerController, episodes: [Episode], currentIndex: Int) {
         self.init()
@@ -85,6 +63,7 @@ public final class PlayerViewController: UIViewController {
         super.viewDidLoad()
         
         setup()
+        loadEpisode(with: modelController?.getCurrentEpisode())
         // # 初始化 Player 的設定1
         configurePlayer()
         trackDuration()
@@ -105,23 +84,62 @@ public final class PlayerViewController: UIViewController {
             
             isPlaying.toggle()
         case nextEPButton:
-            break
+            guard let model = modelController else { return }
+            
+            let nextIndex = model.nextIndex
+            
+            if model.episodes.indices.contains(nextIndex) {
+                // 改變目前的 currentIndex
+                model.currentIndex += 1
+                
+                let url = model.getCurrentEpisode().soundURL!
+                
+                player?.resetPlayer()
+                player?.replaceNewURL(with: url)
+                loadEpisode(with: model.getCurrentEpisode())
+            }
         case previousEPButton:
-            break
+            guard let model = modelController else { return }
+            
+            let previousIndex = model.previousIndex
+            
+            if model.episodes.indices.contains(previousIndex) {
+                // 改變目前的 currentIndex
+                model.currentIndex -= 1
+                
+                let url = model.getCurrentEpisode().soundURL!
+                
+                player?.replaceNewURL(with: url)
+                loadEpisode(with: model.getCurrentEpisode())
+            }
         default:
             break
         }
     }
-    
-    @IBAction func drag(_ sender: UISlider) {}
-    
 }
 
 extension PlayerViewController {
     func setup() {
-        guard let model = modelController else { return }
+        playButton.tintColor = .kkBlue
+        playButton.layer.cornerRadius = playButton.frame.height / 2
+        playButton.layer.borderColor = UIColor.kkBlue.cgColor
+        playButton.layer.borderWidth = 2.0
+        playButton.imageEdgeInsets = UIEdgeInsets(top: 30,left: 30,bottom: 30,right: 30)
         
-        let episode = model.getCurrentEpisode()
+        nextEPButton.imageView?.tintColor = .kkBlue
+        
+        previousEPButton.imageView?.tintColor = .kkBlue
+        
+        slider.tintColor = .kkBlue
+        slider.thumbTintColor = .kkBlue
+        slider.minimumValue = 0
+        slider.value = 0
+        slider.maximumValue = 1
+        slider.addTarget(self, action: #selector(handleSlideChange), for: .valueChanged)
+    }
+    
+    func loadEpisode(with episode: Episode?) {
+        guard let episode = episode else { return }
         
         episodeImageView.kf.setImage(with: episode.coverImage)
         episodeLabel.text = episode.title
@@ -130,7 +148,7 @@ extension PlayerViewController {
     func configurePlayer() {
         guard let url = modelController?.soundURL else { return }
         
-        player?.url = url
+        player?.replaceNewURL(with: url)
     }
     
     func trackDuration() {
@@ -138,9 +156,37 @@ extension PlayerViewController {
             let value = current / total
             self?.slider.value = Float(value)
         }
+        
+        player?.askForNextEP = { [weak self] in
+            guard let model = self?.modelController else { return }
+            
+            let nextIndex = model.nextIndex
+            
+            if model.episodes.indices.contains(nextIndex) {
+                // 改變目前的 currentIndex
+                model.currentIndex += 1
+                
+                let url = model.getCurrentEpisode().soundURL!
+                
+                self?.player?.replaceNewURL(with: url)
+                self?.loadEpisode(with: model.getCurrentEpisode())
+            }
+        }
     }
-}
-
-extension PlayerViewController {
     
+    //MARK: Handle Slide Change:
+    @objc func handleSlideChange() {
+        
+        if  let duration = player?.playerItem?.duration
+            {
+            let totalSecond = CMTimeGetSeconds(duration)
+            
+            let value = (slider.value) * Float(totalSecond)
+            let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
+            
+            player?.player?.seek(to: seekTime, completionHandler: { [unowned self](completedSeek) in
+                // Do something here
+            })
+        }
+    }
 }
