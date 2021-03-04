@@ -67,7 +67,7 @@ extension AudioPlayerController {
             
             player = AVPlayer(playerItem: playerItem)
             
-            play()
+            player?.play()
     }
 
     // 重新換新的 url

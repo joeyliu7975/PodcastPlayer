@@ -9,20 +9,13 @@ import UIKit
 import AVFoundation
 
 public final class PlayerModelController {
+    // MARK: - Episode:
     private(set) var episodes:[Episode] = []
     
     var currentIndex: Int
     
     var soundURL: URL? {
         return getCurrentEpisode().soundURL
-    }
-    
-     var previousIndex: Int {
-        return currentIndex + 1
-    }
-    
-    var nextIndex: Int {
-        return currentIndex - 1
     }
     
     init(episodes:[Episode], currentIndex: Int) {
@@ -32,10 +25,62 @@ public final class PlayerModelController {
     
     public enum Error: Swift.Error {
         case indexOutOfRange
+        case noSoundURL
+    }
+    
+    public enum EpisodeType {
+        case current, previous, next
     }
     
     func getCurrentEpisode() -> Episode {
         return episodes[currentIndex]
+    }
+    
+    func getEpisode(type: EpisodeType, completion: @escaping (Result<(Episode, URL), PlayerModelController.Error>) -> Void) {
+        switch type {
+        case .current:
+            break
+        case .next:
+            completion(checkNextEpisode(currentIndex: currentIndex))
+        case .previous:
+            completion(checkPreviousEpisode(currentIndex: currentIndex))
+        }
+    }
+    
+    private func checkNextEpisode(currentIndex: Int) -> Result<(Episode, URL), PlayerModelController.Error> {
+        let nextIndex = currentIndex - 1
+        
+        if episodes.indices.contains(nextIndex) {
+            self.currentIndex -= 1
+            
+            let episode = episodes[nextIndex]
+            
+            guard let soundURL = episode.soundURL else {
+                return .failure(Error.noSoundURL)
+            }
+            
+            return .success((episode, soundURL))
+        } else {
+            return .failure(Error.indexOutOfRange)
+        }
+    }
+    
+    private func checkPreviousEpisode(currentIndex: Int) -> Result<(Episode,URL), PlayerModelController.Error> {
+        let previousIndex = currentIndex + 1
+        
+        if episodes.indices.contains(previousIndex) {
+            self.currentIndex += 1
+            
+            let episode = episodes[previousIndex]
+            
+            guard let soundURL = episode.soundURL else {
+                return .failure(Error.noSoundURL)
+            }
+            
+            return .success((episode, soundURL))
+        } else {
+            return .failure(Error.indexOutOfRange)
+        }
     }
 }
 
@@ -88,49 +133,34 @@ public final class PlayerViewController: UIViewController {
                 playButton.setImage(UIImage.playHollow, for: .normal)
                 delegate?.pause()
             }
-            
         case nextEPButton:
-            guard let model = modelController else { return }
-            
-            let nextIndex = model.nextIndex
-            
-            if model.episodes.indices.contains(nextIndex) {
-                // 改變目前的 currentIndex
-                model.currentIndex -= 1
-                
-                let url = model.getCurrentEpisode().soundURL!
-
-                delegate?.load(with: url)
-
-                loadEpisode(with: model.getCurrentEpisode())
-                
-                self.playerState = .playing
-                
-                self.playButton.setImage(UIImage.pauseHollow, for: .normal)
-            } else {
-                popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
-            }
+            modelController?.getEpisode(type: .next, completion: { [weak self] (result) in
+                switch result {
+                case let .success(episode, url):
+                    self?.loadEpisode(with: episode)
+                    self?.delegate?.load(with: url)
+                    self?.playerState = .playing
+                    self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
+                case .failure(.indexOutOfRange):
+                    self?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+                case .failure(.noSoundURL):
+                    self?.popAlert(title: "錯誤", message: "音檔缺失", actionTitle: "確認")
+                }
+            })
         case previousEPButton:
-            guard let model = modelController else { return }
-            
-            let previousIndex = model.previousIndex
-            
-            if model.episodes.indices.contains(previousIndex) {
-                // 改變目前的 currentIndex
-                model.currentIndex += 1
-                
-                let url = model.getCurrentEpisode().soundURL!
-                
-                delegate?.load(with: url)
-                
-                loadEpisode(with: model.getCurrentEpisode())
-                
-                self.playerState = .playing
-                
-                self.playButton.setImage(UIImage.pauseHollow, for: .normal)
-            } else {
-                popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
-            }
+            modelController?.getEpisode(type: .previous, completion: { [weak self] (result) in
+                switch result {
+                case let .success(episode, url):
+                    self?.loadEpisode(with: episode)
+                    self?.delegate?.load(with: url)
+                    self?.playerState = .playing
+                    self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
+                case .failure(.indexOutOfRange):
+                    self?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+                case .failure(.noSoundURL):
+                    self?.popAlert(title: "錯誤", message: "音檔缺失", actionTitle: "確認")
+                }
+            })
         default:
             break
         }
@@ -183,25 +213,21 @@ extension PlayerViewController {
         }
         
         player?.askForNextEP = { [weak self] in
-            guard let model = self?.modelController else { return }
-            
-            let nextIndex = model.nextIndex
-            
-            if model.episodes.indices.contains(nextIndex) {
-                // 改變目前的 currentIndex
-                model.currentIndex -= 1
-                
-                let url = model.getCurrentEpisode().soundURL!
-                
-                self?.delegate?.load(with: url)
-
-                self?.loadEpisode(with: model.getCurrentEpisode())
-            } else {
-                self?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
-                self?.playButton.setImage(UIImage.playHollow, for: .normal)
-                
-                self?.playerState = .stopped
-            }
+            self?.modelController?.getEpisode(type: .next, completion: { (result) in
+                switch result {
+                case let .success((episode, url)):
+                    self?.delegate?.load(with: url)
+                    self?.loadEpisode(with: episode)
+                case .failure(.indexOutOfRange):
+                    self?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+                    self?.playButton.setImage(UIImage.playHollow, for: .normal)
+                    self?.playerState = .stopped
+                case .failure(.noSoundURL):
+                    self?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+                    self?.playButton.setImage(UIImage.playHollow, for: .normal)
+                    self?.playerState = .stopped
+                }
+            })
         }
     }
     
