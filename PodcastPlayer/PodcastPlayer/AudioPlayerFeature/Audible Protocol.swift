@@ -11,6 +11,10 @@ public protocol PlayPauseProtocol: AnyObject {
     func play()
     func pause()
 }
+// MARK:- Episode 單集控制
+public protocol EpisodeProgressTracking: AnyObject {
+    func update(episodeCurrentDurationWith value: Float)
+}
 
 // Audio 進度調整和前一集、下一集
 public protocol Controllable: AnyObject {

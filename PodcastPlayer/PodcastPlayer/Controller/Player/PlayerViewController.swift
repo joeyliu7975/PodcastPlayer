@@ -56,7 +56,7 @@ public final class PlayerViewController: UIViewController {
     private weak var player: AudioPlayerController?
     private var modelController: PlayerModelController?
     
-    weak var delegate: PlayPauseProtocol?
+    weak var delegate: (PlayPauseProtocol & EpisodeProgressTracking)?
     
     fileprivate var playerState: PlayerState = .playing
     
@@ -214,17 +214,19 @@ extension PlayerViewController {
     
     //MARK: Handle Slide Change:
     @objc func handleSlideChange() {
+        let value = slider.value
         
-        if  let duration = player?.playerItem?.duration
-            {
-            let totalSecond = CMTimeGetSeconds(duration)
-            
-            let value = (slider.value) * Float(totalSecond)
-            let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
-            
-            player?.player?.seek(to: seekTime, completionHandler: { [unowned self](completedSeek) in
-                // Do something here
-            })
-        }
+        delegate?.update(episodeCurrentDurationWith: value)
+//        if  let duration = player?.playerItem?.duration
+//            {
+//            let totalSecond = CMTimeGetSeconds(duration)
+//            
+//            let value = (slider.value) * Float(totalSecond)
+//            let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
+//            
+//            player?.player?.seek(to: seekTime, completionHandler: { [unowned self](completedSeek) in
+//                // Do something here
+//            })
+//        }
     }
 }

@@ -118,6 +118,22 @@ extension AudioPlayerController: PlayPauseProtocol {
     }
 }
 
+extension AudioPlayerController: EpisodeProgressTracking {
+    public func update(episodeCurrentDurationWith value: Float) {
+        if let duration = playerItem?.duration
+            {
+            let totalSecond = CMTimeGetSeconds(duration)
+            
+            let value = (value) * Float(totalSecond)
+            let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
+            
+            player?.seek(to: seekTime, completionHandler: { (_) in
+                // Do something here
+            })
+        }
+    }
+}
+
 extension AudioPlayerController: Controllable {
     public func nextEp(currentEpisode: EpisodeInfo, completion: (EpisodeInfo) -> Void) {}
     
