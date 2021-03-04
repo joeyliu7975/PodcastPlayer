@@ -8,6 +8,18 @@
 import UIKit
 import AVFoundation
 
+fileprivate enum PlayerState {
+    case playing
+    case stopped
+    
+    mutating func toggle() {
+        switch self {
+        case .playing: self = .stopped
+        case .stopped: self = .playing
+        }
+    }
+}
+
 public final class PlayerModelController {
     private(set) var episodes:[Episode] = []
     
@@ -46,7 +58,7 @@ public final class PlayerViewController: UIViewController {
     
     weak var delegate: PlayPauseProtocol?
     
-    private(set) var isPlaying: Bool = true
+    fileprivate var playerState: PlayerState = .playing
     
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
@@ -76,12 +88,13 @@ public final class PlayerViewController: UIViewController {
         
         switch sender {
         case playButton:
-            isPlaying.toggle()
+            playerState.toggle()
             
-            if isPlaying {
+            switch playerState {
+            case .playing:
                 playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
                 delegate?.play()
-            } else {
+            case .stopped:
                 playButton.setImage(UIImage(named: "custom_play_hollow"), for: .normal)
                 delegate?.pause()
             }
@@ -100,7 +113,8 @@ public final class PlayerViewController: UIViewController {
                 player?.replaceNewURL(with: url)
                 loadEpisode(with: model.getCurrentEpisode())
                 
-                self.isPlaying = true
+                self.playerState = .playing
+                
                 self.playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
             } else {
                 popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
@@ -119,7 +133,8 @@ public final class PlayerViewController: UIViewController {
                 player?.replaceNewURL(with: url)
                 loadEpisode(with: model.getCurrentEpisode())
                 
-                self.isPlaying = true
+                self.playerState = .playing
+                
                 self.playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
             } else {
                 popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
@@ -191,7 +206,8 @@ extension PlayerViewController {
             } else {
                 self?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
                 self?.playButton.setImage(UIImage(named: "custom_play_hollow"), for: .normal)
-                self?.isPlaying = false
+                
+                self?.playerState = .stopped
             }
         }
     }
