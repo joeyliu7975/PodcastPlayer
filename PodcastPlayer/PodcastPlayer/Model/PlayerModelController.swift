@@ -7,8 +7,9 @@
 
 import Foundation
 
-public final class PlayerModelController {
-    typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>
+public final class PlayerModelController: EpisodeManipulatible {
+    typealias EventType = UserEvent
+    typealias Result = EpisodeManipulatible.Result
     // MARK: - Episode:
     private(set) var episodes:[Episode] = []
     
@@ -24,31 +25,39 @@ public final class PlayerModelController {
         case noSoundURL
     }
     
-    public enum EpisodeType {
-        case current, previous, next
+    public enum UserEvent {
+        case checkCurrentEP, checkPreviousEP, checkNextEP
     }
     
-    func getEpisode(type: EpisodeType, completion: @escaping (Result) -> Void) {
+    func getEpisode(type: EventType, completion: @escaping (Result) -> Void) {
         completion(handle(type: type, currentIndex: currentIndex))
     }
 }
+
+protocol EpisodeManipulatible {
+    associatedtype EventType
+    typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>
+    
+    func getEpisode(type: EventType, completion: @escaping (Result) -> Void)
+}
+
 //MARK: Error Handling
 private extension PlayerModelController {
     //MARK: #1 處理使用者不同的操作，用currentIndex檢驗
-    private func handle(type: EpisodeType, currentIndex: Int) -> Result {
+    private func handle(type: EventType, currentIndex: Int) -> Result {
         var checkingIndex: Int
         
         switch type {
-        case .current:
+        case .checkCurrentEP:
             checkingIndex = currentIndex
-        case .next:
+        case .checkNextEP:
             checkingIndex = currentIndex - 1
-        case .previous:
+        case .checkPreviousEP:
             checkingIndex = currentIndex + 1
         }
         
         do {
-            let (episode, url) = try map(with: checkingIndex, episodeType: type)
+            let (episode, url) = try map(with: checkingIndex)
             
             self.currentIndex = checkingIndex
             
@@ -58,7 +67,7 @@ private extension PlayerModelController {
         }
     }
     //MARK: #2 檢查currentIndex在Episodes中是否index out of range
-    private func map(with index: Int, episodeType: EpisodeType) throws -> (Episode, URL) {
+    private func map(with index: Int) throws -> (Episode, URL) {
         if episodes.indices.contains(index), let soundURL = episodes[index].soundURL
         {
             let episode = episodes[index]

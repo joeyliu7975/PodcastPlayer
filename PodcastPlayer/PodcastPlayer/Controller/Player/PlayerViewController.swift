@@ -57,7 +57,7 @@ public final class PlayerViewController: UIViewController {
                 delegate?.pause()
             }
         case nextEPButton:
-            modelController?.getEpisode(type: .next, completion: { [weak self] (result) in
+            modelController?.getEpisode(type: .checkNextEP, completion: { [weak self] (result) in
                 switch result {
                 case let .success((episode, url)):
                     self?.loadEpisode(with: episode)
@@ -65,11 +65,11 @@ public final class PlayerViewController: UIViewController {
                     self?.playerState = .playing
                     self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
                 case let .failure(error):
-                    self?.handleError(withError: error, state: .next)
+                    self?.showAlert(withError: error, state: .checkNextEP)
                 }
             })
         case previousEPButton:
-            modelController?.getEpisode(type: .previous, completion: { [weak self] (result) in
+            modelController?.getEpisode(type: .checkPreviousEP, completion: { [weak self] (result) in
                 switch result {
                 case let .success((episode, url)):
                     self?.loadEpisode(with: episode)
@@ -77,7 +77,7 @@ public final class PlayerViewController: UIViewController {
                     self?.playerState = .playing
                     self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
                 case let .failure(error):
-                    self?.handleError(withError: error, state: .previous)
+                    self?.showAlert(withError: error, state: .checkPreviousEP)
                 }
             })
         default:
@@ -91,56 +91,14 @@ public final class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController {
-    func setup() {
-        playButton.tintColor = .kkBlue
-        playButton.layer.cornerRadius = playButton.frame.height / 2
-        playButton.layer.borderColor = UIColor.kkBlue.cgColor
-        playButton.layer.borderWidth = 2.0
-        playButton.imageEdgeInsets = UIEdgeInsets(top: 30,left: 30,bottom: 30,right: 30)
-        
-        nextEPButton.imageView?.tintColor = .kkBlue
-        previousEPButton.imageView?.tintColor = .kkBlue
-        
-        slider.tintColor = .kkBlue
-        slider.thumbTintColor = .kkBlue
-        slider.minimumValue = 0
-        slider.value = 0
-        slider.maximumValue = 1
-        slider.addTarget(self, action: #selector(handleSlideChange), for: .valueChanged)
-    }
-    
-    func firstTimeLoadEpisode() {
-        modelController?.getEpisode(type: .current, completion: { [weak self] (result) in
-            switch result {
-            case let .success((episode, _)):
-                self?.loadEpisode(with: episode)
-            case let .failure(error):
-                self?.handleError(withError: error, state: .current)
-            }
-        })
-    }
-    
     func loadEpisode(with episode: Episode?) {
         guard let episode = episode else {
-            handleError(withError: PlayerModelController.Error.indexOutOfRange, state: .current)
+            showAlert(withError: PlayerModelController.Error.indexOutOfRange, state: .checkCurrentEP)
             return
         }
         
         episodeImageView.kf.setImage(with: episode.coverImage)
         episodeLabel.text = episode.title
-    }
-    
-    func configurePlayer() {
-        delegate = player
-        
-        modelController?.getEpisode(type: .current, completion: { [weak self] (result) in
-            switch result {
-            case let .success((_, url)):
-                self?.delegate?.load(with: url)
-            default:
-                break
-            }
-        })
     }
     
     func trackDuration() {
@@ -150,13 +108,13 @@ extension PlayerViewController {
         }
         
         player?.askForNextEP = { [weak self] in
-            self?.modelController?.getEpisode(type: .next, completion: { (result) in
+            self?.modelController?.getEpisode(type: .checkNextEP, completion: { (result) in
                 switch result {
                 case let .success((episode, url)):
                     self?.delegate?.load(with: url)
                     self?.loadEpisode(with: episode)
                 case let .failure(error):
-                    self?.handleError(withError: error, state: .next)
+                    self?.showAlert(withError: error, state: .checkNextEP)
                 }
             })
         }
@@ -169,15 +127,15 @@ extension PlayerViewController {
         delegate?.update(episodeCurrentDurationWith: value)
     }
 }
-
+// MARK: Handle user event
 private extension PlayerViewController {
-    func handleError(withError errorType: PlayerModelController.Error, state: PlayerModelController.EpisodeType) {
+    func showAlert(withError errorType: PlayerModelController.Error, state: PlayerModelController.EventType) {
         switch errorType {
         case .indexOutOfRange:
             switch state {
-            case .next:
+            case .checkNextEP:
                 popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
-            case .previous:
+            case .checkPreviousEP:
                 popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
             default:
                 popAlert(title: "提醒", message: "當前的 Podcast 出現異常", actionTitle: "確認")
@@ -203,5 +161,50 @@ fileprivate enum PlayerState {
         case .playing: self = .stopped
         case .stopped: self = .playing
         }
+    }
+}
+
+// MARK: Function that will only trigger once in viewDidLoad
+private extension PlayerViewController {
+    func setup() {
+        playButton.tintColor = .kkBlue
+        playButton.layer.cornerRadius = playButton.frame.height / 2
+        playButton.layer.borderColor = UIColor.kkBlue.cgColor
+        playButton.layer.borderWidth = 2.0
+        playButton.imageEdgeInsets = UIEdgeInsets(top: 30,left: 30,bottom: 30,right: 30)
+        
+        nextEPButton.imageView?.tintColor = .kkBlue
+        previousEPButton.imageView?.tintColor = .kkBlue
+        
+        slider.tintColor = .kkBlue
+        slider.thumbTintColor = .kkBlue
+        slider.minimumValue = 0
+        slider.value = 0
+        slider.maximumValue = 1
+        slider.addTarget(self, action: #selector(handleSlideChange), for: .valueChanged)
+    }
+    
+    func firstTimeLoadEpisode() {
+        modelController?.getEpisode(type: .checkCurrentEP, completion: { [weak self] (result) in
+            switch result {
+            case let .success((episode, _)):
+                self?.loadEpisode(with: episode)
+            case let .failure(error):
+                self?.showAlert(withError: error, state: .checkCurrentEP)
+            }
+        })
+    }
+        
+    func configurePlayer() {
+        delegate = player
+        
+        modelController?.getEpisode(type: .checkCurrentEP, completion: { [weak self] (result) in
+            switch result {
+            case let .success((_, url)):
+                self?.delegate?.load(with: url)
+            default:
+                break
+            }
+        })
     }
 }
