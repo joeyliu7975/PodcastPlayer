@@ -44,7 +44,7 @@ public final class PlayerViewController: UIViewController {
     private weak var player: AudioPlayerController?
     private var modelController: PlayerModelController?
     
-    private(set) var isPlaying: Bool = false 
+    private(set) var isPlaying: Bool = true
     
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
@@ -74,6 +74,8 @@ public final class PlayerViewController: UIViewController {
         
         switch sender {
         case playButton:
+            isPlaying.toggle()
+            
             if isPlaying {
                 playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
                 player?.play()
@@ -81,8 +83,6 @@ public final class PlayerViewController: UIViewController {
                 playButton.setImage(UIImage(named: "custom_play_hollow"), for: .normal)
                 player?.pause()
             }
-            
-            isPlaying.toggle()
         case nextEPButton:
             guard let model = modelController else { return }
             
@@ -97,6 +97,9 @@ public final class PlayerViewController: UIViewController {
                 player?.resetPlayer()
                 player?.replaceNewURL(with: url)
                 loadEpisode(with: model.getCurrentEpisode())
+                
+                self.isPlaying = true
+                self.playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
             } else {
                 popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
             }
@@ -113,6 +116,9 @@ public final class PlayerViewController: UIViewController {
                 
                 player?.replaceNewURL(with: url)
                 loadEpisode(with: model.getCurrentEpisode())
+                
+                self.isPlaying = true
+                self.playButton.setImage(UIImage(named: "pause_hollow"), for: .normal)
             } else {
                 popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
             }
@@ -188,6 +194,8 @@ extension PlayerViewController {
         if  let duration = player?.playerItem?.duration
             {
             let totalSecond = CMTimeGetSeconds(duration)
+            
+            print("🐷🐷🐷🐷🐷🐷🐷🐷🐷" + String(describing: slider.value) + "🐷🐷🐷🐷🐷🐷🐷🐷🐷")
             
             let value = (slider.value) * Float(totalSecond)
             let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
