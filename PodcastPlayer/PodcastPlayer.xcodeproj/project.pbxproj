@@ -226,13 +226,13 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		716B646525F1BD3D00032560 /* Objective */ = {
+		716B646525F1BD3D00032560 /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
 				716B646725F1BD9200032560 /* AudibleProtocol.h */,
 				716B646625F1BD9200032560 /* PodcastPlayer-Bridging-Header.h */,
 			);
-			path = Objective;
+			path = "Objective-C";
 			sourceTree = "<group>";
 		};
 		7183AAB525E764A300E1AD98 = {
@@ -298,7 +298,7 @@
 			children = (
 				7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */,
 				7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */,
-				716B646525F1BD3D00032560 /* Objective */,
+				716B646525F1BD3D00032560 /* Objective-C */,
 			);
 			path = AudioPlayerFeature;
 			sourceTree = "<group>";
@@ -824,7 +824,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-HeZhiOA.PodcastPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/AudioPlayerFeature/Objective/PodcastPlayer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/AudioPlayerFeature/Objective-C/PodcastPlayer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -847,7 +847,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-HeZhiOA.PodcastPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/AudioPlayerFeature/Objective/PodcastPlayer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/AudioPlayerFeature/Objective-C/PodcastPlayer-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
