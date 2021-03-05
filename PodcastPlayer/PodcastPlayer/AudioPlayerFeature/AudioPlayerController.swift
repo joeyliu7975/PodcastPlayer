@@ -15,9 +15,7 @@ public final class AudioPlayerController {
                     
             player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { (CMTime) -> Void in
 
-                let isReadyToPlay = self.isReadyToPlay(status: player.currentItem?.status)
-                
-                if isReadyToPlay {
+                if player.currentItem?.status == .readyToPlay {
                     if self.totalDuration == nil {
                         self.getTotalDuration(currentPlayingItem: player.currentItem) { [weak self] (totalDuration) in
                             self?.totalDuration = totalDuration
@@ -59,7 +57,7 @@ public final class AudioPlayerController {
 }
 
 extension AudioPlayerController {
-    private func configure(url: URL) {
+    private func configure(url: URL, completion: @escaping () -> Void) {
             //2. Create AVPlayer object
             asset = AVAsset(url: url)
             
@@ -67,18 +65,20 @@ extension AudioPlayerController {
             
             player = AVPlayer(playerItem: playerItem)
             
-            player?.play()
+            completion()
     }
 
     // 重新換新的 url
     func replaceNewURL(with url: URL) {
         resetPlayer()
         
-        self.configure(url: url)
+        self.configure(url: url) { [weak self] in
+            self?.play()
+        }
     }
     
     func resetPlayer() {
-        player?.pause()
+        pause()
         asset = nil
         playerItem = nil
         player = nil
@@ -86,17 +86,8 @@ extension AudioPlayerController {
 }
 
 extension AudioPlayerController {
-    //MARK: #1. Check player currentItem's playing status
-    private func isReadyToPlay(status: AVPlayerItem.Status?) -> Bool {
-        switch status {
-        case .readyToPlay:
-            return true
-        default:
-            return false
-        }
-    }
     
-    //MARK: #2. Get total duration
+    //MARK: #1. Get total duration
     private func getTotalDuration(currentPlayingItem: AVPlayerItem?,_ completion: (Float64) -> Void) {
         guard
             let playingItem = currentPlayingItem else { return }
@@ -137,6 +128,5 @@ extension AudioPlayerController: EpisodeSoundLoader {
     public func load(with soundURL: URL) {
         resetPlayer()
         replaceNewURL(with: soundURL)
-        print(soundURL)
     }
 }

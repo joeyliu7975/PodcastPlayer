@@ -41,7 +41,7 @@
                     <color key="tintColor" red="0.39215686274509803" green="0.82745098039215681" blue="0.92549019607843142" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <state key="normal" image="pause_hollow"/>
                     <connections>
-                        <action selector="clickButton:" destination="-1" eventType="touchUpInside" id="HKA-Iq-VpA"/>
+                        <action selector="pressPlay:" destination="-1" eventType="touchUpInside" id="wUW-0E-Q7s"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRe-At-oMK" userLabel="fastForwardButton">
@@ -51,7 +51,7 @@
                     </constraints>
                     <state key="normal" title="Button" image="fast-forward-button"/>
                     <connections>
-                        <action selector="clickButton:" destination="-1" eventType="touchUpInside" id="VAy-9r-oNY"/>
+                        <action selector="pressNextEP:" destination="-1" eventType="touchUpInside" id="Db5-Yu-jXo"/>
                     </connections>
                 </button>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="dIX-tH-ray">
@@ -64,7 +64,7 @@
                     </constraints>
                     <state key="normal" title="Button" image="rewind-option"/>
                     <connections>
-                        <action selector="clickButton:" destination="-1" eventType="touchUpInside" id="hnu-qn-CyS"/>
+                        <action selector="pressPreviousEP:" destination="-1" eventType="touchUpInside" id="P4Y-mZ-u6d"/>
                     </connections>
                 </button>
             </subviews>

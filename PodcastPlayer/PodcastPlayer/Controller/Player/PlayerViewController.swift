@@ -42,47 +42,40 @@ public final class PlayerViewController: UIViewController {
         trackDuration()
     }
     
-    @IBAction func clickButton(_ sender: UIButton) {
-        switch sender {
-        case playButton:
-            
-            playerState.toggle()
-            
-            switch playerState {
-            case .playing:
-                playButton.setImage(UIImage.pauseHollow, for: .normal)
-                delegate?.play()
-            case .stopped:
-                playButton.setImage(UIImage.playHollow, for: .normal)
-                delegate?.pause()
+    @IBAction func pressPlay(_ sender: UIButton) {
+        playerState.toggle()
+        playerShouldPlay(with: playerState)
+    }
+    
+    @IBAction func pressNextEP(_ sender: UIButton) {
+        modelController?.getEpisode(type: .checkNextEP, completion: { [weak self] (result) in
+            switch result {
+            case let .success((episode, url)):
+                self?.loadEpisode(with: episode)
+                self?.delegate?.load(with: url)
+                
+                self?.playerState = .playing
+                
+                self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
+                
+            case let .failure(error):
+                self?.showAlert(withError: error, state: .checkNextEP)
             }
-        case nextEPButton:
-            modelController?.getEpisode(type: .checkNextEP, completion: { [weak self] (result) in
-                switch result {
-                case let .success((episode, url)):
-                    self?.loadEpisode(with: episode)
-                    self?.delegate?.load(with: url)
-                    self?.playerState = .playing
-                    self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
-                case let .failure(error):
-                    self?.showAlert(withError: error, state: .checkNextEP)
-                }
-            })
-        case previousEPButton:
-            modelController?.getEpisode(type: .checkPreviousEP, completion: { [weak self] (result) in
-                switch result {
-                case let .success((episode, url)):
-                    self?.loadEpisode(with: episode)
-                    self?.delegate?.load(with: url)
-                    self?.playerState = .playing
-                    self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
-                case let .failure(error):
-                    self?.showAlert(withError: error, state: .checkPreviousEP)
-                }
-            })
-        default:
-            break
-        }
+        })
+    }
+    
+    @IBAction func pressPreviousEP(_ sender: UIButton) {
+        modelController?.getEpisode(type: .checkPreviousEP, completion: { [weak self] (result) in
+            switch result {
+            case let .success((episode, url)):
+                self?.loadEpisode(with: episode)
+                self?.delegate?.load(with: url)
+                self?.playerState = .playing
+                self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
+            case let .failure(error):
+                self?.showAlert(withError: error, state: .checkPreviousEP)
+            }
+        })
     }
     
     deinit {
@@ -126,6 +119,17 @@ extension PlayerViewController {
         
         delegate?.update(episodeCurrentDurationWith: value)
     }
+    
+    fileprivate func playerShouldPlay(with state: PlayerState) {
+        switch state {
+        case .playing:
+            playButton.setImage(UIImage.pauseHollow, for: .normal)
+            delegate?.play()
+        case .stopped:
+            playButton.setImage(UIImage.playHollow, for: .normal)
+            delegate?.pause()
+        }
+    }
 }
 // MARK: Handle user event
 private extension PlayerViewController {
@@ -140,15 +144,12 @@ private extension PlayerViewController {
             default:
                 popAlert(title: "提醒", message: "當前的 Podcast 出現異常", actionTitle: "確認")
             }
-            
-            playButton.setImage(UIImage.playHollow, for: .normal)
         case .noSoundURL:
-            popAlert(title: "錯誤", message: "音檔缺失", actionTitle: "確認")
-            playButton.setImage(UIImage.playHollow, for: .normal)
+            popAlert(title: "錯誤", message: "沒有音檔", actionTitle: "確認")
         }
         
-        delegate?.pause()
         playerState = .stopped
+        playerShouldPlay(with: playerState)
     }
 }
 
