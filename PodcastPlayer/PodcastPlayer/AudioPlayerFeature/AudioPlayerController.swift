@@ -11,13 +11,13 @@ import AVFoundation
 public final class AudioPlayerController {
     private(set) var player:AVPlayer?
     
-    var timeObserver: Any?
+    private var timeObserver: Any?
     
-    var isSeekInProgress = false
+    private var isSeekInProgress = false
     
-    var playerCurrentItemStatus: AVPlayerItem.Status = .unknown
+    private var playerCurrentItemStatus: AVPlayerItem.Status = .unknown
     
-    var chaseTime: CMTime = .zero
+    private var chaseTime: CMTime = .zero
     
     public var trackDuration: ((Float64, Float64) -> Void)?
     
@@ -31,52 +31,14 @@ public final class AudioPlayerController {
 }
 
 extension AudioPlayerController {
-    private func configure(url: URL, completion: @escaping () -> Void) {
-        let asset = AVAsset(url: url)
-        
-        let playerItem = AVPlayerItem(asset: asset)
-        
-        player = AVPlayer(playerItem: playerItem)
-        
-        completion()
-    }
-    
     func resetPlayer() {
         removeObserver()
         player = nil
         timeObserver = nil
     }
-    
-    func addObserver() {
-        guard let player = player else { return }
-        
-        self.timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
-            
-            self?.playerCurrentItemStatus = player.currentItem?.status ?? .unknown
-            
-            if player.currentItem?.status == .readyToPlay,
-               let duration = player.currentItem?.duration {
-                let totalDuration = CMTimeGetSeconds(duration)
-                let currentDuration = CMTimeGetSeconds(player.currentTime())
-                
-                if currentDuration == totalDuration {
-                    self?.playNextEP?()
-                } else {
-                    self?.trackDuration?(currentDuration, totalDuration)
-                }
-            } 
-        }
-    }
-    
-    func removeObserver() {
-        player?.currentItem?.cancelPendingSeeks()
-        player?.currentItem?.asset.cancelLoading()
-        player?.removeTimeObserver(timeObserver!)
-    }
 }
 
 extension AudioPlayerController {
-    
     //MARK: #1. Get total duration
     private func getTotalDuration(currentPlayingItem: AVPlayerItem?,_ completion: (Float64) -> Void) {
         guard
@@ -113,10 +75,10 @@ extension AudioPlayerController: EpisodeProgressTracking {
 }
 
 //MARK: Apple Answer to handle AVPlayer seekTime:
-extension AudioPlayerController {
+private extension AudioPlayerController {
     func stopPlayingAndSeekSmoothlyToTime(newChaseTime:CMTime)
     {
-        player?.pause()
+        pause()
         
         if CMTimeCompare(newChaseTime, chaseTime) != 0 {
             chaseTime = newChaseTime
@@ -150,6 +112,46 @@ extension AudioPlayerController {
             }
         })
     }
+    // MARK: #Configuration:
+    func configure(url: URL, completion: @escaping () -> Void) {
+        let asset = AVAsset(url: url)
+        
+        let playerItem = AVPlayerItem(asset: asset)
+        
+        player = AVPlayer(playerItem: playerItem)
+        
+        completion()
+    }
+    // MARK: #Add Observer
+    func addObserver() {
+        guard let player = player else { return }
+        
+        self.timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
+            
+            self?.playerCurrentItemStatus = player.currentItem?.status ?? .unknown
+            
+            if player.currentItem?.status == .readyToPlay,
+               let duration = player.currentItem?.duration {
+                let totalDuration = CMTimeGetSeconds(duration)
+                let currentDuration = CMTimeGetSeconds(player.currentTime())
+                
+                if currentDuration == totalDuration {
+                    self?.playNextEP?()
+                } else {
+                    self?.trackDuration?(currentDuration, totalDuration)
+                }
+            }
+        }
+    }
+    // MARK: #Remove Observer
+    func removeObserver() {
+        player?.currentItem?.cancelPendingSeeks()
+        player?.currentItem?.asset.cancelLoading()
+        
+        if let observer = timeObserver {
+            player?.removeTimeObserver(observer)
+        }
+    }
 }
 
 extension AudioPlayerController: EpisodeSoundLoader {
@@ -161,9 +163,9 @@ extension AudioPlayerController: EpisodeSoundLoader {
     }
     
     // 重新換新的 url
-    public func replaceNewURL(_ url: URL) {
+    public func replace(url: URL) {
         pause()
-        
+    
         let asset = AVAsset(url: url)
         let playerItem = AVPlayerItem(asset: asset)
         

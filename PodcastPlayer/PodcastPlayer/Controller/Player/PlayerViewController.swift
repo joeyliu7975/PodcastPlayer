@@ -158,7 +158,7 @@ extension PlayerViewController {
     // #3. Change podcast url
     func changeEpisode(episode: Episode, url: URL) {
         renderInterface(with: episode)
-        delegate?.replaceNewURL(url)
+        delegate?.replace(url: url)
         playerState = .playing
     }
 }
