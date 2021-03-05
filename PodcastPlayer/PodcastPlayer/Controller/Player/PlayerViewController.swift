@@ -130,8 +130,10 @@ private extension PlayerViewController {
         
         loadEpisode(event:.checkCurrentEP)
     }
-    
-    // MARK: # Get the right episode and soundURL from Model Layer
+}
+   //MARK: Episode Loading:
+extension PlayerViewController {
+    // #1. Get the right episode and soundURL from Model Layer
     func loadEpisode(event: TouchEvent) {
         modelController?.getEpisode(type: event, completion: { [weak self] (result) in
             switch result {
@@ -143,7 +145,7 @@ private extension PlayerViewController {
             }
         })
     }
-    // MARK: #Handle episode and url depends on user's touchEvent
+    // #2. Handle episode and url depends on user's touchEvent
     func handle(event: TouchEvent, episode: Episode, url: URL)  {
         switch event {
         case .checkCurrentEP:
@@ -153,7 +155,7 @@ private extension PlayerViewController {
             changeEpisode(episode: episode, url: url)
         }
     }
-    // MARK: - Change podcast url
+    // #3. Change podcast url
     func changeEpisode(episode: Episode, url: URL) {
         renderInterface(with: episode)
         delegate?.replaceNewURL(url)
@@ -164,12 +166,19 @@ private extension PlayerViewController {
 // MARK: Handle Alert event
 private extension PlayerViewController {
     func showAlert(with error: PlayerModelController.Error, event: PlayerModelController.EventType) {
+        guard error != .noSoundURL else {
+            self.popAlert(title: "提醒", message: "無法讀取音檔", actionTitle: "確認")
+            return
+        }
         
-        let alert = PlayerModelController.makeAlert(error: error, event: event)
-        
-        let (title, message, actionTitle) = (alert.title, alert.message, alert.actionTitle)
-        
-        popAlert(title: title, message: message, actionTitle: actionTitle)
+        switch event {
+        case .checkCurrentEP:
+            popAlert(title: "提醒", message: "當集 Podcast 讀取失敗", actionTitle: "確認")
+        case .checkNextEP:
+            popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
+        case .checkPreviousEP:
+            popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+        }
     }
 }
 

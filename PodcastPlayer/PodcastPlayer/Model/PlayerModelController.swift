@@ -8,14 +8,14 @@
 import Foundation
 
 public final class PlayerModelController: EpisodeManipulatible {
-    typealias Result = EpisodeManipulatible.Result
-    typealias TouchEvent = EventType
+    public typealias Result = EpisodeManipulatible.Result
+    public typealias TouchEvent = EventType
     // MARK: - Episode:
     private(set) var episodes:[Episode] = []
         
-    var currentIndex: Int
+    private var currentIndex: Int
     
-    init(episodes:[Episode], currentIndex: Int) {
+    public init(episodes:[Episode], currentIndex: Int) {
         self.episodes = episodes
         self.currentIndex = currentIndex
     }
@@ -29,7 +29,7 @@ public final class PlayerModelController: EpisodeManipulatible {
         case checkCurrentEP, checkPreviousEP, checkNextEP
     }
     
-    func getEpisode(type: TouchEvent, completion: @escaping (Result) -> Void) {
+    public func getEpisode(type: TouchEvent, completion: @escaping (Result) -> Void) {
         completion(handle(type: type, currentIndex: currentIndex))
     }
 }
@@ -79,33 +79,9 @@ private extension PlayerModelController {
     }
 }
 
-extension PlayerModelController {
-    public struct Alert {
-        let title: String
-        let message: String
-        let actionTitle: String
-    }
-    
-    static func makeAlert(error errorType: Error, event: EventType) -> Alert {
-        return (errorType == .noSoundURL) ?
-        Alert(title: "提醒", message: "無法讀取音檔", actionTitle: "確認") :
-        PlayerModelController.checkEvent(event)
-    }
-    
-    private static func checkEvent(_ event: EventType) -> Alert {
-        switch event {
-        case .checkCurrentEP:
-            return Alert(title: "提醒", message: "當前的 Podcast 出現異常", actionTitle: "確認")
-        case .checkPreviousEP:
-            return Alert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
-        case .checkNextEP:
-            return Alert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
-        }
-    }
-}
-
-protocol EpisodeManipulatible {
+public protocol EpisodeManipulatible {
     associatedtype TouchEvent
+    
     typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>
     
     func getEpisode(type: TouchEvent, completion: @escaping (Result) -> Void)
