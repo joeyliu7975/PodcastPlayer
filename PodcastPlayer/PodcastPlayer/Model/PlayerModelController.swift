@@ -34,6 +34,33 @@ public final class PlayerModelController: EpisodeManipulatible {
     }
 }
 
+extension PlayerModelController {
+    public struct Alert {
+        let title: String
+        let message: String
+        let actionTitle: String
+    }
+    
+    static func makeAlert(error errorType: Error, event: UserEvent) -> Alert {
+        if errorType == .noSoundURL {
+            return Alert(title: "提醒", message: "無法讀取音檔", actionTitle: "確認")
+        } else {
+            return PlayerModelController.checkEvent(event)
+        }
+    }
+    
+    private static func checkEvent(_ event: UserEvent) -> Alert {
+        switch event {
+        case .checkCurrentEP:
+            return Alert(title: "提醒", message: "當前的 Podcast 出現異常", actionTitle: "確認")
+        case .checkPreviousEP:
+            return Alert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
+        case .checkNextEP:
+            return Alert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+        }
+    }
+}
+
 protocol EpisodeManipulatible {
     associatedtype EventType
     typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>

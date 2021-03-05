@@ -37,7 +37,6 @@ public final class PlayerViewController: UIViewController {
         
         setup()
         firstTimeLoadEpisode()
-        // # 初始化 Player 的設定1
         configurePlayer()
         trackDuration()
     }
@@ -51,12 +50,12 @@ public final class PlayerViewController: UIViewController {
         modelController?.getEpisode(type: .checkNextEP, completion: { [weak self] (result) in
             switch result {
             case let .success((episode, url)):
-                self?.loadEpisode(with: episode)
+                self?.renderInterface(with: episode)
                 self?.delegate?.replaceNewURL(url)
                 self?.playerState = .playing
                 self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
             case let .failure(error):
-                self?.showAlert(withError: error, state: .checkNextEP)
+                self?.showAlert(with: error, event: .checkNextEP)
             }
         })
     }
@@ -65,12 +64,12 @@ public final class PlayerViewController: UIViewController {
         modelController?.getEpisode(type: .checkPreviousEP, completion: { [weak self] (result) in
             switch result {
             case let .success((episode, url)):
-                self?.loadEpisode(with: episode)
+                self?.renderInterface(with: episode)
                 self?.delegate?.replaceNewURL(url)
                 self?.playerState = .playing
                 self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
             case let .failure(error):
-                self?.showAlert(withError: error, state: .checkPreviousEP)
+                self?.showAlert(with: error, event: .checkPreviousEP)
             }
         })
     }
@@ -82,12 +81,7 @@ public final class PlayerViewController: UIViewController {
 }
 
 extension PlayerViewController {
-    func loadEpisode(with episode: Episode?) {
-        guard let episode = episode else {
-            showAlert(withError: PlayerModelController.Error.indexOutOfRange, state: .checkCurrentEP)
-            return
-        }
-        
+    func renderInterface(with episode: Episode) {
         episodeImageView.kf.setImage(with: episode.coverImage)
         episodeLabel.text = episode.title
     }
@@ -98,32 +92,33 @@ extension PlayerViewController {
             self?.slider.value = Float(value)
         }
         
-        player?.askForNextEP = { [weak self] in
+        player?.playNextEP = { [weak self] in
             self?.modelController?.getEpisode(type: .checkNextEP, completion: { (result) in
                 switch result {
                 case let .success((episode, url)):
                     self?.delegate?.replaceNewURL(url)
-                    self?.loadEpisode(with: episode)
+                    self?.renderInterface(with: episode)
                 case let .failure(error):
-                    self?.showAlert(withError: error, state: .checkNextEP)
+                    self?.showAlert(with: error, event: .checkNextEP)
                 }
             })
         }
         
-        player?.refreshProgress = { [weak self] isReadyToPlay in
+        player?.refresh = { [weak self] isReadyToPlay in
+            guard let self = self else { return }
             if isReadyToPlay {
-                self?.playerShouldPlay(with:.playing)
+                self.playerState = .playing
             } else {
-                self?.playerShouldPlay(with:.stopped)
+                self.playerState = .stopped
             }
+            
+            self.playerShouldPlay(with: self.playerState)
         }
     }
     
     //MARK: Handle Slide Change:
-    @objc func handleSlideChange() {
-        let value = slider.value
-        
-        delegate?.update(episodeCurrentDurationWith: value)
+    @objc func handleSlideChange() {        
+        delegate?.update(episodeCurrentDurationWith: slider.value)
     }
     
     @objc func slideIsDragging() {
@@ -143,20 +138,13 @@ extension PlayerViewController {
 }
 // MARK: Handle user event
 private extension PlayerViewController {
-    func showAlert(withError errorType: PlayerModelController.Error, state: PlayerModelController.EventType) {
-        switch errorType {
-        case .indexOutOfRange:
-            switch state {
-            case .checkNextEP:
-                popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
-            case .checkPreviousEP:
-                popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
-            default:
-                popAlert(title: "提醒", message: "當前的 Podcast 出現異常", actionTitle: "確認")
-            }
-        case .noSoundURL:
-            popAlert(title: "錯誤", message: "沒有音檔", actionTitle: "確認")
-        }
+    func showAlert(with error: PlayerModelController.Error, event: PlayerModelController.EventType) {
+        
+        let alert = PlayerModelController.makeAlert(error: error, event: event)
+        
+        let (title, message, actionTitle) = (alert.title, alert.message, alert.actionTitle)
+        
+        popAlert(title: title, message: message, actionTitle: actionTitle)
         
         playerState = .stopped
         playerShouldPlay(with: playerState)
@@ -201,9 +189,9 @@ private extension PlayerViewController {
         modelController?.getEpisode(type: .checkCurrentEP, completion: { [weak self] (result) in
             switch result {
             case let .success((episode, _)):
-                self?.loadEpisode(with: episode)
+                self?.renderInterface(with: episode)
             case let .failure(error):
-                self?.showAlert(withError: error, state: .checkCurrentEP)
+                self?.showAlert(with: error, event: .checkCurrentEP)
             }
         })
     }

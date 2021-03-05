@@ -10,27 +10,20 @@ import AVFoundation
 
 public final class AudioPlayerController {
     private(set) var player:AVPlayer?
-    private(set) var asset: AVAsset?
-    private(set) var playerItem: AVPlayerItem?
     
     var timeObserver: Any?
     
-     var currentDuration: Float64? {
-        didSet {
-            guard let currentDuration = currentDuration,
-                  let totalDuration = totalDuration else { return }
-            
-            trackDuration?(currentDuration,totalDuration)
-        }
-    }
+    var isSeekInProgress = false
     
-    private(set) var totalDuration: Float64?
+    var playerCurrentItemStatus: AVPlayerItem.Status = .unknown
+    
+    var chaseTime: CMTime = .zero
     
     public var trackDuration: ((Float64, Float64) -> Void)?
     
-    public var askForNextEP:(() -> Void)?
+    public var playNextEP:(() -> Void)?
     
-    public var refreshProgress: ((Bool) -> Void)?
+    public var refresh: ((Bool) -> Void)?
     
     static var shared = AudioPlayerController()
     
@@ -39,20 +32,17 @@ public final class AudioPlayerController {
 
 extension AudioPlayerController {
     private func configure(url: URL, completion: @escaping () -> Void) {
-            //2. Create AVPlayer object
-            asset = AVAsset(url: url)
-            
-            playerItem = AVPlayerItem(asset: asset!)
-            
-            player = AVPlayer(playerItem: playerItem)
-            
-            completion()
+        let asset = AVAsset(url: url)
+        
+        let playerItem = AVPlayerItem(asset: asset)
+        
+        player = AVPlayer(playerItem: playerItem)
+        
+        completion()
     }
     
     func resetPlayer() {
         removeObserver()
-        asset = nil
-        playerItem = nil
         player = nil
         timeObserver = nil
     }
@@ -61,21 +51,18 @@ extension AudioPlayerController {
         guard let player = player else { return }
         
         self.timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
-
-            let readyToPlay = player.currentItem?.status == .readyToPlay
             
-            if readyToPlay {
-                if self?.totalDuration == nil {
-                    self?.getTotalDuration(currentPlayingItem: player.currentItem) { [weak self] (totalDuration) in
-                        self?.totalDuration = totalDuration
-                    }
-                }
+            self?.playerCurrentItemStatus = player.currentItem?.status ?? .unknown
+            
+            if player.currentItem?.status == .readyToPlay,
+               let duration = player.currentItem?.duration {
+                let totalDuration = CMTimeGetSeconds(duration)
+                let currentDuration = CMTimeGetSeconds(player.currentTime())
                 
-                let time : Float64 = CMTimeGetSeconds(player.currentTime())
-                self?.currentDuration = time
-                
-                if self?.totalDuration == self?.currentDuration {
-                    self?.askForNextEP?()
+                if currentDuration == totalDuration {
+                    self?.playNextEP?()
+                } else {
+                    self?.trackDuration?(currentDuration, totalDuration)
                 }
             } 
         }
@@ -86,7 +73,6 @@ extension AudioPlayerController {
         player?.currentItem?.asset.cancelLoading()
         player?.removeTimeObserver(timeObserver!)
     }
-
 }
 
 extension AudioPlayerController {
@@ -113,23 +99,56 @@ extension AudioPlayerController: PlayPauseProtocol {
 }
 
 extension AudioPlayerController: EpisodeProgressTracking {
-    public func update(episodeCurrentDurationWith value: Float) {
-        if let duration = playerItem?.duration
-            {
-            
+    public func update(episodeCurrentDurationWith sliderValue: Float) {
+        if let duration = player?.currentItem?.duration {
             let totalSecond = CMTimeGetSeconds(duration)
             
-            let value = (value) * Float(totalSecond)
+            let value = (sliderValue) * Float(totalSecond)
             
             let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
             
-            player?.seek(to: seekTime, completionHandler: { [weak self](_) in
-                // Do something here
-                let readyToPlay = self?.player?.currentItem?.status == .readyToPlay
-                
-                self?.refreshProgress?(readyToPlay)
-            })
+            stopPlayingAndSeekSmoothlyToTime(newChaseTime: seekTime)
         }
+    }
+}
+
+//MARK: Apple Answer to handle AVPlayer seekTime:
+extension AudioPlayerController {
+    func stopPlayingAndSeekSmoothlyToTime(newChaseTime:CMTime)
+    {
+        player?.pause()
+        
+        if CMTimeCompare(newChaseTime, chaseTime) != 0 {
+            chaseTime = newChaseTime
+            
+            if !isSeekInProgress {
+                trySeekToChaseTime()
+            }
+        }
+    }
+    
+    func trySeekToChaseTime() {
+        if playerCurrentItemStatus == .unknown
+        {
+            // wait until item becomes ready (KVO player.currentItem.status)
+        } else if playerCurrentItemStatus == .readyToPlay {
+            actuallySeekToTime()
+        }
+    }
+    
+    func actuallySeekToTime() {
+        isSeekInProgress = true
+        let seekTimeInProgress = chaseTime
+        
+        player?.seek(to: seekTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero, completionHandler: { (isFinished) in
+            if CMTimeCompare(seekTimeInProgress, self.chaseTime) == 0 {
+                self.isSeekInProgress = false
+                self.refresh?(!self.isSeekInProgress)
+            } else {
+                self.refresh?(!self.isSeekInProgress)
+                self.trySeekToChaseTime()
+            }
+        })
     }
 }
 
@@ -144,9 +163,11 @@ extension AudioPlayerController: EpisodeSoundLoader {
     // 重新換新的 url
     public func replaceNewURL(_ url: URL) {
         pause()
-        self.asset = AVAsset(url: url)
-        self.playerItem = AVPlayerItem(asset: asset!)
-        self.player?.replaceCurrentItem(with: playerItem)
+        
+        let asset = AVAsset(url: url)
+        let playerItem = AVPlayerItem(asset: asset)
+        
+        player?.replaceCurrentItem(with: playerItem)
         
         play()
     }
