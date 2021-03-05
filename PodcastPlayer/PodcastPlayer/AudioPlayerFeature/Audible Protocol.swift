@@ -19,4 +19,5 @@ public protocol EpisodeProgressTracking: AnyObject {
 // Audio 進度調整和前一集、下一集
 public protocol EpisodeSoundLoader: AnyObject {
     func load(with soundURL: URL)
+    func replaceNewURL(_ url: URL)
 }

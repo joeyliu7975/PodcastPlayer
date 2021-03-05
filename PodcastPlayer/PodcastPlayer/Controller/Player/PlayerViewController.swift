@@ -52,12 +52,9 @@ public final class PlayerViewController: UIViewController {
             switch result {
             case let .success((episode, url)):
                 self?.loadEpisode(with: episode)
-                self?.delegate?.load(with: url)
-                
+                self?.delegate?.replaceNewURL(url)
                 self?.playerState = .playing
-                
                 self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
-                
             case let .failure(error):
                 self?.showAlert(withError: error, state: .checkNextEP)
             }
@@ -69,7 +66,7 @@ public final class PlayerViewController: UIViewController {
             switch result {
             case let .success((episode, url)):
                 self?.loadEpisode(with: episode)
-                self?.delegate?.load(with: url)
+                self?.delegate?.replaceNewURL(url)
                 self?.playerState = .playing
                 self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
             case let .failure(error):
@@ -77,9 +74,10 @@ public final class PlayerViewController: UIViewController {
             }
         })
     }
-    
+
     deinit {
-        delegate?.pause()
+        player?.resetPlayer()
+        player = nil
     }
 }
 
@@ -104,12 +102,20 @@ extension PlayerViewController {
             self?.modelController?.getEpisode(type: .checkNextEP, completion: { (result) in
                 switch result {
                 case let .success((episode, url)):
-                    self?.delegate?.load(with: url)
+                    self?.delegate?.replaceNewURL(url)
                     self?.loadEpisode(with: episode)
                 case let .failure(error):
                     self?.showAlert(withError: error, state: .checkNextEP)
                 }
             })
+        }
+        
+        player?.refreshProgress = { [weak self] isReadyToPlay in
+            if isReadyToPlay {
+                self?.playerShouldPlay(with:.playing)
+            } else {
+                self?.playerShouldPlay(with:.stopped)
+            }
         }
     }
     
@@ -118,6 +124,10 @@ extension PlayerViewController {
         let value = slider.value
         
         delegate?.update(episodeCurrentDurationWith: value)
+    }
+    
+    @objc func slideIsDragging() {
+        delegate?.pause()
     }
     
     fileprivate func playerShouldPlay(with state: PlayerState) {
@@ -182,7 +192,9 @@ private extension PlayerViewController {
         slider.minimumValue = 0
         slider.value = 0
         slider.maximumValue = 1
-        slider.addTarget(self, action: #selector(handleSlideChange), for: .valueChanged)
+        
+        slider.addTarget(self, action: #selector(handleSlideChange), for: .touchUpInside)
+        slider.addTarget(self, action: #selector(slideIsDragging), for: .valueChanged)
     }
     
     func firstTimeLoadEpisode() {

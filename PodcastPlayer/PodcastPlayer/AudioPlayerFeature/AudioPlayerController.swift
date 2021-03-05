@@ -9,32 +9,11 @@ import Foundation
 import AVFoundation
 
 public final class AudioPlayerController {
-    private(set) var player:AVPlayer? {
-        didSet {
-            guard let player = player else { return }
-                    
-            player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { (CMTime) -> Void in
-
-                if player.currentItem?.status == .readyToPlay {
-                    if self.totalDuration == nil {
-                        self.getTotalDuration(currentPlayingItem: player.currentItem) { [weak self] (totalDuration) in
-                            self?.totalDuration = totalDuration
-                        }
-                    }
-                    
-                    let time : Float64 = CMTimeGetSeconds(player.currentTime())
-                    self.currentDuration = time
-                    
-                    if self.totalDuration == self.currentDuration {
-                        self.askForNextEP?()
-                    }
-                }
-            }
-        }
-    }
-    
+    private(set) var player:AVPlayer?
     private(set) var asset: AVAsset?
     private(set) var playerItem: AVPlayerItem?
+    
+    var timeObserver: Any?
     
      var currentDuration: Float64? {
         didSet {
@@ -50,6 +29,8 @@ public final class AudioPlayerController {
     public var trackDuration: ((Float64, Float64) -> Void)?
     
     public var askForNextEP:(() -> Void)?
+    
+    public var refreshProgress: ((Bool) -> Void)?
     
     static var shared = AudioPlayerController()
     
@@ -67,22 +48,45 @@ extension AudioPlayerController {
             
             completion()
     }
-
-    // 重新換新的 url
-    func replaceNewURL(with url: URL) {
-        resetPlayer()
-        
-        self.configure(url: url) { [weak self] in
-            self?.play()
-        }
-    }
     
     func resetPlayer() {
-        pause()
+        removeObserver()
         asset = nil
         playerItem = nil
         player = nil
+        timeObserver = nil
     }
+    
+    func addObserver() {
+        guard let player = player else { return }
+        
+        self.timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
+
+            let readyToPlay = player.currentItem?.status == .readyToPlay
+            
+            if readyToPlay {
+                if self?.totalDuration == nil {
+                    self?.getTotalDuration(currentPlayingItem: player.currentItem) { [weak self] (totalDuration) in
+                        self?.totalDuration = totalDuration
+                    }
+                }
+                
+                let time : Float64 = CMTimeGetSeconds(player.currentTime())
+                self?.currentDuration = time
+                
+                if self?.totalDuration == self?.currentDuration {
+                    self?.askForNextEP?()
+                }
+            } 
+        }
+    }
+    
+    func removeObserver() {
+        player?.currentItem?.cancelPendingSeeks()
+        player?.currentItem?.asset.cancelLoading()
+        player?.removeTimeObserver(timeObserver!)
+    }
+
 }
 
 extension AudioPlayerController {
@@ -112,13 +116,18 @@ extension AudioPlayerController: EpisodeProgressTracking {
     public func update(episodeCurrentDurationWith value: Float) {
         if let duration = playerItem?.duration
             {
+            
             let totalSecond = CMTimeGetSeconds(duration)
             
             let value = (value) * Float(totalSecond)
+            
             let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
             
-            player?.seek(to: seekTime, completionHandler: { (_) in
+            player?.seek(to: seekTime, completionHandler: { [weak self](_) in
                 // Do something here
+                let readyToPlay = self?.player?.currentItem?.status == .readyToPlay
+                
+                self?.refreshProgress?(readyToPlay)
             })
         }
     }
@@ -126,7 +135,19 @@ extension AudioPlayerController: EpisodeProgressTracking {
 
 extension AudioPlayerController: EpisodeSoundLoader {
     public func load(with soundURL: URL) {
-        resetPlayer()
-        replaceNewURL(with: soundURL)
+        configure(url: soundURL) { [weak self] in
+            self?.addObserver()
+            self?.play()
+        }
+    }
+    
+    // 重新換新的 url
+    public func replaceNewURL(_ url: URL) {
+        pause()
+        self.asset = AVAsset(url: url)
+        self.playerItem = AVPlayerItem(asset: asset!)
+        self.player?.replaceCurrentItem(with: playerItem)
+        
+        play()
     }
 }
