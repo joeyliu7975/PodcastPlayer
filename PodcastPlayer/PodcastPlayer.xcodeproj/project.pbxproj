@@ -235,6 +235,13 @@
 			path = "Objective-C";
 			sourceTree = "<group>";
 		};
+		716B647525F1CC2C00032560 /* Objective-C */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Objective-C";
+			sourceTree = "<group>";
+		};
 		7183AAB525E764A300E1AD98 = {
 			isa = PBXGroup;
 			children = (
@@ -308,6 +315,7 @@
 			children = (
 				718C9D7A25EC9ED500B864E4 /* EpisodeFeedCellViewModel.swift */,
 				716B646025F0EC3A00032560 /* PlayerModelController.swift */,
+				716B647525F1CC2C00032560 /* Objective-C */,
 			);
 			path = Model;
 			sourceTree = "<group>";
