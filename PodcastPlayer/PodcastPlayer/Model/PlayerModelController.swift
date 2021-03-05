@@ -8,11 +8,11 @@
 import Foundation
 
 public final class PlayerModelController: EpisodeManipulatible {
-    typealias EventType = UserEvent
     typealias Result = EpisodeManipulatible.Result
+    typealias TouchEvent = EventType
     // MARK: - Episode:
     private(set) var episodes:[Episode] = []
-    
+        
     var currentIndex: Int
     
     init(episodes:[Episode], currentIndex: Int) {
@@ -25,53 +25,19 @@ public final class PlayerModelController: EpisodeManipulatible {
         case noSoundURL
     }
     
-    public enum UserEvent {
+    public enum EventType {
         case checkCurrentEP, checkPreviousEP, checkNextEP
     }
     
-    func getEpisode(type: EventType, completion: @escaping (Result) -> Void) {
+    func getEpisode(type: TouchEvent, completion: @escaping (Result) -> Void) {
         completion(handle(type: type, currentIndex: currentIndex))
     }
-}
-
-extension PlayerModelController {
-    public struct Alert {
-        let title: String
-        let message: String
-        let actionTitle: String
-    }
-    
-    static func makeAlert(error errorType: Error, event: UserEvent) -> Alert {
-        if errorType == .noSoundURL {
-            return Alert(title: "提醒", message: "無法讀取音檔", actionTitle: "確認")
-        } else {
-            return PlayerModelController.checkEvent(event)
-        }
-    }
-    
-    private static func checkEvent(_ event: UserEvent) -> Alert {
-        switch event {
-        case .checkCurrentEP:
-            return Alert(title: "提醒", message: "當前的 Podcast 出現異常", actionTitle: "確認")
-        case .checkPreviousEP:
-            return Alert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
-        case .checkNextEP:
-            return Alert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
-        }
-    }
-}
-
-protocol EpisodeManipulatible {
-    associatedtype EventType
-    typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>
-    
-    func getEpisode(type: EventType, completion: @escaping (Result) -> Void)
 }
 
 //MARK: Error Handling
 private extension PlayerModelController {
     //MARK: #1 處理使用者不同的操作，用currentIndex檢驗
-    private func handle(type: EventType, currentIndex: Int) -> Result {
+    private func handle(type: TouchEvent, currentIndex: Int) -> Result {
         var checkingIndex: Int
         
         switch type {
@@ -112,3 +78,36 @@ private extension PlayerModelController {
         return (episode, url)
     }
 }
+
+extension PlayerModelController {
+    public struct Alert {
+        let title: String
+        let message: String
+        let actionTitle: String
+    }
+    
+    static func makeAlert(error errorType: Error, event: EventType) -> Alert {
+        return (errorType == .noSoundURL) ?
+        Alert(title: "提醒", message: "無法讀取音檔", actionTitle: "確認") :
+        PlayerModelController.checkEvent(event)
+    }
+    
+    private static func checkEvent(_ event: EventType) -> Alert {
+        switch event {
+        case .checkCurrentEP:
+            return Alert(title: "提醒", message: "當前的 Podcast 出現異常", actionTitle: "確認")
+        case .checkPreviousEP:
+            return Alert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
+        case .checkNextEP:
+            return Alert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+        }
+    }
+}
+
+protocol EpisodeManipulatible {
+    associatedtype TouchEvent
+    typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>
+    
+    func getEpisode(type: TouchEvent, completion: @escaping (Result) -> Void)
+}
+

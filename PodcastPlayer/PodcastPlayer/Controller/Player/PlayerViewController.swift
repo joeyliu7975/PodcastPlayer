@@ -6,18 +6,29 @@
 //
 
 import UIKit
-import AVFoundation
+import Kingfisher
 
 public final class PlayerViewController: UIViewController {
     
     typealias Audible = (PlayPauseProtocol & EpisodeProgressTracking & EpisodeSoundLoader)
+    typealias TouchEvent = PlayerModelController.EventType
     
     private weak var player: AudioPlayerController?
     private var modelController: PlayerModelController?
     
     weak var delegate: Audible?
     
-    fileprivate var playerState: PlayerState = .playing
+    fileprivate var playerState: PlayerState = .playing {
+        didSet {
+            if playerState == .playing {
+                playButton.setImage(UIImage.pauseHollow, for: .normal)
+                delegate?.play()
+            } else {
+                playButton.setImage(UIImage.playHollow, for: .normal)
+                delegate?.pause()
+            }
+        }
+    }
     
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
@@ -36,42 +47,20 @@ public final class PlayerViewController: UIViewController {
         super.viewDidLoad()
         
         setup()
-        firstTimeLoadEpisode()
         configurePlayer()
         trackDuration()
     }
     
     @IBAction func pressPlay(_ sender: UIButton) {
         playerState.toggle()
-        playerShouldPlay(with: playerState)
     }
     
     @IBAction func pressNextEP(_ sender: UIButton) {
-        modelController?.getEpisode(type: .checkNextEP, completion: { [weak self] (result) in
-            switch result {
-            case let .success((episode, url)):
-                self?.renderInterface(with: episode)
-                self?.delegate?.replaceNewURL(url)
-                self?.playerState = .playing
-                self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
-            case let .failure(error):
-                self?.showAlert(with: error, event: .checkNextEP)
-            }
-        })
+        loadEpisode(event:.checkNextEP)
     }
     
     @IBAction func pressPreviousEP(_ sender: UIButton) {
-        modelController?.getEpisode(type: .checkPreviousEP, completion: { [weak self] (result) in
-            switch result {
-            case let .success((episode, url)):
-                self?.renderInterface(with: episode)
-                self?.delegate?.replaceNewURL(url)
-                self?.playerState = .playing
-                self?.playButton.setImage(UIImage.pauseHollow, for: .normal)
-            case let .failure(error):
-                self?.showAlert(with: error, event: .checkPreviousEP)
-            }
-        })
+        loadEpisode(event: .checkPreviousEP)
     }
 
     deinit {
@@ -93,73 +82,24 @@ extension PlayerViewController {
         }
         
         player?.playNextEP = { [weak self] in
-            self?.modelController?.getEpisode(type: .checkNextEP, completion: { (result) in
-                switch result {
-                case let .success((episode, url)):
-                    self?.delegate?.replaceNewURL(url)
-                    self?.renderInterface(with: episode)
-                case let .failure(error):
-                    self?.showAlert(with: error, event: .checkNextEP)
-                }
-            })
+            self?.loadEpisode(event: .checkNextEP)
         }
         
-        player?.refresh = { [weak self] isReadyToPlay in
+        player?.updateProgress = { [weak self] readyToPlay in
             guard let self = self else { return }
-            if isReadyToPlay {
-                self.playerState = .playing
-            } else {
-                self.playerState = .stopped
-            }
             
-            self.playerShouldPlay(with: self.playerState)
+            self.playerState = readyToPlay ? .playing : .stopped
         }
     }
     
     //MARK: Handle Slide Change:
-    @objc func handleSlideChange() {        
+    @objc func handleSlideChange() {
         delegate?.update(episodeCurrentDurationWith: slider.value)
     }
     
     @objc func slideIsDragging() {
-        delegate?.pause()
-    }
-    
-    fileprivate func playerShouldPlay(with state: PlayerState) {
-        switch state {
-        case .playing:
-            playButton.setImage(UIImage.pauseHollow, for: .normal)
-            delegate?.play()
-        case .stopped:
-            playButton.setImage(UIImage.playHollow, for: .normal)
-            delegate?.pause()
-        }
-    }
-}
-// MARK: Handle user event
-private extension PlayerViewController {
-    func showAlert(with error: PlayerModelController.Error, event: PlayerModelController.EventType) {
-        
-        let alert = PlayerModelController.makeAlert(error: error, event: event)
-        
-        let (title, message, actionTitle) = (alert.title, alert.message, alert.actionTitle)
-        
-        popAlert(title: title, message: message, actionTitle: actionTitle)
-        
         playerState = .stopped
-        playerShouldPlay(with: playerState)
-    }
-}
-
-fileprivate enum PlayerState {
-    case playing
-    case stopped
-    
-    mutating func toggle() {
-        switch self {
-        case .playing: self = .stopped
-        case .stopped: self = .playing
-        }
+        delegate?.pause()
     }
 }
 
@@ -184,28 +124,63 @@ private extension PlayerViewController {
         slider.addTarget(self, action: #selector(handleSlideChange), for: .touchUpInside)
         slider.addTarget(self, action: #selector(slideIsDragging), for: .valueChanged)
     }
-    
-    func firstTimeLoadEpisode() {
-        modelController?.getEpisode(type: .checkCurrentEP, completion: { [weak self] (result) in
-            switch result {
-            case let .success((episode, _)):
-                self?.renderInterface(with: episode)
-            case let .failure(error):
-                self?.showAlert(with: error, event: .checkCurrentEP)
-            }
-        })
-    }
         
     func configurePlayer() {
         delegate = player
         
-        modelController?.getEpisode(type: .checkCurrentEP, completion: { [weak self] (result) in
+        loadEpisode(event:.checkCurrentEP)
+    }
+    
+    // MARK: # Get the right episode and soundURL from Model Layer
+    func loadEpisode(event: TouchEvent) {
+        modelController?.getEpisode(type: event, completion: { [weak self] (result) in
             switch result {
-            case let .success((_, url)):
-                self?.delegate?.load(with: url)
-            default:
-                break
+            case let .success((episode, url)):
+                self?.handle(event: event, episode: episode, url: url)
+            case let .failure(error):
+                self?.showAlert(with: error, event: event)
+                self?.playerState = .stopped
             }
         })
+    }
+    // MARK: #Handle episode and url depends on user's touchEvent
+    func handle(event: TouchEvent, episode: Episode, url: URL)  {
+        switch event {
+        case .checkCurrentEP:
+            renderInterface(with: episode)
+            delegate?.load(with: url)
+        default:
+            changeEpisode(episode: episode, url: url)
+        }
+    }
+    // MARK: - Change podcast url
+    func changeEpisode(episode: Episode, url: URL) {
+        renderInterface(with: episode)
+        delegate?.replaceNewURL(url)
+        playerState = .playing
+    }
+}
+
+// MARK: Handle Alert event
+private extension PlayerViewController {
+    func showAlert(with error: PlayerModelController.Error, event: PlayerModelController.EventType) {
+        
+        let alert = PlayerModelController.makeAlert(error: error, event: event)
+        
+        let (title, message, actionTitle) = (alert.title, alert.message, alert.actionTitle)
+        
+        popAlert(title: title, message: message, actionTitle: actionTitle)
+    }
+}
+
+fileprivate enum PlayerState {
+    case playing
+    case stopped
+    
+    mutating func toggle() {
+        switch self {
+        case .playing: self = .stopped
+        case .stopped: self = .playing
+        }
     }
 }

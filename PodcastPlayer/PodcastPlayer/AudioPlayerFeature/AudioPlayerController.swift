@@ -23,7 +23,7 @@ public final class AudioPlayerController {
     
     public var playNextEP:(() -> Void)?
     
-    public var refresh: ((Bool) -> Void)?
+    public var updateProgress: ((Bool) -> Void)?
     
     static var shared = AudioPlayerController()
     
@@ -143,9 +143,9 @@ extension AudioPlayerController {
         player?.seek(to: seekTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero, completionHandler: { (isFinished) in
             if CMTimeCompare(seekTimeInProgress, self.chaseTime) == 0 {
                 self.isSeekInProgress = false
-                self.refresh?(!self.isSeekInProgress)
+                self.updateProgress?(!self.isSeekInProgress)
             } else {
-                self.refresh?(!self.isSeekInProgress)
+                self.updateProgress?(!self.isSeekInProgress)
                 self.trySeekToChaseTime()
             }
         })
