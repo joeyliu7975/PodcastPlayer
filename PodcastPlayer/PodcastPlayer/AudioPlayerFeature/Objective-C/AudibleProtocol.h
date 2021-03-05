@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @protocol EpisodeSoundLoader <NSObject>
-    -(void)loadWith:(NSURL)url;
+    -(void)loadWith:(NSURL *)url;
 @end
 
 NS_ASSUME_NONNULL_END

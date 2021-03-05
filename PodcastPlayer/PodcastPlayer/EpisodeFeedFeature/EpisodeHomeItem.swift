@@ -1,5 +1,5 @@
 //
-//  RSSItem.swift
+//  EpisodeHomeItem.swift
 //  PodcastPlayer
 //
 //  Created by Joey Liu on 2/28/21.
