@@ -46,6 +46,28 @@ class EpisodeRemoteFeedLoaderTest: XCTestCase {
         XCTAssertEqual(client.requestedURLs[0], url)
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
+    // #4. 發送 Request, 吐回失敗 Local Error:
+    func test_load_deliverErrorOnClientError(){
+        let (sut, client, _) = makeSUT()
+            
+        let exp = expectation(description: "Wait until completion")
+        
+        let clientError = RemoteEpisodeFeedLoader.Error.connectivityError
+        
+        sut.load { (result) in
+            switch result {
+            case let .failure(receivedError):
+                XCTAssertEqual(receivedError as! RemoteEpisodeFeedLoader.Error, clientError)
+            default:
+                XCTFail("Expect\(RemoteEpisodeFeedLoader.Error.connectivityError), but get \(result) instead")
+            }
+            
+            exp.fulfill()
+        }
+        
+        client.completeWithFailure(with: clientError)
+        wait(for: [exp], timeout: 3.0)
+    }
     
     
     //Helper:
@@ -68,16 +90,18 @@ class EpisodeRemoteFeedLoaderTest: XCTestCase {
     // HTTPClient 的 Test Double
     private class HTTPClientSpy: HTTPClient {
         
-        var requestedURLs = [URL]()
-        var receivedResults = [(HTTPClient.Result) -> Void]()
-        
-        func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) {
-            requestedURLs.append(url)
-            receivedResults.append(completion)
+        var requestedURLs:[URL] {
+            return receivedResults.map { $0.url }
         }
         
-        func complete(_ result:(HTTPClient.Result) -> Void) {
-            
+        var receivedResults = [(url:URL,completion: (HTTPClient.Result) -> Void)]()
+        
+        func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) {
+            receivedResults.append((url: url, completion: completion))
+        }
+        
+        func completeWithFailure(with error: Error, at index: Int = 0) {
+            receivedResults[index].completion(.failure(error))
         }
     }
 }
