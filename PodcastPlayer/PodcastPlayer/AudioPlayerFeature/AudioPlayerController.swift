@@ -24,10 +24,6 @@ public final class AudioPlayerController {
     public var playNextEP:(() -> Void)?
     
     public var updateProgress: ((Bool) -> Void)?
-    
-    static var shared = AudioPlayerController()
-    
-    private init() {}
 }
 
 extension AudioPlayerController {

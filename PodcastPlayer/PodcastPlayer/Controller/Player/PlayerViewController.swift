@@ -9,23 +9,23 @@ import UIKit
 import Kingfisher
 
 public final class PlayerViewController: UIViewController {
-    
-    typealias Audible = (PlayPauseProtocol & EpisodeProgressTracking & EpisodeSoundLoader)
+
     typealias TouchEvent = PlayerModelController.EventType
     
-    private weak var player: AudioPlayerController?
+    private var player: AudioPlayerController?
     private var modelController: PlayerModelController?
+    private var currentEpisode: Episode?
     
-    weak var delegate: Audible?
+    var update: ((Episode) -> Void)?
     
     fileprivate var playerState: PlayerState = .playing {
         didSet {
             if playerState == .playing {
                 playButton.setImage(UIImage.pauseHollow, for: .normal)
-                delegate?.play()
+                player?.play()
             } else {
                 playButton.setImage(UIImage.playHollow, for: .normal)
-                delegate?.pause()
+                player?.pause()
             }
         }
     }
@@ -37,7 +37,7 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider!
     
-    convenience init(player: AudioPlayerController = .shared, episodes: [Episode], currentIndex: Int) {
+    convenience init(player: AudioPlayerController = AudioPlayerController(), episodes: [Episode], currentIndex: Int) {
         self.init()
         self.player = player
         self.modelController = PlayerModelController(episodes: episodes, currentIndex: currentIndex)
@@ -49,6 +49,12 @@ public final class PlayerViewController: UIViewController {
         setup()
         configurePlayer()
         trackDuration()
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let episode = currentEpisode else { return }
+        update?(episode)
     }
     
     @IBAction func pressPlay(_ sender: UIButton) {
@@ -65,7 +71,6 @@ public final class PlayerViewController: UIViewController {
 
     deinit {
         player?.resetPlayer()
-        player = nil
     }
 }
 
@@ -94,12 +99,12 @@ extension PlayerViewController {
     
     //MARK: Handle Slide Change:
     @objc func handleSlideChange() {
-        delegate?.update(episodeCurrentDurationWith: slider.value)
+        player?.update(episodeCurrentDurationWith: slider.value)
     }
     
     @objc func slideIsDragging() {
         playerState = .stopped
-        delegate?.pause()
+        player?.pause()
     }
 }
 
@@ -126,8 +131,6 @@ private extension PlayerViewController {
     }
         
     func configurePlayer() {
-        delegate = player
-        
         loadEpisode(event:.checkCurrentEP)
     }
 }
@@ -150,7 +153,7 @@ extension PlayerViewController {
         switch event {
         case .checkCurrentEP:
             renderInterface(with: episode)
-            delegate?.load(with: url)
+            player?.load(with: url)
         default:
             changeEpisode(episode: episode, url: url)
         }
@@ -158,7 +161,8 @@ extension PlayerViewController {
     // #3. Change podcast url
     func changeEpisode(episode: Episode, url: URL) {
         renderInterface(with: episode)
-        delegate?.replace(url: url)
+        currentEpisode = episode
+        player?.replace(url: url)
         playerState = .playing
     }
 }

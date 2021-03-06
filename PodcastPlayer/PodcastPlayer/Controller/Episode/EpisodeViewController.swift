@@ -20,9 +20,6 @@ public final class EpisodeViewController: UIViewController {
     
     private var episodes:[Episode] = []
     private var currentEpisodeIndex: Int?
-    private var currentEpisode: Episode {
-        return episodes[currentEpisodeIndex ?? 0]
-    }
     
     convenience init(episodes: [Episode], currentEpisodeIndex: Int) {
         self.init()
@@ -34,17 +31,20 @@ public final class EpisodeViewController: UIViewController {
         super.viewDidLoad()
 
         setup()
-        load()
+        load(episode: episodes[currentEpisodeIndex ?? 0])
     }
     
     @IBAction func pressPlay(_ sender: UIButton) {
         guard let currentIndex = currentEpisodeIndex else { return }
-                
+    
         let playerVC = PlayerViewController(episodes: episodes, currentIndex: currentIndex)
+        
+        playerVC.update = { [weak self] (episode) in
+            self?.load(episode: episode)
+        }
                         
         present(playerVC, animated: true)
     }
-    
 }
 
 private extension EpisodeViewController {
@@ -55,14 +55,14 @@ private extension EpisodeViewController {
         playButton.layer.cornerRadius = playButton.frame.width / 2
     }
     
-    func load() {
-        episodeImageView.kf.setImage(with: currentEpisode.coverImage,
+    func load(episode: Episode) {
+        episodeImageView.kf.setImage(with: episode.coverImage,
                                      placeholder: UIImage.placeholder,
                                      options: [
                                          .processor(DownsamplingImageProcessor(size: episodeImageView.frame.size)),
                                          .scaleFactor(UIScreen.main.scale),
                                          .cacheOriginalImage
                                      ])
-        descriptionTextView.text = currentEpisode.description
+        descriptionTextView.text = episode.description
     }
 }

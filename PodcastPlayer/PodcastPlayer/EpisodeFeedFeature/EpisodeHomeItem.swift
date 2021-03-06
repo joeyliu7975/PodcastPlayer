@@ -19,3 +19,5 @@ public struct ChannelFeed: Equatable {
     var episodes: [Episode] = []
     var profileImage: URL?
 }
+
+

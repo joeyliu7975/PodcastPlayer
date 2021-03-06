@@ -9,9 +9,9 @@
 
 typedef struct {
     NSURL *coverImage;
-    NSString *title = [NSString stringWithString:@""];
-    NSString *description = [NSString stringWithString:@""];
-    NSString *releaseDate = [NSString stringWithString:@""];
+    NSString *title = "";
+    NSString *description = "";
+    NSString *releaseDate = "";
     NSURL *soundURL;
 } Episode;
 

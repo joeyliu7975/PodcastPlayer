@@ -11,3 +11,4 @@ import Foundation
 public protocol FeedMapper {
     func map(data:Data, response: HTTPURLResponse) throws -> ChannelFeed
 }
+//Episode
