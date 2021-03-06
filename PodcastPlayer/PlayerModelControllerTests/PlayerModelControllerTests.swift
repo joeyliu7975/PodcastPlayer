@@ -50,7 +50,19 @@ class PlayerModelControllerTests: XCTestCase {
         
         let expectedError = TestError.indexOutOfRange
         
-        XCTAssertThrowsError(try sut.map(with: 2), "Expect Error but get value instead") { (receivedError) in
+        XCTAssertThrowsError(try sut.map(with: 2), "Expect error but get value instead") { (receivedError) in
+            XCTAssertNotNil(receivedError)
+            XCTAssertEqual(receivedError as? TestError, expectedError)
+        }
+    }
+    
+    func test_map_NoSoundURLError() {
+        let episode = anyEpisode(soundURL: nil)
+        let sut = PlayerModelController(episodes: [episode], currentIndex: 0)
+        
+        let expectedError = TestError.noSoundURL
+        
+        XCTAssertThrowsError(try sut.map(with: 0), "Expect error but get value instead") { (receivedError) in
             XCTAssertNotNil(receivedError)
             XCTAssertEqual(receivedError as? TestError, expectedError)
         }
