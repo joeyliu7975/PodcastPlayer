@@ -39,6 +39,7 @@
 		71AE977625EBCBDB00E9284F /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE977525EBCBDB00E9284F /* UINavigationController+Extension.swift */; };
 		71AE977C25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */; };
 		71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */; };
+		71C0499325F336BB00ACBA4C /* HomeXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C0499225F336BB00ACBA4C /* HomeXMLParser.m */; };
 		71CFF16E25EA4D6900C0D278 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFF16D25EA4D6900C0D278 /* URLSessionHTTPClient.swift */; };
 		71CFF17F25EA86B800C0D278 /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */; };
 		71CFF18025EA86B800C0D278 /* HomepageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */; };
@@ -79,7 +80,7 @@
 		716B646025F0EC3A00032560 /* PlayerModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModelController.swift; sourceTree = "<group>"; };
 		716B646625F1BD9200032560 /* PodcastPlayer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PodcastPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
 		716B646725F1BD9200032560 /* AudibleProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudibleProtocol.h; sourceTree = "<group>"; };
-		716B648925F1D68800032560 /* EpisodeHomeItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeHomeItem.h; sourceTree = "<group>"; };
+		716B648925F1D68800032560 /* HomeXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeXMLParser.h; sourceTree = "<group>"; };
 		716B649125F2740600032560 /* EpisodeRemoteFeedLoaderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeRemoteFeedLoaderTest.swift; sourceTree = "<group>"; };
 		7183AABE25E764A300E1AD98 /* PodcastPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PodcastPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7183AAC125E764A300E1AD98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +108,7 @@
 		71AE977525EBCBDB00E9284F /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReuseIdentifying+Protocol.swift"; sourceTree = "<group>"; };
 		71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
+		71C0499225F336BB00ACBA4C /* HomeXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeXMLParser.m; sourceTree = "<group>"; };
 		71CFF16D25EA4D6900C0D278 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
 		71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomepageViewController.xib; sourceTree = "<group>"; };
@@ -240,7 +242,8 @@
 		716B648825F1D64C00032560 /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
-				716B648925F1D68800032560 /* EpisodeHomeItem.h */,
+				716B648925F1D68800032560 /* HomeXMLParser.h */,
+				71C0499225F336BB00ACBA4C /* HomeXMLParser.m */,
 			);
 			path = "Objective-C";
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 				716B644B25F0AF6000032560 /* UIViewController+Extension.swift in Sources */,
 				713D497E25EB915600058FD4 /* EpisodeHomeItem.swift in Sources */,
 				71AE977C25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift in Sources */,
+				71C0499325F336BB00ACBA4C /* HomeXMLParser.m in Sources */,
 				716B646125F0EC3A00032560 /* PlayerModelController.swift in Sources */,
 				713D495025EB5C0D00058FD4 /* EpisodeFeedTableViewCell.swift in Sources */,
 				718C9D8225ECA4F200B864E4 /* EpisodeViewController.swift in Sources */,
