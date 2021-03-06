@@ -67,6 +67,24 @@ class PlayerModelControllerTests: XCTestCase {
             XCTAssertEqual(receivedError as? TestError, expectedError)
         }
     }
+    
+    func test_map_hasSoundURL() {
+        let expectedSoundURL = anySoundURL()
+        let episode = anyEpisode(soundURL: expectedSoundURL)
+        let sut = PlayerModelController(episodes: [episode], currentIndex: 0)
+        
+        guard let result = try? sut.map(with: 0) else {
+            XCTFail("Error")
+            return
+        }
+        
+        switch result {
+        case let .success((_, receivedSoundURL)):
+            XCTAssertEqual(expectedSoundURL, receivedSoundURL)
+        default:
+            XCTFail("Didn't get value")
+        }
+    }
    
     // Helper:
     private func anyImageURL() -> URL {
