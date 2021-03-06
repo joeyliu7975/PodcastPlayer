@@ -52,12 +52,12 @@ class EpisodeRemoteFeedLoaderTest: XCTestCase {
             
         let exp = expectation(description: "Wait until completion")
         
-        let clientError = RemoteEpisodeFeedLoader.Error.connectivityError
+        let expectedError = RemoteEpisodeFeedLoader.Error.connectivityError
         
         sut.load { (result) in
             switch result {
-            case let .failure(receivedError):
-                XCTAssertEqual(receivedError as! RemoteEpisodeFeedLoader.Error, clientError)
+            case let .failure(receivedError as RemoteEpisodeFeedLoader.Error):
+                XCTAssertEqual(receivedError, expectedError)
             default:
                 XCTFail("Expect\(RemoteEpisodeFeedLoader.Error.connectivityError), but get \(result) instead")
             }
@@ -65,10 +65,37 @@ class EpisodeRemoteFeedLoaderTest: XCTestCase {
             exp.fulfill()
         }
         
-        client.completeWithFailure(with: clientError)
+        client.completeWithFailure(with: expectedError)
         wait(for: [exp], timeout: 3.0)
     }
     
+    // #5. 發送 Request, 收到 Data 和 Response 但 statusCode 在錯誤區間:
+    func test_load_deliverErrorOnNon2xxStatusCode() {
+        let (sut, client, _) = makeSUT()
+        
+        let data = anyData()
+        
+        let statusCodes = [400, 500 ,100 , 301, 199]
+        
+        statusCodes.enumerated().forEach { (index, code) in
+            let exp = expectation(description: "Wait until completion")
+            
+            let expectedError = RemoteEpisodeFeedLoader.Error.invalidData
+            
+            sut.load { (result) in
+                switch result {
+                case let .failure(receivedError as RemoteEpisodeFeedLoader.Error):
+                    XCTAssertEqual(receivedError, expectedError)
+                default:
+                    XCTFail("Expect\(RemoteEpisodeFeedLoader.Error.connectivityError), but get \(result) instead")
+                }
+                exp.fulfill()
+            }
+            
+            client.completeWithStatusCode(data: data, statusCode: code, at: index)
+            wait(for: [exp], timeout: 3.0)
+        }
+    }
     
     //Helper:
     
@@ -84,6 +111,15 @@ class EpisodeRemoteFeedLoaderTest: XCTestCase {
     // 簡易做出 url:
     private func anyURL() -> URL {
         return URL(string: "https://any-url.com")!
+    }
+    // 建議做出 XML data:
+    private func anyData() -> Data {
+        let string = """
+                <channel>
+                <title>股癌</title>
+                    </channel>
+                """
+        return Data.init(bytes: string.utf8)
     }
     
     
@@ -103,5 +139,16 @@ class EpisodeRemoteFeedLoaderTest: XCTestCase {
         func completeWithFailure(with error: Error, at index: Int = 0) {
             receivedResults[index].completion(.failure(error))
         }
+        
+        func completeWithStatusCode(data: Data, statusCode: Int, at index: Int = 0) {
+            let url = requestedURLs[index]
+            
+            let data = data
+            
+            let response = HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
+            
+            receivedResults[index].completion(.success((data,response)))
+        }
+            
     }
 }
