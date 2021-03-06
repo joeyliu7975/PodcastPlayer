@@ -17,9 +17,14 @@ class PlayerModelControllerTests: XCTestCase {
         
         let expectedError = TestError.noSoundURL
         
-        XCTAssertThrowsError(try sut.getSoundURL(with: episode), "expect \(expectedError), but get return value instead.") { (receivedError) in
+        let result = sut.getSoundURL(with: episode)
+        
+        switch result {
+        case let .failure(receivedError):
             XCTAssertNotNil(receivedError)
-            XCTAssertEqual((receivedError as? TestError), expectedError)
+            XCTAssertEqual(receivedError, expectedError)
+        default:
+            XCTFail("expect \(expectedError), but get return value instead.")
         }
     }
     
@@ -28,10 +33,7 @@ class PlayerModelControllerTests: XCTestCase {
         let episode = anyEpisode(soundURL: expectedURL)
         let sut = PlayerModelController(episodes: [episode], currentIndex: 0)
         
-        guard let result = try? sut.getSoundURL(with: episode) else {
-            XCTFail("Error")
-            return
-        }
+        let result = sut.getSoundURL(with: episode)
         
         switch result {
         case let .success((_, receivedURL)):
@@ -42,53 +44,59 @@ class PlayerModelControllerTests: XCTestCase {
         }
     }
     
-    //MARK: test function map
+    //MARK: test function findEpisode
     
-    func test_map_IndexOutOfRange() {
+    func test_findEpisode_IndexOutOfRange() {
         let episode = anyEpisode(soundURL: anySoundURL())
         let sut = PlayerModelController(episodes: [episode], currentIndex: 0)
         
         let expectedError = TestError.indexOutOfRange
         
-        XCTAssertThrowsError(try sut.map(with: 2), "Expect error but get value instead") { (receivedError) in
+        let result = sut.findEpisode(at: 10)
+        
+        switch result {
+        case let .failure(receivedError):
             XCTAssertNotNil(receivedError)
-            XCTAssertEqual(receivedError as? TestError, expectedError)
+            XCTAssertEqual(receivedError, expectedError)
+        default:
+            XCTFail("Expect\(expectedError), but it throw error instead")
         }
     }
     
-    func test_map_NoSoundURLError() {
+    func test_findEpisode_NoSoundURLError() {
         let episode = anyEpisode(soundURL: nil)
         let sut = PlayerModelController(episodes: [episode], currentIndex: 0)
         
         let expectedError = TestError.noSoundURL
         
-        XCTAssertThrowsError(try sut.map(with: 0), "Expect error but get value instead") { (receivedError) in
+        let result = sut.findEpisode(at: 0)
+        
+        switch result {
+        case let .failure(receivedError):
             XCTAssertNotNil(receivedError)
-            XCTAssertEqual(receivedError as? TestError, expectedError)
+            XCTAssertEqual(receivedError, expectedError)
+        default:
+            XCTFail("Expect\(expectedError), but it throw error instead")
         }
     }
     
-    func test_map_hasSoundURL() {
+    func test_findEpisode_hasSoundURL() {
         let expectedSoundURL = anySoundURL()
         let episode = anyEpisode(soundURL: expectedSoundURL)
         let sut = PlayerModelController(episodes: [episode], currentIndex: 0)
         
-        guard let result = try? sut.map(with: 0) else {
-            XCTFail("Error")
-            return
-        }
+        let result = sut.findEpisode(at: 0)
         
         switch result {
         case let .success((_, receivedSoundURL)):
             XCTAssertEqual(expectedSoundURL, receivedSoundURL)
         default:
-            XCTFail("Didn't get value")
+            XCTFail("Didn't get any value")
         }
     }
     
-    // MARK: Test function handle:
+    // MARK: Test function start:
     
-   
     // Helper:
     private func anyImageURL() -> URL {
         return URL(string: "https:any-url.com.jpg")!
