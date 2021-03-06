@@ -12,7 +12,7 @@ protocol ReuseIdentifying {
 }
 
 extension ReuseIdentifying {
-     static var reuseIdentifier: String {
+    static var reuseIdentifier: String {
         return String(describing: Self.self)
-        }
+    }
 }
