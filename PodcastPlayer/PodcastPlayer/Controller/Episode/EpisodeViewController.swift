@@ -40,7 +40,10 @@ public final class EpisodeViewController: UIViewController {
         let playerVC = PlayerViewController(episodes: episodes, currentIndex: currentIndex)
         
         playerVC.update = { [weak self] (episode) in
-            self?.load(episode: episode)
+            if let index = self?.episodes.firstIndex(of: episode) {
+                self?.currentEpisodeIndex = index
+                self?.load(episode: episode)
+            }
         }
                         
         present(playerVC, animated: true)
