@@ -21,12 +21,12 @@ class EpisodeRemoteFeedLoaderTest: XCTestCase {
     // #1. Test case: （沒有call function)
     
     func test_load_doesNotRequestDataFromURL() {
-        let (_, client, url) = makeSUT()
+        let (_, client, _) = makeSUT()
         // 沒有 call func load
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
-    // #2. Test case (call load 檢查client 有無執行 get)
+    // #2. Test case: (call load 檢查client 有無執行 get)
     func test_load_requestDataFromURL() {
         let (sut, client, url) = makeSUT()
         
@@ -35,7 +35,17 @@ class EpisodeRemoteFeedLoaderTest: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url])
     }
     
-    // #3.
+    // #3. Test case: 連續發兩次 Request
+    func test_loadTwice_requestDataFromURL() {
+        let (sut, client, url) = makeSUT()
+        
+        sut.load { (_) in }
+        sut.load { (_) in }
+        
+        XCTAssertEqual(client.requestedURLs.count, 2)
+        XCTAssertEqual(client.requestedURLs[0], url)
+        XCTAssertEqual(client.requestedURLs, [url, url])
+    }
     
     
     //Helper:
