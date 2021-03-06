@@ -29,50 +29,64 @@ public final class PlayerModelController: EpisodeManipulatible {
         case checkCurrentEP, checkPreviousEP, checkNextEP
     }
     
-    public func getEpisode(type: TouchEvent, completion: @escaping (Result) -> Void) {
-        completion(handle(type: type, currentIndex: currentIndex))
+    public func getEpisode(with event: TouchEvent, completion: @escaping (Result) -> Void) {
+        let result = start(touchEvent: event)
+        
+        switch result {
+        case .success:
+            updateIndex(after: event)
+        default:
+            break
+        }
+        
+        completion(result)
+    }
+    
+    private func updateIndex(after event: TouchEvent) {
+        switch event {
+        case .checkNextEP:
+            currentIndex -= 1
+        case .checkPreviousEP:
+            currentIndex += 1
+        default:
+            break
+        }
     }
 }
 
 //MARK: Error Handling
 extension PlayerModelController {
-    //MARK: #1 處理使用者不同的操作，用currentIndex檢驗
-    func handle(type: TouchEvent, currentIndex: Int) -> Result {
-        var checkingIndex: Int
+    //MARK: #1 處理使用者不同的操作
+    func start(touchEvent event: TouchEvent) -> Result {
+        var targetIndex: Int
         
-        switch type {
+        switch event {
         case .checkCurrentEP:
-            checkingIndex = currentIndex
+            targetIndex = currentIndex
         case .checkNextEP:
-            checkingIndex = currentIndex - 1
+            targetIndex = currentIndex - 1
         case .checkPreviousEP:
-            checkingIndex = currentIndex + 1
+            targetIndex = currentIndex + 1
         }
         
-        do {
-            let result = try map(with: checkingIndex)
-            
-            self.currentIndex = checkingIndex
-            
-            return result
-        } catch {
-            return .failure(error as! Error)
-        }
+       return findEpisode(at: targetIndex)
     }
-    //MARK: #2 檢查currentIndex在Episodes中是否index out of range
-    func map(with index: Int) throws -> Result {
+
+    //MARK: #2 尋找 array 中是否有 target index
+    func findEpisode(at index: Int) -> Result {
         if episodes.indices.contains(index) {
             let episode = episodes[index]
             
-            return try getSoundURL(with: episode)
+            return getSoundURL(with: episode)
         } else {
-            throw Error.indexOutOfRange
+            return .failure(Error.indexOutOfRange)
         }
     }
-    //MARK: #3 檢查指定episodes中的soundURL是否存在
-    func getSoundURL(with episode: Episode) throws -> Result {
+   
+    //MARK: #3 檢查指定 episode 中是否存在 soundURL
+    func getSoundURL(with episode: Episode) -> Result {
         guard let url = episode.soundURL else {
-            throw Error.noSoundURL
+            return .failure(Error.noSoundURL)
         }
         
         return .success((episode, url))
@@ -83,7 +97,7 @@ public protocol EpisodeManipulatible {
     typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>
     typealias TouchEvent = PlayerModelController.EventType
     
-    func getEpisode(type: TouchEvent, completion: @escaping (Result) -> Void)
+    func getEpisode(with event: TouchEvent, completion: @escaping (Result) -> Void)
     var episodes:[Episode] { get }
     var currentIndex: Int { get }
 }

@@ -138,7 +138,7 @@ private extension PlayerViewController {
 extension PlayerViewController {
     // #1. Get the right episode and soundURL from Model Layer
     func loadEpisode(event: TouchEvent) {
-        modelController?.getEpisode(type: event, completion: { [weak self] (result) in
+        modelController?.getEpisode(with: event, completion: { [weak self] (result) in
             switch result {
             case let .success((episode, url)):
                 self?.handle(event: event, episode: episode, url: url)
@@ -179,9 +179,9 @@ private extension PlayerViewController {
         case .checkCurrentEP:
             popAlert(title: "提醒", message: "當集 Podcast 讀取失敗", actionTitle: "確認")
         case .checkNextEP:
-            popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
-        case .checkPreviousEP:
             popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+        case .checkPreviousEP:
+            popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
         }
     }
 }

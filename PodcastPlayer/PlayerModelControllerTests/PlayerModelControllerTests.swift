@@ -85,6 +85,9 @@ class PlayerModelControllerTests: XCTestCase {
             XCTFail("Didn't get value")
         }
     }
+    
+    // MARK: Test function handle:
+    
    
     // Helper:
     private func anyImageURL() -> URL {
