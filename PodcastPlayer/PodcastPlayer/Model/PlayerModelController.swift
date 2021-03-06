@@ -11,9 +11,9 @@ public final class PlayerModelController: EpisodeManipulatible {
     public typealias Result = EpisodeManipulatible.Result
     public typealias TouchEvent = EventType
     // MARK: - Episode:
-    private(set) var episodes:[Episode] = []
+    private(set) public var episodes:[Episode] = []
         
-    private var currentIndex: Int
+    private(set) public var currentIndex: Int
     
     public init(episodes:[Episode], currentIndex: Int) {
         self.episodes = episodes
@@ -35,9 +35,9 @@ public final class PlayerModelController: EpisodeManipulatible {
 }
 
 //MARK: Error Handling
-private extension PlayerModelController {
+extension PlayerModelController {
     //MARK: #1 處理使用者不同的操作，用currentIndex檢驗
-    private func handle(type: TouchEvent, currentIndex: Int) -> Result {
+    func handle(type: TouchEvent, currentIndex: Int) -> Result {
         var checkingIndex: Int
         
         switch type {
@@ -50,40 +50,40 @@ private extension PlayerModelController {
         }
         
         do {
-            let (episode, url) = try map(with: checkingIndex)
+            let result = try map(with: checkingIndex)
             
             self.currentIndex = checkingIndex
             
-            return .success((episode, url))
+            return result
         } catch {
             return .failure(error as! Error)
         }
     }
     //MARK: #2 檢查currentIndex在Episodes中是否index out of range
-    private func map(with index: Int) throws -> (Episode, URL) {
-        if episodes.indices.contains(index), let soundURL = episodes[index].soundURL
-        {
+    func map(with index: Int) throws -> Result {
+        if episodes.indices.contains(index) {
             let episode = episodes[index]
-            return (episode, soundURL)
+            
+            return try getSoundURL(with: episode)
         } else {
             throw Error.indexOutOfRange
         }
     }
     //MARK: #3 檢查指定episodes中的soundURL是否存在
-    private func getSoundURL(with episode: Episode) throws -> (Episode, URL) {
+    func getSoundURL(with episode: Episode) throws -> Result {
         guard let url = episode.soundURL else {
             throw Error.noSoundURL
         }
         
-        return (episode, url)
+        return .success((episode, url))
     }
 }
 
 public protocol EpisodeManipulatible {
-    associatedtype TouchEvent
-    
     typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>
+    typealias TouchEvent = PlayerModelController.EventType
     
     func getEpisode(type: TouchEvent, completion: @escaping (Result) -> Void)
+    var episodes:[Episode] { get }
+    var currentIndex: Int { get }
 }
-

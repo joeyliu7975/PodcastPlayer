@@ -13,7 +13,7 @@ public final class PlayerViewController: UIViewController {
     typealias TouchEvent = PlayerModelController.EventType
     
     private var player: AudioPlayerController?
-    private var modelController: PlayerModelController?
+    private var modelController: EpisodeManipulatible?
     private var currentEpisode: Episode?
     
     var update: ((Episode) -> Void)?
@@ -37,7 +37,7 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider!
     
-    convenience init(player: AudioPlayerController = AudioPlayerController(), episodes: [Episode], currentIndex: Int) {
+    public convenience init(player: AudioPlayerController = AudioPlayerController(), episodes: [Episode], currentIndex: Int) {
         self.init()
         self.player = player
         self.modelController = PlayerModelController(episodes: episodes, currentIndex: currentIndex)

@@ -40,6 +40,7 @@
 		71AE977C25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */; };
 		71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */; };
 		71C0499325F336BB00ACBA4C /* HomeXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C0499225F336BB00ACBA4C /* HomeXMLParser.m */; };
+		71C049A125F3ABBB00ACBA4C /* PlayerModelControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C049A025F3ABBB00ACBA4C /* PlayerModelControllerTests.swift */; };
 		71CFF16E25EA4D6900C0D278 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFF16D25EA4D6900C0D278 /* URLSessionHTTPClient.swift */; };
 		71CFF17F25EA86B800C0D278 /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */; };
 		71CFF18025EA86B800C0D278 /* HomepageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */; };
@@ -56,6 +57,13 @@
 			remoteInfo = PodcastPlayer;
 		};
 		7183AAE025E764A500E1AD98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7183AAB625E764A300E1AD98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7183AABD25E764A300E1AD98;
+			remoteInfo = PodcastPlayer;
+		};
+		71C049A325F3ABBB00ACBA4C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7183AAB625E764A300E1AD98 /* Project object */;
 			proxyType = 1;
@@ -109,6 +117,9 @@
 		71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReuseIdentifying+Protocol.swift"; sourceTree = "<group>"; };
 		71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		71C0499225F336BB00ACBA4C /* HomeXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeXMLParser.m; sourceTree = "<group>"; };
+		71C0499E25F3ABBB00ACBA4C /* PlayerModelControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayerModelControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		71C049A025F3ABBB00ACBA4C /* PlayerModelControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModelControllerTests.swift; sourceTree = "<group>"; };
+		71C049A225F3ABBB00ACBA4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71CFF16D25EA4D6900C0D278 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
 		71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomepageViewController.xib; sourceTree = "<group>"; };
@@ -142,6 +153,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B507977B11368B117CD7FB5 /* Pods_PodcastPlayer_PodcastPlayerUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71C0499B25F3ABBB00ACBA4C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +272,7 @@
 				7183AAC025E764A300E1AD98 /* PodcastPlayer */,
 				7183AAD725E764A500E1AD98 /* PodcastPlayerTests */,
 				7183AAE225E764A500E1AD98 /* PodcastPlayerUITests */,
+				71C0499F25F3ABBB00ACBA4C /* PlayerModelControllerTests */,
 				7183AABF25E764A300E1AD98 /* Products */,
 				9F9ECF8174348305F475B55F /* Pods */,
 				4D7982D1D414885881F8762D /* Frameworks */,
@@ -266,6 +285,7 @@
 				7183AABE25E764A300E1AD98 /* PodcastPlayer.app */,
 				7183AAD425E764A500E1AD98 /* PodcastPlayerTests.xctest */,
 				7183AADF25E764A500E1AD98 /* PodcastPlayerUITests.xctest */,
+				71C0499E25F3ABBB00ACBA4C /* PlayerModelControllerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -378,6 +398,15 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
+		71C0499F25F3ABBB00ACBA4C /* PlayerModelControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				71C049A025F3ABBB00ACBA4C /* PlayerModelControllerTests.swift */,
+				71C049A225F3ABBB00ACBA4C /* Info.plist */,
+			);
+			path = PlayerModelControllerTests;
+			sourceTree = "<group>";
+		};
 		9F9ECF8174348305F475B55F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,6 +481,24 @@
 			productReference = 7183AADF25E764A500E1AD98 /* PodcastPlayerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		71C0499D25F3ABBB00ACBA4C /* PlayerModelControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 71C049A525F3ABBB00ACBA4C /* Build configuration list for PBXNativeTarget "PlayerModelControllerTests" */;
+			buildPhases = (
+				71C0499A25F3ABBB00ACBA4C /* Sources */,
+				71C0499B25F3ABBB00ACBA4C /* Frameworks */,
+				71C0499C25F3ABBB00ACBA4C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				71C049A425F3ABBB00ACBA4C /* PBXTargetDependency */,
+			);
+			name = PlayerModelControllerTests;
+			productName = PlayerModelControllerTests;
+			productReference = 71C0499E25F3ABBB00ACBA4C /* PlayerModelControllerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -473,6 +520,10 @@
 						CreatedOnToolsVersion = 12.2;
 						TestTargetID = 7183AABD25E764A300E1AD98;
 					};
+					71C0499D25F3ABBB00ACBA4C = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 7183AABD25E764A300E1AD98;
+					};
 				};
 			};
 			buildConfigurationList = 7183AAB925E764A300E1AD98 /* Build configuration list for PBXProject "PodcastPlayer" */;
@@ -491,6 +542,7 @@
 				7183AABD25E764A300E1AD98 /* PodcastPlayer */,
 				7183AAD325E764A500E1AD98 /* PodcastPlayerTests */,
 				7183AADE25E764A500E1AD98 /* PodcastPlayerUITests */,
+				71C0499D25F3ABBB00ACBA4C /* PlayerModelControllerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -517,6 +569,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		7183AADD25E764A500E1AD98 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71C0499C25F3ABBB00ACBA4C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -679,6 +738,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		71C0499A25F3ABBB00ACBA4C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71C049A125F3ABBB00ACBA4C /* PlayerModelControllerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -691,6 +758,11 @@
 			isa = PBXTargetDependency;
 			target = 7183AABD25E764A300E1AD98 /* PodcastPlayer */;
 			targetProxy = 7183AAE025E764A500E1AD98 /* PBXContainerItemProxy */;
+		};
+		71C049A425F3ABBB00ACBA4C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7183AABD25E764A300E1AD98 /* PodcastPlayer */;
+			targetProxy = 71C049A325F3ABBB00ACBA4C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -836,7 +908,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-HeZhiOA.PodcastPlayer";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-PodcastPlayer.PodcastPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/AudioPlayerFeature/Objective-C/PodcastPlayer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -859,7 +931,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-HeZhiOA.PodcastPlayer";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-PodcastPlayer.PodcastPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/AudioPlayerFeature/Objective-C/PodcastPlayer-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -955,6 +1027,46 @@
 			};
 			name = Release;
 		};
+		71C049A625F3ABBB00ACBA4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XTR83A4K57;
+				INFOPLIST_FILE = PlayerModelControllerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-PodcastPlayer.PlayerModelControllerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PodcastPlayer.app/PodcastPlayer";
+			};
+			name = Debug;
+		};
+		71C049A725F3ABBB00ACBA4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XTR83A4K57;
+				INFOPLIST_FILE = PlayerModelControllerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-PodcastPlayer.PlayerModelControllerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PodcastPlayer.app/PodcastPlayer";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -990,6 +1102,15 @@
 			buildConfigurations = (
 				7183AAEF25E764A500E1AD98 /* Debug */,
 				7183AAF025E764A500E1AD98 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		71C049A525F3ABBB00ACBA4C /* Build configuration list for PBXNativeTarget "PlayerModelControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71C049A625F3ABBB00ACBA4C /* Debug */,
+				71C049A725F3ABBB00ACBA4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

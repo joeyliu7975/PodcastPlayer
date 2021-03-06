@@ -49,6 +49,16 @@
                ReferencedContainer = "container:PodcastPlayer.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "71C0499D25F3ABBB00ACBA4C"
+               BuildableName = "PlayerModelControllerTests.xctest"
+               BlueprintName = "PlayerModelControllerTests"
+               ReferencedContainer = "container:PodcastPlayer.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

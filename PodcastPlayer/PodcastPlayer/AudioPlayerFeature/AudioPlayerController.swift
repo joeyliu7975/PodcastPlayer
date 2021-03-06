@@ -24,6 +24,8 @@ public final class AudioPlayerController {
     public var playNextEP:(() -> Void)?
     
     public var updateProgress: ((Bool) -> Void)?
+    
+    public init(){}
 }
 
 extension AudioPlayerController {
