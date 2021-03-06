@@ -21,26 +21,41 @@ class EpisodeRemoteFeedLoaderTest: XCTestCase {
     // #1. Test case: （沒有call function)
     
     func test_load_doesNotRequestDataFromURL() {
-        let url = URL(string:"https://any-url.com")!
-        let client = HTTPClientSpy()
-        let _ = RemoteEpisodeFeedLoader(client: client, url: url)
-        
+        let (_, client, url) = makeSUT()
         // 沒有 call func load
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
     // #2. Test case (call load 檢查client 有無執行 get)
     func test_load_requestDataFromURL() {
-        let url = URL(string: "https://any-url.com")!
-        let client = HTTPClientSpy()
-        let sut = RemoteEpisodeFeedLoader(client: client, url: url)
+        let (sut, client, url) = makeSUT()
         
         sut.load { (_) in }
         
         XCTAssertEqual(client.requestedURLs, [url])
     }
     
+    // #3.
+    
+    
     //Helper:
+    
+    // 簡易做出 SystemUnderTest 和 Client:
+    private func makeSUT() -> (RemoteEpisodeFeedLoader, HTTPClientSpy, URL){
+        let url = anyURL()
+        let client = HTTPClientSpy()
+        let sut = RemoteEpisodeFeedLoader(client: client, url: url)
+        
+        return (sut, client, url)
+    }
+    
+    // 簡易做出 url:
+    private func anyURL() -> URL {
+        return URL(string: "https://any-url.com")!
+    }
+    
+    
+    // HTTPClient 的 Test Double
     private class HTTPClientSpy: HTTPClient {
         
         var requestedURLs = [URL]()
