@@ -85,6 +85,7 @@
 		713D497D25EB915600058FD4 /* EpisodeHomeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeHomeItem.swift; sourceTree = "<group>"; };
 		7162BB6225F507A4006DD513 /* EpisodeFeedItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeFeedItem.h; sourceTree = "<group>"; };
 		7162BB6325F507E9006DD513 /* EpisodeFeedItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EpisodeFeedItem.m; sourceTree = "<group>"; };
+		7162BB7C25F510F0006DD513 /* Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Protocol.h; sourceTree = "<group>"; };
 		7165B70825ECE3F900D3A79D /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		716B644A25F0AF6000032560 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		716B644F25F0D3C800032560 /* EpisodeFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeFeedLoader.swift; sourceTree = "<group>"; };
@@ -240,14 +241,39 @@
 			path = EpisodeFeedItem;
 			sourceTree = "<group>";
 		};
-		716B646525F1BD3D00032560 /* Objective-C */ = {
+		7162BB6D25F50B8C006DD513 /* HomeXMLParser */ = {
 			isa = PBXGroup;
 			children = (
 				716B648925F1D68800032560 /* HomeXMLParser.h */,
 				71C0499225F336BB00ACBA4C /* HomeXMLParser.m */,
+			);
+			path = HomeXMLParser;
+			sourceTree = "<group>";
+		};
+		7162BB7225F50B96006DD513 /* AVPlayerController */ = {
+			isa = PBXGroup;
+			children = (
 				716B646725F1BD9200032560 /* AudibleProtocol.h */,
-				716B646625F1BD9200032560 /* PodcastPlayer-Bridging-Header.h */,
+			);
+			path = AVPlayerController;
+			sourceTree = "<group>";
+		};
+		7162BB7725F51026006DD513 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				7162BB7C25F510F0006DD513 /* Protocol.h */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		716B646525F1BD3D00032560 /* Objective-C */ = {
+			isa = PBXGroup;
+			children = (
+				7162BB6D25F50B8C006DD513 /* HomeXMLParser */,
+				7162BB7225F50B96006DD513 /* AVPlayerController */,
 				7162BB6125F5078D006DD513 /* EpisodeFeedItem */,
+				7162BB7725F51026006DD513 /* Protocol */,
+				716B646625F1BD9200032560 /* PodcastPlayer-Bridging-Header.h */,
 			);
 			path = "Objective-C";
 			sourceTree = "<group>";

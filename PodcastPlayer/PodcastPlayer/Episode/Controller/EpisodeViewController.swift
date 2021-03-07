@@ -66,6 +66,6 @@ private extension EpisodeViewController {
                                          .scaleFactor(UIScreen.main.scale),
                                          .cacheOriginalImage
                                      ])
-        descriptionTextView.text = episode.description
+        descriptionTextView.text = episode.content
     }
 }

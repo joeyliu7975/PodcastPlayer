@@ -3,3 +3,4 @@
 //
 
 #import "EpisodeFeedItem.h"
+#import "Protocol.h"
