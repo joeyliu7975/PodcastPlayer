@@ -19,3 +19,23 @@ typedef ChannelFeed Feed;
 @protocol FeedMapper
     -(Feed *)map:(NSData *) data:(NSHTTPURLResponse *) response:(NSError **)error;
 @end
+
+//AVPlayerController
+@protocol PlayPauseProtocol
+    -(void)play;
+    -(void)pause;
+@property (nonatomic, nullable)void(^notify)(BOOL);
+
+@end
+//
+@protocol EpisodeProgressTracking
+@property (nonatomic, nullable)void(^trackDuration)(float);
+- (void)update:(float)episodeCurrentDurationWithValue;
+@end
+//
+@protocol EpisodeSoundLoader
+    -(void) load:(NSURL *)url;
+@property (nonatomic, nullable)void(^playNextEP)(void);
+@end
+
+

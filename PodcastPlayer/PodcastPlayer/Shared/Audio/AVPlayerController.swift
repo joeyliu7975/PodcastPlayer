@@ -60,7 +60,7 @@ extension AVPlayerController: PlayPauseProtocol {
 
 extension AVPlayerController: EpisodeProgressTracking {
     
-    public func update(episodeCurrentDurationWith sliderValue: Float) {
+    public func update(_ sliderValue: Float) {
         if let duration = player?.currentItem?.duration {
             let totalSecond = CMTimeGetSeconds(duration)
             
@@ -71,6 +71,18 @@ extension AVPlayerController: EpisodeProgressTracking {
             stopPlayingAndSeekSmoothlyToTime(newChaseTime: seekTime)
         }
     }
+    
+//    public func update(episodeCurrentDurationWith sliderValue: Float) {
+//        if let duration = player?.currentItem?.duration {
+//            let totalSecond = CMTimeGetSeconds(duration)
+//
+//            let value = (sliderValue) * Float(totalSecond)
+//
+//            let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
+//
+//            stopPlayingAndSeekSmoothlyToTime(newChaseTime: seekTime)
+//        }
+//    }
 }
 
 //MARK: Apple Answer to handle AVPlayer seekTime:
@@ -164,7 +176,7 @@ private extension AVPlayerController {
 }
 
 extension AVPlayerController: EpisodeSoundLoader {
-    public func load(with soundURL: URL) {
+    public func load(_ soundURL: URL) {
         let asset = AVAsset(url: soundURL)
         let playerItem = AVPlayerItem(asset: asset)
                 
@@ -179,4 +191,20 @@ extension AVPlayerController: EpisodeSoundLoader {
         trackDuration?(0)
         play()
     }
+    
+//    public func load(with soundURL: URL) {
+//        let asset = AVAsset(url: soundURL)
+//        let playerItem = AVPlayerItem(asset: asset)
+//                
+//        if player?.currentItem == nil {
+//            player = AVPlayer(playerItem: playerItem)
+//            addObserver()
+//        } else {
+//            pause()
+//            player?.replaceCurrentItem(with: playerItem)
+//        }
+//        
+//        trackDuration?(0)
+//        play()
+//    }
 }

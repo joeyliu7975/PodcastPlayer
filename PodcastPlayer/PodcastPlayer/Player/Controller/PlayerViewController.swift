@@ -98,7 +98,8 @@ extension PlayerViewController {
     
     //MARK: Handle Slide Change:
     @objc func handleSlideChange() {
-        audioPlayer?.update(episodeCurrentDurationWith: slider.value)
+        audioPlayer?.update(slider.value)
+//        audioPlayer?.update(episodeCurrentDurationWith: slider.value)
     }
     
     @objc func slideIsDragging() {
@@ -150,7 +151,8 @@ extension PlayerViewController {
     // #2. Handle episode and url depends on user's touchEvent
     func handle(event: TouchEvent, episode: Episode, url: URL)  {
         renderInterface(with: episode)
-        audioPlayer?.load(with: url)
+        audioPlayer?.load(url)
+//        audioPlayer?.load(with: url)
         currentEpisode = episode
         playerState = .playing
     }
