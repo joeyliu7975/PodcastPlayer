@@ -151,7 +151,6 @@ extension PlayerViewController {
     func handle(event: TouchEvent, episode: Episode, url: URL)  {
         renderInterface(with: episode)
         audioPlayer?.load(with: url)
-//        audioPlayer?.load(with: url)
         currentEpisode = episode
         playerState = .playing
     }
