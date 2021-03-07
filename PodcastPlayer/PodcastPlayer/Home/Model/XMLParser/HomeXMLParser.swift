@@ -78,7 +78,7 @@ public final class HomeXMLParser: NSObject, XMLParserDelegate {
         case .profileImage:
             self.imageURLStr = string
         case .description:
-            self.newEpisode?.description += string
+            self.newEpisode?.content += string
         default:
             break
         }

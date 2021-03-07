@@ -86,7 +86,7 @@ private extension HomepageViewController {
 
 extension HomepageViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let episodes = feed?.episodes, !episodes.isEmpty else { return }
+        guard let episodes = feed?.episodes as? [Episode], !episodes.isEmpty else { return }
         
         let episodeViewController = EpisodeViewController(episodes: episodes, currentEpisodeIndex: indexPath.row)
 
@@ -108,7 +108,7 @@ extension HomepageViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseIdentifier, for: indexPath)
        
-        if let cellModel = feed?.episodes[indexPath.row] {
+        if let cellModel = feed?.episodes[indexPath.row] as? Episode {
             cell.render(with: cellModel)
         }
 
