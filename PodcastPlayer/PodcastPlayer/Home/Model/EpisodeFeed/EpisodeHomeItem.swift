@@ -12,7 +12,6 @@ import Foundation
    var description become 'content' in my objective-C code, also change HomeXMLParser to Episode.content
  */
 
-
 //public struct Episode: Equatable {
 //    var coverImage: URL?
 //    var title = String()

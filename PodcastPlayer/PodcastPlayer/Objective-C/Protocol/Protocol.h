@@ -30,11 +30,11 @@ typedef ChannelFeed Feed;
 //
 @protocol EpisodeProgressTracking
 @property (nonatomic, nullable)void(^trackDuration)(float);
-- (void)update:(float)episodeCurrentDurationWithValue;
+- (void)updateCurrentDurationWith:(float)sliderValue;
 @end
 //
 @protocol EpisodeSoundLoader
-    -(void) load:(NSURL *)url;
+    -(void) loadWith:(NSURL *)url;
 @property (nonatomic, nullable)void(^playNextEP)(void);
 @end
 
