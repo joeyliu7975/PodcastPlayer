@@ -17,7 +17,7 @@ public final class EpisodeViewController: UIViewController {
             playButton.tintColor = .kkBlue
         }
     }
-    
+        
     private var episodes:[Episode] = []
     private var currentEpisodeIndex: Int?
     

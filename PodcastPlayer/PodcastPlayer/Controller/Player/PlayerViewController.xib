@@ -34,7 +34,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oXQ-Al-TzQ" userLabel="playButton">
-                    <rect key="frame" x="145" y="708" width="124" height="124"/>
+                    <rect key="frame" x="145" y="728" width="124" height="124"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="oXQ-Al-TzQ" secondAttribute="height" multiplier="1:1" id="Lyq-kz-A72"/>
                     </constraints>
@@ -45,7 +45,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRe-At-oMK" userLabel="fastForwardButton">
-                    <rect key="frame" x="284" y="747" width="45.5" height="45.5"/>
+                    <rect key="frame" x="284" y="767" width="45.5" height="45.5"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="KRe-At-oMK" secondAttribute="height" multiplier="1:1" id="UFR-N6-6gG"/>
                     </constraints>
@@ -55,10 +55,10 @@
                     </connections>
                 </button>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="dIX-tH-ray">
-                    <rect key="frame" x="38" y="648" width="338" height="31"/>
+                    <rect key="frame" x="38" y="668" width="338" height="31"/>
                 </slider>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ldc-EC-6xY" userLabel="rewindButton">
-                    <rect key="frame" x="84.5" y="747" width="45.5" height="45.5"/>
+                    <rect key="frame" x="84.5" y="767" width="45.5" height="45.5"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="ldc-EC-6xY" secondAttribute="height" multiplier="1:1" id="QSO-LR-H1C"/>
                     </constraints>
@@ -83,7 +83,7 @@
                 <constraint firstItem="oXQ-Al-TzQ" firstAttribute="top" secondItem="dIX-tH-ray" secondAttribute="bottom" constant="30" id="SCZ-gp-YBS"/>
                 <constraint firstItem="PqP-Qn-yw5" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.45" id="Sac-ZS-LbH"/>
                 <constraint firstItem="oXQ-Al-TzQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="YIC-jF-H95"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="oXQ-Al-TzQ" secondAttribute="bottom" constant="30" id="ece-NN-Ubw"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="oXQ-Al-TzQ" secondAttribute="bottom" constant="10" id="ece-NN-Ubw"/>
                 <constraint firstItem="KRe-At-oMK" firstAttribute="centerY" secondItem="oXQ-Al-TzQ" secondAttribute="centerY" id="gdF-3T-qmN"/>
                 <constraint firstItem="oXQ-Al-TzQ" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.3" id="ixL-tk-iHR"/>
                 <constraint firstItem="A8u-4q-1HY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jLH-Bg-FTz"/>
