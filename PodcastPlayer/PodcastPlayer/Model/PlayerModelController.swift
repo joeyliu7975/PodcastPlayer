@@ -30,16 +30,13 @@ public final class PlayerModelController: EpisodeManipulatible {
     }
     
     public func getEpisode(with event: TouchEvent, completion: @escaping (Result) -> Void) {
-        let result = start(touchEvent: event)
-        
-        switch result {
-        case .success:
+        do {
+            let result = try start(touchEvent: event)
             updateIndex(after: event)
-        default:
-            break
+            completion(result)
+        } catch {
+            completion(.failure(error as! PlayerModelController.Error))
         }
-        
-        completion(result)
     }
     
     private func updateIndex(after event: TouchEvent) {
@@ -56,8 +53,9 @@ public final class PlayerModelController: EpisodeManipulatible {
 
 //MARK: Error Handling
 extension PlayerModelController {
-    //MARK: #1 處理使用者不同的操作
-    func start(touchEvent event: TouchEvent) -> Result {
+    // #1 處理使用者不同的操作
+    func start(touchEvent event: TouchEvent) throws -> Result {
+        
         var targetIndex: Int
         
         switch event {
@@ -68,25 +66,20 @@ extension PlayerModelController {
         case .checkPreviousEP:
             targetIndex = currentIndex + 1
         }
-        
-       return findEpisode(at: targetIndex)
-    }
-
-    //MARK: #2 尋找 array 中是否有 target index
-    func findEpisode(at index: Int) -> Result {
-        if episodes.indices.contains(index) {
-            let episode = episodes[index]
-            
-            return getSoundURL(with: episode)
+        // #2 檢查是否 index out of range
+        if episodes.indices.contains(targetIndex) {
+            let episode = episodes[targetIndex]
+            let result = try getSoundURL(with: episode)
+            return result
         } else {
-            return .failure(Error.indexOutOfRange)
+            throw Error.indexOutOfRange
         }
     }
    
-    //MARK: #3 檢查指定 episode 中是否存在 soundURL
-    func getSoundURL(with episode: Episode) -> Result {
+    //#3 檢查指定 episode 中是否存在 soundURL
+    func getSoundURL(with episode: Episode) throws -> Result {
         guard let url = episode.soundURL else {
-            return .failure(Error.noSoundURL)
+            throw Error.noSoundURL
         }
         
         return .success((episode, url))
