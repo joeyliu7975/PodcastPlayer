@@ -6,19 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-typedef struct {
-    NSURL * _Nullable coverImage;
-    NSString * _Nonnull title;
-    NSString * _Nonnull description;
-    NSString * _Nonnull releaseDate;
-    NSURL * _Nullable soundURL;
-} Episode;
-
-typedef struct {
-    NSArray * _Nonnull episodes;
-    NSURL * _Nullable profileImage;
-} ChannelFeed;
+#import "EpisodeFeedItem.h"
 
 typedef NS_ENUM(NSInteger, State) {
     none,
@@ -38,10 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property ChannelFeed *channelFeed;
 @property State state;
 @property Episode *episode;
-@property NSString *imageURLStr;
+@property (nonatomic, nullable) NSString *imageURLStr;
+
 //初始化 property 的地方:
--(instancetype)initWithDefaultValue:(ChannelFeed)channel:
-                                    (State)state;
+-(instancetype)initWithDefaultValue:(ChannelFeed*)channel
+                                    state:(State)state;
 
 //MARK: Protocol 之外的function:
 

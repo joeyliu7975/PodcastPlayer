@@ -11,11 +11,13 @@
 
 @implementation HomeXMLParser
     
--(instancetype)initWithDefaultValue:(ChannelFeed)channel:(State)state {
+-(instancetype)initWithDefaultValue:(ChannelFeed*)channel:(State)state {
     self = [super init];
     if(self){
-        self.channelFeed = &(channel);
+        self.channelFeed = channel;
         self.state = state;
+        self.episode = [[Episode alloc] init];
+        self.imageURLStr = nil;
     }
     return self;
 }
