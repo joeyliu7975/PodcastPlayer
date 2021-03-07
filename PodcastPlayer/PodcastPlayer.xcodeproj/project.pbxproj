@@ -17,7 +17,7 @@
 		7165B70925ECE3F900D3A79D /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7165B70825ECE3F900D3A79D /* UIImage+Extension.swift */; };
 		716B644B25F0AF6000032560 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716B644A25F0AF6000032560 /* UIViewController+Extension.swift */; };
 		716B645025F0D3C800032560 /* EpisodeFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716B644F25F0D3C800032560 /* EpisodeFeedLoader.swift */; };
-		716B646125F0EC3A00032560 /* PlayerModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716B646025F0EC3A00032560 /* PlayerModelController.swift */; };
+		716B646125F0EC3A00032560 /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716B646025F0EC3A00032560 /* PlayerModel.swift */; };
 		716B649225F2740600032560 /* EpisodeRemoteFeedLoaderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716B649125F2740600032560 /* EpisodeRemoteFeedLoaderTest.swift */; };
 		7183AAC225E764A300E1AD98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7183AAC125E764A300E1AD98 /* AppDelegate.swift */; };
 		7183AAC425E764A300E1AD98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7183AAC325E764A300E1AD98 /* SceneDelegate.swift */; };
@@ -28,7 +28,7 @@
 		7189CE8325ED20F900434D6C /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CE8125ED20F900434D6C /* PlayerViewController.swift */; };
 		7189CE8425ED20F900434D6C /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7189CE8225ED20F900434D6C /* PlayerViewController.xib */; };
 		7189CE8925ED390200434D6C /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CE8825ED390200434D6C /* HTTPClient.swift */; };
-		7189CEC125EE2E8100434D6C /* AudioPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */; };
+		7189CEC125EE2E8100434D6C /* AVPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEC025EE2E8100434D6C /* AVPlayerController.swift */; };
 		7189CEDD25EF2FFC00434D6C /* Audible Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */; };
 		7189CEEA25EF7DEF00434D6C /* FeedMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEE925EF7DEF00434D6C /* FeedMapper.swift */; };
 		7189CEEF25EFE48100434D6C /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEEE25EFE48100434D6C /* UIColor+Extension.swift */; };
@@ -85,7 +85,7 @@
 		7165B70825ECE3F900D3A79D /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		716B644A25F0AF6000032560 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		716B644F25F0D3C800032560 /* EpisodeFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeFeedLoader.swift; sourceTree = "<group>"; };
-		716B646025F0EC3A00032560 /* PlayerModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModelController.swift; sourceTree = "<group>"; };
+		716B646025F0EC3A00032560 /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
 		716B646625F1BD9200032560 /* PodcastPlayer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PodcastPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
 		716B646725F1BD9200032560 /* AudibleProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudibleProtocol.h; sourceTree = "<group>"; };
 		716B648925F1D68800032560 /* HomeXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeXMLParser.h; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		7189CE8125ED20F900434D6C /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		7189CE8225ED20F900434D6C /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		7189CE8825ED390200434D6C /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
-		7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerController.swift; sourceTree = "<group>"; };
+		7189CEC025EE2E8100434D6C /* AVPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerController.swift; sourceTree = "<group>"; };
 		7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Audible Protocol.swift"; sourceTree = "<group>"; };
 		7189CEE925EF7DEF00434D6C /* FeedMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedMapper.swift; sourceTree = "<group>"; };
 		7189CEEE25EFE48100434D6C /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -194,35 +194,15 @@
 			path = Fundmental;
 			sourceTree = "<group>";
 		};
-		712CB90525E9E4F500034CE7 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				71AE978525EBFB8400E9284F /* Home */,
-				718C9D7F25ECA49100B864E4 /* Episode */,
-				71BC0B1C25ECEF52004FEE0F /* Player */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		712CB91125E9E69B00034CE7 /* EpisodeFeedFeature */ = {
+		712CB91125E9E69B00034CE7 /* EpisodeFeed */ = {
 			isa = PBXGroup;
 			children = (
 				716B644F25F0D3C800032560 /* EpisodeFeedLoader.swift */,
 				712CB91225E9E72600034CE7 /* RemoteEpisodeFeedLoader.swift */,
 				713D497D25EB915600058FD4 /* EpisodeHomeItem.swift */,
 				7189CEE925EF7DEF00434D6C /* FeedMapper.swift */,
-				716B648825F1D64C00032560 /* Objective-C */,
 			);
-			path = EpisodeFeedFeature;
-			sourceTree = "<group>";
-		};
-		712CB91A25E9E9B300034CE7 /* EpisodeFeedAPI */ = {
-			isa = PBXGroup;
-			children = (
-				71CFF16D25EA4D6900C0D278 /* URLSessionHTTPClient.swift */,
-				7189CE8825ED390200434D6C /* HTTPClient.swift */,
-			);
-			path = EpisodeFeedAPI;
+			path = EpisodeFeed;
 			sourceTree = "<group>";
 		};
 		713D494D25EB5BE400058FD4 /* TableViewCell */ = {
@@ -251,19 +231,64 @@
 		716B646525F1BD3D00032560 /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
+				716B648925F1D68800032560 /* HomeXMLParser.h */,
+				71C0499225F336BB00ACBA4C /* HomeXMLParser.m */,
 				716B646725F1BD9200032560 /* AudibleProtocol.h */,
 				716B646625F1BD9200032560 /* PodcastPlayer-Bridging-Header.h */,
 			);
 			path = "Objective-C";
 			sourceTree = "<group>";
 		};
-		716B648825F1D64C00032560 /* Objective-C */ = {
+		7176312B25F490DE000E9E0B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				716B648925F1D68800032560 /* HomeXMLParser.h */,
-				71C0499225F336BB00ACBA4C /* HomeXMLParser.m */,
+				718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */,
+				718C9D8125ECA4F200B864E4 /* EpisodeViewController.xib */,
 			);
-			path = "Objective-C";
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		7176313025F49198000E9E0B /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				7176313125F491A3000E9E0B /* Controller */,
+				7176313325F491AC000E9E0B /* Model */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		7176313125F491A3000E9E0B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7189CE8125ED20F900434D6C /* PlayerViewController.swift */,
+				7189CE8225ED20F900434D6C /* PlayerViewController.xib */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		7176313325F491AC000E9E0B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				716B646025F0EC3A00032560 /* PlayerModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7176313925F49399000E9E0B /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				7189CEC025EE2E8100434D6C /* AVPlayerController.swift */,
+				7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		7176313E25F49491000E9E0B /* XMLParser */ = {
+			isa = PBXGroup;
+			children = (
+				718C9D8D25ECD20A00B864E4 /* HomeXMLParser.swift */,
+			);
+			path = XMLParser;
 			sourceTree = "<group>";
 		};
 		7183AAB525E764A300E1AD98 = {
@@ -293,14 +318,14 @@
 		7183AAC025E764A300E1AD98 /* PodcastPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				718C9D7925EC9EC100B864E4 /* Model */,
 				71AE977A25EBF8A100E9284F /* Helper */,
 				713D496925EB717400058FD4 /* Extension */,
-				712CB91125E9E69B00034CE7 /* EpisodeFeedFeature */,
-				712CB91A25E9E9B300034CE7 /* EpisodeFeedAPI */,
-				7189CEB425EDE78C00434D6C /* AudioPlayerFeature */,
-				71AE976B25EBC05D00E9284F /* View */,
-				712CB90525E9E4F500034CE7 /* Controller */,
+				71C049B325F48FBF00ACBA4C /* Networking */,
+				71C049B025F48F1D00ACBA4C /* Home */,
+				71C049B925F4901D00ACBA4C /* Episode */,
+				7176313025F49198000E9E0B /* Player */,
+				71FF5B7925F496FB00BFB692 /* Shared */,
+				716B646525F1BD3D00032560 /* Objective-C */,
 				7183AACA25E764A400E1AD98 /* Assets.xcassets */,
 				712CB8FE25E9E48400034CE7 /* Fundmental */,
 				712CB8FD25E9E47A00034CE7 /* Supporting Files */,
@@ -327,58 +352,12 @@
 			path = PodcastPlayerUITests;
 			sourceTree = "<group>";
 		};
-		7189CEB425EDE78C00434D6C /* AudioPlayerFeature */ = {
-			isa = PBXGroup;
-			children = (
-				7189CEC025EE2E8100434D6C /* AudioPlayerController.swift */,
-				7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */,
-				716B646525F1BD3D00032560 /* Objective-C */,
-			);
-			path = AudioPlayerFeature;
-			sourceTree = "<group>";
-		};
-		718C9D7925EC9EC100B864E4 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				716B646025F0EC3A00032560 /* PlayerModelController.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		718C9D7F25ECA49100B864E4 /* Episode */ = {
-			isa = PBXGroup;
-			children = (
-				718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */,
-				718C9D8125ECA4F200B864E4 /* EpisodeViewController.xib */,
-			);
-			path = Episode;
-			sourceTree = "<group>";
-		};
-		71AE976B25EBC05D00E9284F /* View */ = {
-			isa = PBXGroup;
-			children = (
-				713D494D25EB5BE400058FD4 /* TableViewCell */,
-				71AE978625EBFBCA00E9284F /* TableHeader */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		71AE977A25EBF8A100E9284F /* Helper */ = {
 			isa = PBXGroup;
 			children = (
 				71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */,
-				718C9D8D25ECD20A00B864E4 /* HomeXMLParser.swift */,
 			);
 			path = Helper;
-			sourceTree = "<group>";
-		};
-		71AE978525EBFB8400E9284F /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */,
-				71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */,
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		71AE978625EBFBCA00E9284F /* TableHeader */ = {
@@ -389,15 +368,6 @@
 			path = TableHeader;
 			sourceTree = "<group>";
 		};
-		71BC0B1C25ECEF52004FEE0F /* Player */ = {
-			isa = PBXGroup;
-			children = (
-				7189CE8125ED20F900434D6C /* PlayerViewController.swift */,
-				7189CE8225ED20F900434D6C /* PlayerViewController.xib */,
-			);
-			path = Player;
-			sourceTree = "<group>";
-		};
 		71C0499F25F3ABBB00ACBA4C /* PlayerModelControllerTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,6 +375,68 @@
 				71C049A225F3ABBB00ACBA4C /* Info.plist */,
 			);
 			path = PlayerModelControllerTests;
+			sourceTree = "<group>";
+		};
+		71C049B025F48F1D00ACBA4C /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				71C049B825F48FFD00ACBA4C /* View */,
+				71C049B125F48F4200ACBA4C /* Controller */,
+				71C049B225F48F5D00ACBA4C /* Model */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		71C049B125F48F4200ACBA4C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */,
+				71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		71C049B225F48F5D00ACBA4C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7176313E25F49491000E9E0B /* XMLParser */,
+				712CB91125E9E69B00034CE7 /* EpisodeFeed */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		71C049B325F48FBF00ACBA4C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				71CFF16D25EA4D6900C0D278 /* URLSessionHTTPClient.swift */,
+				7189CE8825ED390200434D6C /* HTTPClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		71C049B825F48FFD00ACBA4C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				713D494D25EB5BE400058FD4 /* TableViewCell */,
+				71AE978625EBFBCA00E9284F /* TableHeader */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		71C049B925F4901D00ACBA4C /* Episode */ = {
+			isa = PBXGroup;
+			children = (
+				7176312B25F490DE000E9E0B /* Controller */,
+			);
+			path = Episode;
+			sourceTree = "<group>";
+		};
+		71FF5B7925F496FB00BFB692 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				7176313925F49399000E9E0B /* Audio */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		9F9ECF8174348305F475B55F /* Pods */ = {
@@ -696,7 +728,7 @@
 				713D497E25EB915600058FD4 /* EpisodeHomeItem.swift in Sources */,
 				71AE977C25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift in Sources */,
 				71C0499325F336BB00ACBA4C /* HomeXMLParser.m in Sources */,
-				716B646125F0EC3A00032560 /* PlayerModelController.swift in Sources */,
+				716B646125F0EC3A00032560 /* PlayerModel.swift in Sources */,
 				713D495025EB5C0D00058FD4 /* EpisodeFeedTableViewCell.swift in Sources */,
 				718C9D8225ECA4F200B864E4 /* EpisodeViewController.swift in Sources */,
 				7189CE8325ED20F900434D6C /* PlayerViewController.swift in Sources */,
@@ -704,7 +736,7 @@
 				718C9D8E25ECD20A00B864E4 /* HomeXMLParser.swift in Sources */,
 				71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */,
 				71AE977625EBCBDB00E9284F /* UINavigationController+Extension.swift in Sources */,
-				7189CEC125EE2E8100434D6C /* AudioPlayerController.swift in Sources */,
+				7189CEC125EE2E8100434D6C /* AVPlayerController.swift in Sources */,
 				716B645025F0D3C800032560 /* EpisodeFeedLoader.swift in Sources */,
 				71AE976D25EBC07D00E9284F /* HomepageTableHeaderView.swift in Sources */,
 				7183AAC225E764A300E1AD98 /* AppDelegate.swift in Sources */,
@@ -910,7 +942,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-PodcastPlayer.PodcastPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/AudioPlayerFeature/Objective-C/PodcastPlayer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/Objective-C/PodcastPlayer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -933,7 +965,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Joey-PodcastPlayer.PodcastPlayer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/AudioPlayerFeature/Objective-C/PodcastPlayer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "PodcastPlayer/Objective-C/PodcastPlayer-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

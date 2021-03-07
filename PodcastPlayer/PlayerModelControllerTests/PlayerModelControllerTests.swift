@@ -9,11 +9,11 @@ import XCTest
 @testable import PodcastPlayer
 
 class PlayerModelControllerTests: XCTestCase {
-    typealias TestError = PlayerModelController.Error
+    typealias TestError = PlayerModel.Error
     //MARK: Test function getSoundURL
     func test_getSoundURL_NoSoundURLError() {
         let episode = anyEpisode(soundURL: nil)
-        let sut = PlayerModelController(episodes: [episode], currentIndex: 0)
+        let sut = PlayerModel(episodes: [episode], currentIndex: 0)
         
         let expectedError = TestError.noSoundURL
         
@@ -25,7 +25,7 @@ class PlayerModelControllerTests: XCTestCase {
     func test_getSoundURL_hasSoundURL() {
         let expectedURL = anySoundURL()
         let episode = anyEpisode(soundURL: expectedURL)
-        let sut = PlayerModelController(episodes: [episode], currentIndex: 0)
+        let sut = PlayerModel(episodes: [episode], currentIndex: 0)
         
         do {
             let result = try sut.getSoundURL(with: episode)
@@ -46,7 +46,7 @@ class PlayerModelControllerTests: XCTestCase {
     
     func test_start_IndexOutOfRange() {
         let episode = anyEpisode(soundURL: anySoundURL())
-        let sut = PlayerModelController(episodes: [episode], currentIndex: 2)
+        let sut = PlayerModel(episodes: [episode], currentIndex: 2)
         
         let expectedError = TestError.indexOutOfRange
         
@@ -65,7 +65,7 @@ class PlayerModelControllerTests: XCTestCase {
     
     func test_start_NoSoundURLError() {
         let expisodes = [Episode].init(repeating: anyEpisode(soundURL: nil), count: 3)
-        let sut = PlayerModelController(episodes: expisodes, currentIndex: 1)
+        let sut = PlayerModel(episodes: expisodes, currentIndex: 1)
         
         let expectedError = TestError.noSoundURL
         
@@ -86,7 +86,7 @@ class PlayerModelControllerTests: XCTestCase {
     func test_start_hasSoundURL() {
         let expectedSoundURL = anySoundURL()
         let expisodes = [Episode].init(repeating: anyEpisode(soundURL: expectedSoundURL), count: 3)
-        let sut = PlayerModelController(episodes: expisodes, currentIndex: 1)
+        let sut = PlayerModel(episodes: expisodes, currentIndex: 1)
         
         do {
             let result = try sut.start(touchEvent: .checkCurrentEP)

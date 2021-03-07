@@ -17,7 +17,7 @@ public final class EpisodeViewController: UIViewController {
             playButton.tintColor = .kkBlue
         }
     }
-        
+            
     private var episodes:[Episode] = []
     private var currentEpisodeIndex: Int?
     
@@ -36,17 +36,17 @@ public final class EpisodeViewController: UIViewController {
     
     @IBAction func pressPlay(_ sender: UIButton) {
         guard let currentIndex = currentEpisodeIndex else { return }
-    
-        let playerVC = PlayerViewController(episodes: episodes, currentIndex: currentIndex)
+            
+        let playerViewController = PlayerViewController(episodes: episodes, currentIndex: currentIndex)
         
-        playerVC.update = { [weak self] (episode) in
+        playerViewController.update = { [weak self] (episode) in
             if let index = self?.episodes.firstIndex(of: episode) {
                 self?.currentEpisodeIndex = index
                 self?.load(episode: episode)
             }
         }
                         
-        present(playerVC, animated: true)
+        present(playerViewController, animated: true)
     }
 }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class PlayerModelController: EpisodeManipulatible {
+public final class PlayerModel: EpisodeManipulatible {
     public typealias Result = EpisodeManipulatible.Result
     public typealias TouchEvent = EventType
     // MARK: - Episode:
@@ -35,7 +35,7 @@ public final class PlayerModelController: EpisodeManipulatible {
             updateIndex(after: event)
             completion(result)
         } catch {
-            completion(.failure(error as! PlayerModelController.Error))
+            completion(.failure(error as! PlayerModel.Error))
         }
     }
     
@@ -52,7 +52,7 @@ public final class PlayerModelController: EpisodeManipulatible {
 }
 
 //MARK: Error Handling
-extension PlayerModelController {
+extension PlayerModel {
     // #1 處理使用者不同的操作
     func start(touchEvent event: TouchEvent) throws -> Result {
         
@@ -87,8 +87,8 @@ extension PlayerModelController {
 }
 
 public protocol EpisodeManipulatible {
-    typealias Result = Swift.Result<(Episode, URL), PlayerModelController.Error>
-    typealias TouchEvent = PlayerModelController.EventType
+    typealias Result = Swift.Result<(Episode, URL), PlayerModel.Error>
+    typealias TouchEvent = PlayerModel.EventType
     
     func getEpisode(with event: TouchEvent, completion: @escaping (Result) -> Void)
     var episodes:[Episode] { get }

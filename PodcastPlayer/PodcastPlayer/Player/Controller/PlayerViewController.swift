@@ -10,9 +10,9 @@ import Kingfisher
 
 public final class PlayerViewController: UIViewController {
 
-    typealias TouchEvent = PlayerModelController.EventType
+    typealias TouchEvent = PlayerModel.EventType
     
-    private var player: AudioPlayerController?
+    private var audioPlayer: AVPlayerController?
     private var modelController: EpisodeManipulatible?
     private var currentEpisode: Episode?
     
@@ -22,10 +22,10 @@ public final class PlayerViewController: UIViewController {
         didSet {
             if playerState == .playing {
                 playButton.setImage(UIImage.pauseHollow, for: .normal)
-                player?.play()
+                audioPlayer?.play()
             } else {
                 playButton.setImage(UIImage.playHollow, for: .normal)
-                player?.pause()
+                audioPlayer?.pause()
             }
         }
     }
@@ -37,10 +37,10 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider!
     
-    public convenience init(player: AudioPlayerController = AudioPlayerController(), episodes: [Episode], currentIndex: Int) {
+    public convenience init(audioPlayer: AVPlayerController = AVPlayerController(), episodes: [Episode], currentIndex: Int) {
         self.init()
-        self.player = player
-        self.modelController = PlayerModelController(episodes: episodes, currentIndex: currentIndex)
+        self.audioPlayer = audioPlayer
+        self.modelController = PlayerModel(episodes: episodes, currentIndex: currentIndex)
     }
     
     public override func viewDidLoad() {
@@ -70,7 +70,7 @@ public final class PlayerViewController: UIViewController {
     }
 
     deinit {
-        player?.resetPlayer()
+        audioPlayer?.resetPlayer()
     }
 }
 
@@ -81,16 +81,15 @@ extension PlayerViewController {
     }
     
     func trackDuration() {
-        player?.trackDuration = { [weak self] (current, total) in
-            let value = current / total
+        audioPlayer?.trackDuration = { [weak self] (value) in
             self?.slider.value = Float(value)
         }
         
-        player?.playNextEP = { [weak self] in
+        audioPlayer?.playNextEP = { [weak self] in
             self?.loadEpisode(event: .checkNextEP)
         }
         
-        player?.updateProgress = { [weak self] readyToPlay in
+        audioPlayer?.notify = { [weak self] readyToPlay in
             guard let self = self else { return }
             
             self.playerState = readyToPlay ? .playing : .stopped
@@ -99,12 +98,12 @@ extension PlayerViewController {
     
     //MARK: Handle Slide Change:
     @objc func handleSlideChange() {
-        player?.update(episodeCurrentDurationWith: slider.value)
+        audioPlayer?.update(episodeCurrentDurationWith: slider.value)
     }
     
     @objc func slideIsDragging() {
         playerState = .stopped
-        player?.pause()
+        audioPlayer?.pause()
     }
 }
 
@@ -150,26 +149,16 @@ extension PlayerViewController {
     }
     // #2. Handle episode and url depends on user's touchEvent
     func handle(event: TouchEvent, episode: Episode, url: URL)  {
-        switch event {
-        case .checkCurrentEP:
-            renderInterface(with: episode)
-            player?.load(with: url)
-        default:
-            changeEpisode(episode: episode, url: url)
-        }
-    }
-    // #3. Change podcast url
-    func changeEpisode(episode: Episode, url: URL) {
         renderInterface(with: episode)
+        audioPlayer?.load(with: url)
         currentEpisode = episode
-        player?.replace(url: url)
         playerState = .playing
     }
 }
 
 // MARK: Handle Alert event
 private extension PlayerViewController {
-    func showAlert(with error: PlayerModelController.Error, event: PlayerModelController.EventType) {
+    func showAlert(with error: PlayerModel.Error, event: PlayerModel.EventType) {
         guard error != .noSoundURL else {
             self.popAlert(title: "提醒", message: "無法讀取音檔", actionTitle: "確認")
             return
