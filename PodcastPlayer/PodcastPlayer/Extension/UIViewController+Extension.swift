@@ -8,10 +8,12 @@
 import UIKit
 
 extension UIViewController {
-    func popAlert(title: String, message: String, actionTitle: String) {
+    func popAlert(title: String, message: String, actions: [UIAlertAction]) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: actionTitle, style: .cancel, handler: nil)
-        alert.addAction(action)
+        
+        actions.forEach { alert.addAction($0) }
+//        let action = UIAlertAction(title: actionTitle, style: .cancel, handler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>)
+//        alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
 }

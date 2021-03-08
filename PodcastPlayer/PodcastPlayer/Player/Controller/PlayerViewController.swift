@@ -90,9 +90,7 @@ extension PlayerViewController {
         }
         
         audioPlayer?.notify = { [weak self] readyToPlay in
-            guard let self = self else { return }
-            
-            self.playerState = readyToPlay ? .playing : .stopped
+            self?.playerState = readyToPlay ? .playing : .stopped
         }
     }
     
@@ -159,18 +157,24 @@ extension PlayerViewController {
 // MARK: Handle Alert event
 private extension PlayerViewController {
     func showAlert(with error: PlayerModel.Error, event: PlayerModel.EventType) {
+        let dismissAction = UIAlertAction(title: "確認", style: .default) { [weak self] (_) in
+            self?.dismiss(animated: true)
+        }
+        
+        let confirmAction = UIAlertAction(title: "確認", style: .default)
+        
         guard error != .noSoundURL else {
-            self.popAlert(title: "提醒", message: "無法讀取音檔", actionTitle: "確認")
+            self.popAlert(title: "提醒", message: "無法讀取音檔", actions: [dismissAction])
             return
         }
         
         switch event {
         case .checkCurrentEP:
-            popAlert(title: "提醒", message: "當集 Podcast 讀取失敗", actionTitle: "確認")
+            popAlert(title: "提醒", message: "當集 Podcast 讀取失敗", actions: [dismissAction])
         case .checkNextEP:
-            popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actionTitle: "確認")
+            popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actions: [confirmAction])
         case .checkPreviousEP:
-            popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actionTitle: "確認")
+            popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actions: [confirmAction])
         }
     }
 }

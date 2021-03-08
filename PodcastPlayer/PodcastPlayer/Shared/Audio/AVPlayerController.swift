@@ -12,11 +12,9 @@ public final class AVPlayerController {
     private var player:AVPlayer?
     
     private var timeObserver: Any?
-    
+        
     private var isSeekInProgress = false
-    
-    private var currentPlayingItemStatus: AVPlayerItem.Status = .unknown
-    
+        
     private var chaseTime: CMTime = .zero
     // 更新 Audio 的進度
     public var trackDuration: ((Float) -> Void)?
@@ -24,7 +22,7 @@ public final class AVPlayerController {
     public var notify: ((Bool) -> Void)?
     // 播放下一集
     public var playNextEP:(() -> Void)?
-    
+        
     public init(){}
 }
 
@@ -88,10 +86,11 @@ private extension AVPlayerController {
     }
     
     func trySeekToChaseTime() {
-        if currentPlayingItemStatus == .unknown
-        {
+        let status = checkPlayerStatus()
+        
+        if status == .unknown {
             // wait until item becomes ready (KVO player.currentItem.status)
-        } else if currentPlayingItemStatus == .readyToPlay {
+        } else if status == .readyToPlay {
             actuallySeekToTime()
         }
     }
@@ -110,25 +109,15 @@ private extension AVPlayerController {
             self.notify?(!self.isSeekInProgress)
         })
     }
-    // MARK: #Configuration:
-    func configure(url: URL, completion: @escaping () -> Void) {
-        let asset = AVAsset(url: url)
-        
-        let playerItem = AVPlayerItem(asset: asset)
-        
-        player = AVPlayer(playerItem: playerItem)
-        
-        completion()
-    }
     // MARK: #Add Observer
     func addObserver() {
         guard let player = player else { return }
         
-        timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
+       timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
             // 更新 PlayerCurrentItem 的 Status
-           self?.itemReadyToPlay(player.currentItem?.status)
+            let status = self?.checkPlayerStatus()
             
-            if self?.currentPlayingItemStatus == .readyToPlay,
+            if status == .readyToPlay,
                let currentItem = player.currentItem {
                 
                 let totalDuration = CMTimeGetSeconds(currentItem.duration)
@@ -139,8 +128,8 @@ private extension AVPlayerController {
         }
     }
     // 檢查 CurrentItemStatus
-    func itemReadyToPlay(_ status: AVPlayerItem.Status?) {
-        currentPlayingItemStatus = status ?? .unknown
+    func checkPlayerStatus() -> AVPlayerItem.Status {
+        return player?.currentItem?.status ?? .unknown
     }
     // 更新播放進度
     func updateItemProgress(currentDuration: Float64, totalDuration: Float64) {
