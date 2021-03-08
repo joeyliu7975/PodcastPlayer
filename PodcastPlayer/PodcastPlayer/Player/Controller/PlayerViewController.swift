@@ -51,7 +51,7 @@ public final class PlayerViewController: UIViewController {
         
         setup()
         loadEpisode(event:.checkCurrentProject)
-        trackingAudio()
+        trackAudio()
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -83,7 +83,7 @@ extension PlayerViewController {
         episodeLabel.text = episode.title
     }
     
-    func trackingAudio() {
+    func trackAudio() {
         audioPlayer?.trackDuration = { [weak self] (value) in
             self?.slider.value = Float(value)
         }
@@ -162,8 +162,9 @@ private extension PlayerViewController {
             }
             return [dismissAction]
         }
-            let confirmAction = UIAlertAction(title: "確認", style: .default)
-            return [confirmAction]
+        let confirmAction = UIAlertAction(title: "確認", style: .default)
+            
+        return [confirmAction]
     }
     
     func showAlert(with error: PlayerModel.Error, event: PlayerModel.EventType) {
@@ -196,18 +197,3 @@ fileprivate enum PlayerState {
         }
     }
 }
-
-
-protocol Audible {
-    
-}
-
-protocol Play {
-    
-}
-
-protocol Manipulatable {
-    
-}
-
-
