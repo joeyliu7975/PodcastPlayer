@@ -24,6 +24,7 @@ typedef ChannelFeed Feed;
 @protocol PlayPauseProtocol
     -(void)play;
     -(void)pause;
+    -(void)resetPlayer;
 @property (nonatomic, nullable)void(^notifyPlayerStatus)(BOOL);
 
 @end

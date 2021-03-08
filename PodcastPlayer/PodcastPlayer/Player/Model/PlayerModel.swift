@@ -1,5 +1,5 @@
 //
-//  PlayerModelController.swift
+//  PlayerModel.swift
 //  PodcastPlayer
 //
 //  Created by Joey Liu on 3/4/21.
@@ -44,7 +44,7 @@ extension PlayerModel {
 }
 
 //MARK: Error Handling
-extension PlayerModel {
+public extension PlayerModel {
     // #1 處理使用者不同的操作
     func start(touchEvent event: TouchEvent) throws -> Result {
         

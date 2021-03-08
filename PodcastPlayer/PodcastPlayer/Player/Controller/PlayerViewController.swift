@@ -12,7 +12,7 @@ public final class PlayerViewController: UIViewController {
 
     typealias TouchEvent = PlayerModel.EventType
     
-    private var audioPlayer: AVPlayerManager?
+    private var audioPlayer: (PlayPauseProtocol & EpisodeProgressTracking & EpisodeSoundLoader)?
     private var playerModel: EpisodeManipulatible?
     private var currentEpisode: Episode?
     
@@ -35,7 +35,7 @@ public final class PlayerViewController: UIViewController {
     
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
-    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet public weak var playButton: UIButton!
     @IBOutlet weak var nextEPButton: UIButton!
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider!
@@ -196,3 +196,18 @@ fileprivate enum PlayerState {
         }
     }
 }
+
+
+protocol Audible {
+    
+}
+
+protocol Play {
+    
+}
+
+protocol Manipulatable {
+    
+}
+
+

@@ -27,14 +27,6 @@ public final class AVPlayerManager {
 }
 
 extension AVPlayerManager {
-    func resetPlayer() {
-        removeObserver()
-        player = nil
-        timeObserver = nil
-    }
-}
-
-extension AVPlayerManager {
     //MARK: #1. Get total duration
     private func getTotalDuration(currentPlayingItem: AVPlayerItem?,_ completion: (Float64) -> Void) {
         guard
@@ -53,6 +45,12 @@ extension AVPlayerManager: PlayPauseProtocol {
     
     public func pause() {
         player?.pause()
+    }
+    
+    public func resetPlayer() {
+        removeObserver()
+        player = nil
+        timeObserver = nil
     }
 }
 

@@ -1,12 +1,12 @@
 //
-//  PlayerModelControllerTests.swift
-//  PlayerModelControllerTests
+//  PlayerModelTests.swift
+//  PlayerModelTests
 //
 //  Created by Joey Liu on 3/6/21.
 //
 
 import XCTest
-@testable import PodcastPlayer
+import PodcastPlayer
 
 class PlayerModelTests: XCTestCase {
     typealias TestError = PlayerModel.Error
@@ -29,7 +29,7 @@ class PlayerModelTests: XCTestCase {
         
         do {
             let result = try sut.getSoundURL(with: episode)
-            
+
             switch result {
             case let .success((_, receivedURL)):
                 XCTAssertNotNil(receivedURL)
@@ -50,15 +50,15 @@ class PlayerModelTests: XCTestCase {
         
         let expectedError = TestError.indexOutOfRange
         
-        XCTAssertThrowsError(try sut.start(touchEvent: .checkNextEP), "expect \(expectedError), but get return value instead.") { (receivedError) in
+        XCTAssertThrowsError(try sut.start(touchEvent: .checkNextProject), "expect \(expectedError), but get return value instead.") { (receivedError) in
             XCTAssertEqual(receivedError as? TestError, expectedError)
         }
-        
-        XCTAssertThrowsError(try sut.start(touchEvent: .checkPreviousEP), "expect \(expectedError), but get return value instead.") { (receivedError) in
+
+        XCTAssertThrowsError(try sut.start(touchEvent: .checkPreviousProject), "expect \(expectedError), but get return value instead.") { (receivedError) in
             XCTAssertEqual(receivedError as? TestError, expectedError)
         }
-        
-        XCTAssertThrowsError(try sut.start(touchEvent: .checkCurrentEP), "expect \(expectedError), but get return value instead.") { (receivedError) in
+
+        XCTAssertThrowsError(try sut.start(touchEvent: .checkCurrentProject), "expect \(expectedError), but get return value instead.") { (receivedError) in
             XCTAssertEqual(receivedError as? TestError, expectedError)
         }
     }
@@ -69,15 +69,15 @@ class PlayerModelTests: XCTestCase {
         
         let expectedError = TestError.noSoundURL
         
-        XCTAssertThrowsError(try sut.start(touchEvent: .checkNextEP), "expect \(expectedError), but get return value instead.") { (receivedError) in
+        XCTAssertThrowsError(try sut.start(touchEvent: .checkNextProject), "expect \(expectedError), but get return value instead.") { (receivedError) in
             XCTAssertEqual(receivedError as? TestError, expectedError)
         }
-        
-        XCTAssertThrowsError(try sut.start(touchEvent: .checkPreviousEP), "expect \(expectedError), but get return value instead.") { (receivedError) in
+
+        XCTAssertThrowsError(try sut.start(touchEvent: .checkPreviousProject), "expect \(expectedError), but get return value instead.") { (receivedError) in
             XCTAssertEqual(receivedError as? TestError, expectedError)
         }
-        
-        XCTAssertThrowsError(try sut.start(touchEvent: .checkCurrentEP), "expect \(expectedError), but get return value instead.") { (receivedError) in
+
+        XCTAssertThrowsError(try sut.start(touchEvent: .checkCurrentProject), "expect \(expectedError), but get return value instead.") { (receivedError) in
             XCTAssertEqual(receivedError as? TestError, expectedError)
         }
         
@@ -89,8 +89,8 @@ class PlayerModelTests: XCTestCase {
         let sut = PlayerModel(episodes: expisodes, currentIndex: 1)
         
         do {
-            let result = try sut.start(touchEvent: .checkCurrentEP)
-            
+            let result = try sut.start(touchEvent: .checkCurrentProject)
+
             switch result {
             case let .success((_, receivedSoundURL)):
                 XCTAssertEqual(expectedSoundURL, receivedSoundURL)
@@ -100,10 +100,10 @@ class PlayerModelTests: XCTestCase {
         } catch {
             XCTFail("Expect\(expectedSoundURL), but it throw \(error) instead")
         }
-        
+
         do {
-            let result = try sut.start(touchEvent: .checkNextEP)
-            
+            let result = try sut.start(touchEvent: .checkNextProject)
+
             switch result {
             case let .success((_, receivedSoundURL)):
                 XCTAssertEqual(expectedSoundURL, receivedSoundURL)
@@ -113,10 +113,10 @@ class PlayerModelTests: XCTestCase {
         } catch {
             XCTFail("Expect\(expectedSoundURL), but it throw \(error) instead")
         }
-        
+
         do {
-            let result = try sut.start(touchEvent: .checkPreviousEP)
-            
+            let result = try sut.start(touchEvent: .checkPreviousProject)
+
             switch result {
             case let .success((_, receivedSoundURL)):
                 XCTAssertEqual(expectedSoundURL, receivedSoundURL)
@@ -141,12 +141,11 @@ class PlayerModelTests: XCTestCase {
     private func anyEpisode(soundURL: URL?) -> Episode {
         let coverImage = anyImageURL()
         
-        let episode = Episode(coverImage: coverImage,
-                              title: "Hello",
-                              description: "Hello World",
-                              releaseDate: "Today",
-                              soundURL: soundURL)
+        let episode = Episode()
         
-        return episode
+        episode?.coverImage = coverImage
+        episode?.soundURL = soundURL
+
+        return episode!
     }
 }
