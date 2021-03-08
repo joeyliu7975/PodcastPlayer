@@ -62,8 +62,10 @@ private extension HomepageViewController {
                     self?.feed = channelFeeds
                 }
             case let .failure(error):
+                DispatchQueue.main.async {
                 let confirmAction = UIAlertAction(title: "確認", style: .default)
                 self?.popAlert(title: "錯誤", message: "\(error)", actions: [confirmAction])
+                }
             }
         })
     }
