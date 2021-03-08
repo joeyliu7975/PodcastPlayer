@@ -12,21 +12,24 @@ public final class PlayerViewController: UIViewController {
 
     typealias TouchEvent = PlayerModel.EventType
     
-    private var audioPlayer: AVPlayerController?
-    private var modelController: EpisodeManipulatible?
+    private var audioPlayer: AVPlayerManager?
+    private var playerModel: EpisodeManipulatible?
     private var currentEpisode: Episode?
     
     var update: ((Episode) -> Void)?
     
     fileprivate var playerState: PlayerState = .playing {
         didSet {
+            let image = (playerState == .playing) ?
+                UIImage.pauseHollow : UIImage.playHollow
+            
             if playerState == .playing {
-                playButton.setImage(UIImage.pauseHollow, for: .normal)
                 audioPlayer?.play()
             } else {
-                playButton.setImage(UIImage.playHollow, for: .normal)
                 audioPlayer?.pause()
             }
+            
+            playButton.setImage(image, for: .normal)
         }
     }
     
@@ -37,18 +40,18 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider!
     
-    public convenience init(audioPlayer: AVPlayerController = AVPlayerController(), episodes: [Episode], currentIndex: Int) {
+    public convenience init(audioPlayer: AVPlayerManager = AVPlayerManager(), episodes: [Episode], currentIndex: Int) {
         self.init()
         self.audioPlayer = audioPlayer
-        self.modelController = PlayerModel(episodes: episodes, currentIndex: currentIndex)
+        self.playerModel = PlayerModel(episodes: episodes, currentIndex: currentIndex)
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
-        configurePlayer()
-        trackDuration()
+        loadEpisode(event:.checkCurrentProject)
+        trackingAudio()
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -62,11 +65,11 @@ public final class PlayerViewController: UIViewController {
     }
     
     @IBAction func pressNextEP(_ sender: UIButton) {
-        loadEpisode(event:.checkNextEP)
+        loadEpisode(event:.checkNextProject)
     }
     
     @IBAction func pressPreviousEP(_ sender: UIButton) {
-        loadEpisode(event: .checkPreviousEP)
+        loadEpisode(event: .checkPreviousProject)
     }
 
     deinit {
@@ -80,16 +83,16 @@ extension PlayerViewController {
         episodeLabel.text = episode.title
     }
     
-    func trackDuration() {
+    func trackingAudio() {
         audioPlayer?.trackDuration = { [weak self] (value) in
             self?.slider.value = Float(value)
         }
         
-        audioPlayer?.playNextEP = { [weak self] in
-            self?.loadEpisode(event: .checkNextEP)
+        audioPlayer?.playNextProject = { [weak self] in
+            self?.loadEpisode(event: .checkNextProject)
         }
         
-        audioPlayer?.notify = { [weak self] readyToPlay in
+        audioPlayer?.notifyPlayerStatus = { [weak self] readyToPlay in
             self?.playerState = readyToPlay ? .playing : .stopped
         }
     }
@@ -126,55 +129,58 @@ private extension PlayerViewController {
         slider.addTarget(self, action: #selector(handleSlideChange), for: .touchUpInside)
         slider.addTarget(self, action: #selector(slideIsDragging), for: .valueChanged)
     }
-        
-    func configurePlayer() {
-        loadEpisode(event:.checkCurrentEP)
-    }
 }
    //MARK: Episode Loading:
 extension PlayerViewController {
     // #1. Get the right episode and soundURL from Model Layer
     func loadEpisode(event: TouchEvent) {
-        modelController?.getEpisode(with: event, completion: { [weak self] (result) in
+        playerModel?.getEpisode(with: event, completion: { [weak self] (result) in
             switch result {
             case let .success((episode, url)):
-                self?.handle(event: event, episode: episode, url: url)
+                self?.handle(episode: episode, url: url)
             case let .failure(error):
                 self?.showAlert(with: error, event: event)
                 self?.playerState = .stopped
             }
         })
     }
+    
     // #2. Handle episode and url depends on user's touchEvent
-    func handle(event: TouchEvent, episode: Episode, url: URL)  {
+    func handle(episode: Episode, url: URL)  {
         renderInterface(with: episode)
-        audioPlayer?.load(with: url)
         currentEpisode = episode
-        playerState = .playing
+        audioPlayer?.load(with: url)
     }
 }
 
 // MARK: Handle Alert event
 private extension PlayerViewController {
-    func showAlert(with error: PlayerModel.Error, event: PlayerModel.EventType) {
-        let dismissAction = UIAlertAction(title: "確認", style: .default) { [weak self] (_) in
-            self?.dismiss(animated: true)
+    func alertActions(with error: PlayerModel.Error) -> [UIAlertAction] {
+        guard error != .noSoundURL else {
+            let dismissAction = UIAlertAction(title: "確認", style: .default) { [weak self] (_) in
+                self?.dismiss(animated: true)
+            }
+            return [dismissAction]
         }
-        
-        let confirmAction = UIAlertAction(title: "確認", style: .default)
+            let confirmAction = UIAlertAction(title: "確認", style: .default)
+            return [confirmAction]
+    }
+    
+    func showAlert(with error: PlayerModel.Error, event: PlayerModel.EventType) {
+       let actions = alertActions(with: error)
         
         guard error != .noSoundURL else {
-            self.popAlert(title: "提醒", message: "無法讀取音檔", actions: [dismissAction])
+            self.popAlert(title: "提醒", message: "無法讀取音檔", actions: actions)
             return
         }
         
         switch event {
-        case .checkCurrentEP:
-            popAlert(title: "提醒", message: "當集 Podcast 讀取失敗", actions: [dismissAction])
-        case .checkNextEP:
-            popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actions: [confirmAction])
-        case .checkPreviousEP:
-            popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actions: [confirmAction])
+        case .checkCurrentProject:
+            popAlert(title: "提醒", message: "當集 Podcast 讀取失敗", actions: actions)
+        case .checkNextProject:
+            popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actions: actions)
+        case .checkPreviousProject:
+            popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actions: actions)
         }
     }
 }

@@ -8,25 +8,25 @@
 import Foundation
 import AVFoundation
 
-public final class AVPlayerController {
+public final class AVPlayerManager {
     private var player:AVPlayer?
     
     private var timeObserver: Any?
         
     private var isSeekInProgress = false
-        
+    
     private var chaseTime: CMTime = .zero
     // 更新 Audio 的進度
     public var trackDuration: ((Float) -> Void)?
     // 更新播放狀態(play/pause)
-    public var notify: ((Bool) -> Void)?
+    public var notifyPlayerStatus: ((Bool) -> Void)?
     // 播放下一集
-    public var playNextEP:(() -> Void)?
+    public var playNextProject:(() -> Void)?
         
     public init(){}
 }
 
-extension AVPlayerController {
+extension AVPlayerManager {
     func resetPlayer() {
         removeObserver()
         player = nil
@@ -34,7 +34,7 @@ extension AVPlayerController {
     }
 }
 
-extension AVPlayerController {
+extension AVPlayerManager {
     //MARK: #1. Get total duration
     private func getTotalDuration(currentPlayingItem: AVPlayerItem?,_ completion: (Float64) -> Void) {
         guard
@@ -46,7 +46,7 @@ extension AVPlayerController {
     }
 }
 
-extension AVPlayerController: PlayPauseProtocol {
+extension AVPlayerManager: PlayPauseProtocol {
     public func play() {
         player?.play()
     }
@@ -56,7 +56,7 @@ extension AVPlayerController: PlayPauseProtocol {
     }
 }
 
-extension AVPlayerController: EpisodeProgressTracking {
+extension AVPlayerManager: EpisodeProgressTracking {
     public func updateCurrentDuration(with sliderValue: Float) {
         if let duration = player?.currentItem?.duration {
             let totalSecond = CMTimeGetSeconds(duration)
@@ -70,8 +70,8 @@ extension AVPlayerController: EpisodeProgressTracking {
     }
 }
 
-//MARK: Apple Answer to handle AVPlayer seekTime:
-private extension AVPlayerController {
+//MARK: Apple's solution to handle AVPlayer seekTime:
+private extension AVPlayerManager {
     func stopPlayingAndSeekSmoothlyToTime(newChaseTime:CMTime)
     {
         pause()
@@ -97,6 +97,7 @@ private extension AVPlayerController {
     
     func actuallySeekToTime() {
         isSeekInProgress = true
+        
         let seekTimeInProgress = chaseTime
         
         player?.seek(to: seekTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero, completionHandler: { (isFinished) in
@@ -105,10 +106,12 @@ private extension AVPlayerController {
             } else {
                 self.trySeekToChaseTime()
             }
-            
-            self.notify?(!self.isSeekInProgress)
+            self.notifyPlayerStatus?(!self.isSeekInProgress)
         })
     }
+}
+
+private extension AVPlayerManager {
     // MARK: #Add Observer
     func addObserver() {
         guard let player = player else { return }
@@ -127,19 +130,7 @@ private extension AVPlayerController {
             }
         }
     }
-    // 檢查 CurrentItemStatus
-    func checkPlayerStatus() -> AVPlayerItem.Status {
-        return player?.currentItem?.status ?? .unknown
-    }
-    // 更新播放進度
-    func updateItemProgress(currentDuration: Float64, totalDuration: Float64) {
-        if currentDuration == totalDuration {
-            playNextEP?()
-        } else {
-            let value = Float(currentDuration / totalDuration)
-            trackDuration?(value)
-        }
-    }
+    
     // MARK: #Remove Observer
     func removeObserver() {
         player?.currentItem?.cancelPendingSeeks()
@@ -149,9 +140,23 @@ private extension AVPlayerController {
             player?.removeTimeObserver(observer)
         }
     }
+    
+    // 檢查 CurrentItemStatus
+    func checkPlayerStatus() -> AVPlayerItem.Status {
+        return player?.currentItem?.status ?? .unknown
+    }
+    // 更新播放進度
+    func updateItemProgress(currentDuration: Float64, totalDuration: Float64) {
+        if currentDuration == totalDuration {
+            playNextProject?()
+        } else {
+            let value = Float(currentDuration / totalDuration)
+            trackDuration?(value)
+        }
+    }
 }
 
-extension AVPlayerController: EpisodeSoundLoader {
+extension AVPlayerManager: EpisodeSoundLoader {
     public func load(with soundURL: URL) {
         let asset = AVAsset(url: soundURL)
         let playerItem = AVPlayerItem(asset: asset)
@@ -165,6 +170,7 @@ extension AVPlayerController: EpisodeSoundLoader {
         }
         
         trackDuration?(0)
+        
         play()
     }
 }

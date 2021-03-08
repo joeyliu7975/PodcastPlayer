@@ -24,7 +24,7 @@ typedef ChannelFeed Feed;
 @protocol PlayPauseProtocol
     -(void)play;
     -(void)pause;
-@property (nonatomic, nullable)void(^notify)(BOOL);
+@property (nonatomic, nullable)void(^notifyPlayerStatus)(BOOL);
 
 @end
 //
@@ -35,7 +35,7 @@ typedef ChannelFeed Feed;
 //
 @protocol EpisodeSoundLoader
     -(void) loadWith:(NSURL *)url;
-@property (nonatomic, nullable)void(^playNextEP)(void);
+@property (nonatomic, nullable)void(^playNextProject)(void);
 @end
 
 

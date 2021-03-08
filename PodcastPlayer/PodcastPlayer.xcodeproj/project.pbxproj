@@ -28,8 +28,7 @@
 		7189CE8325ED20F900434D6C /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CE8125ED20F900434D6C /* PlayerViewController.swift */; };
 		7189CE8425ED20F900434D6C /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7189CE8225ED20F900434D6C /* PlayerViewController.xib */; };
 		7189CE8925ED390200434D6C /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CE8825ED390200434D6C /* HTTPClient.swift */; };
-		7189CEC125EE2E8100434D6C /* AVPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEC025EE2E8100434D6C /* AVPlayerController.swift */; };
-		7189CEDD25EF2FFC00434D6C /* Audible Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */; };
+		7189CEC125EE2E8100434D6C /* AVPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEC025EE2E8100434D6C /* AVPlayerManager.swift */; };
 		7189CEEA25EF7DEF00434D6C /* FeedMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEE925EF7DEF00434D6C /* FeedMapper.swift */; };
 		7189CEEF25EFE48100434D6C /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7189CEEE25EFE48100434D6C /* UIColor+Extension.swift */; };
 		718C9D8225ECA4F200B864E4 /* EpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */; };
@@ -40,7 +39,7 @@
 		71AE977C25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */; };
 		71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */; };
 		71C0499325F336BB00ACBA4C /* HomeXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C0499225F336BB00ACBA4C /* HomeXMLParser.m */; };
-		71C049A125F3ABBB00ACBA4C /* PlayerModelControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C049A025F3ABBB00ACBA4C /* PlayerModelControllerTests.swift */; };
+		71C049A125F3ABBB00ACBA4C /* PlayerModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C049A025F3ABBB00ACBA4C /* PlayerModelTests.swift */; };
 		71CFF16E25EA4D6900C0D278 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFF16D25EA4D6900C0D278 /* URLSessionHTTPClient.swift */; };
 		71CFF17F25EA86B800C0D278 /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */; };
 		71CFF18025EA86B800C0D278 /* HomepageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71CFF17E25EA86B800C0D278 /* HomepageViewController.xib */; };
@@ -107,8 +106,7 @@
 		7189CE8125ED20F900434D6C /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		7189CE8225ED20F900434D6C /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		7189CE8825ED390200434D6C /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
-		7189CEC025EE2E8100434D6C /* AVPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerController.swift; sourceTree = "<group>"; };
-		7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Audible Protocol.swift"; sourceTree = "<group>"; };
+		7189CEC025EE2E8100434D6C /* AVPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerManager.swift; sourceTree = "<group>"; };
 		7189CEE925EF7DEF00434D6C /* FeedMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedMapper.swift; sourceTree = "<group>"; };
 		7189CEEE25EFE48100434D6C /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		718C9D8025ECA4F200B864E4 /* EpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewController.swift; sourceTree = "<group>"; };
@@ -120,7 +118,7 @@
 		71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		71C0499225F336BB00ACBA4C /* HomeXMLParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeXMLParser.m; sourceTree = "<group>"; };
 		71C0499E25F3ABBB00ACBA4C /* PlayerModelControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayerModelControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		71C049A025F3ABBB00ACBA4C /* PlayerModelControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModelControllerTests.swift; sourceTree = "<group>"; };
+		71C049A025F3ABBB00ACBA4C /* PlayerModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModelTests.swift; sourceTree = "<group>"; };
 		71C049A225F3ABBB00ACBA4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71CFF16D25EA4D6900C0D278 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		71CFF17D25EA86B800C0D278 /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
@@ -313,8 +311,7 @@
 		7176313925F49399000E9E0B /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				7189CEC025EE2E8100434D6C /* AVPlayerController.swift */,
-				7189CEDC25EF2FFC00434D6C /* Audible Protocol.swift */,
+				7189CEC025EE2E8100434D6C /* AVPlayerManager.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -333,7 +330,7 @@
 				7183AAC025E764A300E1AD98 /* PodcastPlayer */,
 				7183AAD725E764A500E1AD98 /* PodcastPlayerTests */,
 				7183AAE225E764A500E1AD98 /* PodcastPlayerUITests */,
-				71C0499F25F3ABBB00ACBA4C /* PlayerModelControllerTests */,
+				71C0499F25F3ABBB00ACBA4C /* PlayerModelTests */,
 				7183AABF25E764A300E1AD98 /* Products */,
 				9F9ECF8174348305F475B55F /* Pods */,
 				4D7982D1D414885881F8762D /* Frameworks */,
@@ -404,13 +401,13 @@
 			path = TableHeader;
 			sourceTree = "<group>";
 		};
-		71C0499F25F3ABBB00ACBA4C /* PlayerModelControllerTests */ = {
+		71C0499F25F3ABBB00ACBA4C /* PlayerModelTests */ = {
 			isa = PBXGroup;
 			children = (
-				71C049A025F3ABBB00ACBA4C /* PlayerModelControllerTests.swift */,
+				71C049A025F3ABBB00ACBA4C /* PlayerModelTests.swift */,
 				71C049A225F3ABBB00ACBA4C /* Info.plist */,
 			);
-			path = PlayerModelControllerTests;
+			path = PlayerModelTests;
 			sourceTree = "<group>";
 		};
 		71C049B025F48F1D00ACBA4C /* Home */ = {
@@ -771,7 +768,7 @@
 				718C9D8E25ECD20A00B864E4 /* HomeXMLParser.swift in Sources */,
 				71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */,
 				71AE977625EBCBDB00E9284F /* UINavigationController+Extension.swift in Sources */,
-				7189CEC125EE2E8100434D6C /* AVPlayerController.swift in Sources */,
+				7189CEC125EE2E8100434D6C /* AVPlayerManager.swift in Sources */,
 				716B645025F0D3C800032560 /* EpisodeFeedLoader.swift in Sources */,
 				71AE976D25EBC07D00E9284F /* HomepageTableHeaderView.swift in Sources */,
 				7183AAC225E764A300E1AD98 /* AppDelegate.swift in Sources */,
@@ -784,7 +781,6 @@
 				7183AAC425E764A300E1AD98 /* SceneDelegate.swift in Sources */,
 				7162BB6425F507E9006DD513 /* EpisodeFeedItem.m in Sources */,
 				7189CE8925ED390200434D6C /* HTTPClient.swift in Sources */,
-				7189CEDD25EF2FFC00434D6C /* Audible Protocol.swift in Sources */,
 				71CFF17F25EA86B800C0D278 /* HomepageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -810,7 +806,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71C049A125F3ABBB00ACBA4C /* PlayerModelControllerTests.swift in Sources */,
+				71C049A125F3ABBB00ACBA4C /* PlayerModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

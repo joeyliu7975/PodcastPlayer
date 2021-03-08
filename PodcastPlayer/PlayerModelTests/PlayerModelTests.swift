@@ -8,7 +8,7 @@
 import XCTest
 @testable import PodcastPlayer
 
-class PlayerModelControllerTests: XCTestCase {
+class PlayerModelTests: XCTestCase {
     typealias TestError = PlayerModel.Error
     //MARK: Test function getSoundURL
     func test_getSoundURL_NoSoundURLError() {

@@ -8,8 +8,6 @@
 import Foundation
 
 public final class PlayerModel: EpisodeManipulatible {
-    public typealias Result = EpisodeManipulatible.Result
-    public typealias TouchEvent = EventType
     // MARK: - Episode:
     private(set) public var episodes:[Episode] = []
         
@@ -26,7 +24,7 @@ public final class PlayerModel: EpisodeManipulatible {
     }
     
     public enum EventType {
-        case checkCurrentEP, checkPreviousEP, checkNextEP
+        case checkCurrentProject, checkPreviousProject, checkNextProject
     }
     
     public func getEpisode(with event: TouchEvent, completion: @escaping (Result) -> Void) {
@@ -38,17 +36,11 @@ public final class PlayerModel: EpisodeManipulatible {
             completion(.failure(error as! PlayerModel.Error))
         }
     }
-    
-    private func updateIndex(after event: TouchEvent) {
-        switch event {
-        case .checkNextEP:
-            currentIndex -= 1
-        case .checkPreviousEP:
-            currentIndex += 1
-        default:
-            break
-        }
-    }
+}
+
+extension PlayerModel {
+    public typealias Result = EpisodeManipulatible.Result
+    public typealias TouchEvent = EventType
 }
 
 //MARK: Error Handling
@@ -59,11 +51,11 @@ extension PlayerModel {
         var targetIndex: Int
         
         switch event {
-        case .checkCurrentEP:
+        case .checkCurrentProject:
             targetIndex = currentIndex
-        case .checkNextEP:
+        case .checkNextProject:
             targetIndex = currentIndex - 1
-        case .checkPreviousEP:
+        case .checkPreviousProject:
             targetIndex = currentIndex + 1
         }
         // #2 檢查是否 index out of range
@@ -83,6 +75,19 @@ extension PlayerModel {
         }
         
         return .success((episode, url))
+    }
+}
+
+extension PlayerModel {
+    func updateIndex(after event: TouchEvent) {
+        switch event {
+        case .checkNextProject:
+            currentIndex -= 1
+        case .checkPreviousProject:
+            currentIndex += 1
+        default:
+            break
+        }
     }
 }
 
