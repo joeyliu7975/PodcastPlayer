@@ -44,16 +44,6 @@
                </Test>
             </SkippedTests>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "71329F3825F64DE7001DE1E1"
-               BuildableName = "RemoteEpisodeFeedLoaderIntegrationTest.xctest"
-               BlueprintName = "RemoteEpisodeFeedLoaderIntegrationTest"
-               ReferencedContainer = "container:PodcastPlayer.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
