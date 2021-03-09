@@ -270,6 +270,12 @@ if CMTimeCompare(seekTimeInProgress, self.chaseTime) == 0 {
 
 ***
 
+## Flowchart ( Play Newer/Older Episode )
+
+<img src="https://i.postimg.cc/yWqBY5NP/Screen-Shot-2021-03-09-at-2-39-08-PM.png" alt="" width="350" height = "550" align="center" />
+
+***
+
 ## App Architecture
 
 ### Home Page
