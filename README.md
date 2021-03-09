@@ -79,3 +79,37 @@ bit.ly/37Yi4D4</description>
             <itunes:image href="https://i1.sndcdn.com/artworks-Z7zJRFuDjv63KCHv-5W8whA-t3000x3000.jpg"/>
         </item>
 ```
+
+
+## Episode Page Specs (Episode Page)
+
+### Narrative#1
+```
+As a podcast audioence
+I want to look into selected episode's description
+So I can learn more about the topic and project
+```
+
+## Use cases
+
+### Display episode detail
+#### Data: 
+* array of ```Episode```
+* ```Int```
+
+#### Primary Course( happy path ):
+
+1.Load episode
+2.```Kingfisher``` load episode coverImage with URL
+3.Render UI component with episode
+
+#### ```Episode``` property contains valid value ( sad path ):
+System delivers invalid data error
+#### Cover image’s URL couldn’t load ( sad path ):
+```Kingfisher``` displays placeholder on UIImageView
+
+### Transfer to player page and start to play audio
+
+#### Primary Course( happy path ):
+Transfer to player page
+
