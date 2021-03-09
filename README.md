@@ -165,9 +165,6 @@ System doesn't play the audio
 1. AVPlayerItem is ready to play<br/>
 2. AVPlayer pause the audio<br/>
 
-#### The AVPlayerItem is not ready( sad path ):
-System currently doesnt' do anything about it
-
 ***
 
 ### Switch to Next/Previous Episode
