@@ -36,8 +36,11 @@ System delivers invalidate data error
 #### No Connectivity( sad path ):
 System delivers connectivity error
 
+***
+
 ## Flowchart
 <img src="https://i.postimg.cc/26wHQjpg/Screen-Shot-2021-03-08-at-11-55-12-PM.png" alt="" width="350" height = "550" align="center" />
+
 
 ## Model Specs
 
@@ -108,8 +111,13 @@ System delivers invalid data error
 #### Cover image’s URL couldn’t load ( sad path ):
 ```Kingfisher``` displays placeholder on UIImageView
 
+***
+
+
 ### Transfer to player page and start to play audio
 
 #### Primary Course( happy path ):
 Transfer to player page
+
+***
 
