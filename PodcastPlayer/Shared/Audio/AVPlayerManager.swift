@@ -56,7 +56,7 @@ extension AVPlayerManager: PlayPauseProtocol {
 
 extension AVPlayerManager: EpisodeProgressTracking {
     public func updateCurrentDuration(with sliderValue: Float) {
-        if let duration = player?.currentItem?.duration {
+        if let duration = player?.currentItem?.duration, checkPlayerStatus() == .readyToPlay {
             let totalSecond = CMTimeGetSeconds(duration)
             
             let value = (sliderValue) * Float(totalSecond)
