@@ -274,7 +274,7 @@ if CMTimeCompare(seekTimeInProgress, self.chaseTime) == 0 {
 
 ### Home Page
 
-<img src="https://i.postimg.cc/k4NF2y2Q/Feed-Loader-UML.png" alt="" width="650" height = "450" align="center" />
+<img src="https://i.postimg.cc/9X7zYfbk/Screen-Shot-2021-03-09-at-1-27-40-PM.png" alt="" width="650" height = "450" align="center" />
 
 ***
 
