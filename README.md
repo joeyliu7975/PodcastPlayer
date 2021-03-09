@@ -121,3 +121,153 @@ Transfer to player page
 
 ***
 
+## Player
+
+### Narrative
+
+```
+As an audience who already peruse episode's summary
+Finally decided to listen to the content
+The app should be able to let me play the podcast
+```
+
+## Use cases
+
+### Load Sound URL
+
+#### Data:
+* URL ``` https://xxx.sound.mp3 ```
+
+#### Primary Course( happy path ):
+1.AVPlayerItem load url, and the url is valid
+2.AVPlayerItem is ready to play
+3.AVPlayer play the audio
+
+#### The url is invlid ( sad path ):
+System doesn't play the audio
+
+***
+
+### Play Audio
+
+#### Primary Course( happy path ):
+1.AVPlayerItem is ready to play
+2.AVPlayer play the audio
+
+#### The AVPlayerItem is not ready( sad path ):
+System doesn't play the audio
+
+***
+
+### Pause Audio
+
+#### Primary Course( happy path ):
+1. AVPlayerItem is ready to play
+2. AVPlayer pause the audio
+
+#### The AVPlayerItem is not ready( sad path ):
+System currently doesnt' do anything about it
+
+***
+
+### Switch to Next/Previous Episode
+
+#### Data:
+* Input:
+  ```[Episode]```, Int
+* Output:
+  ```Result<( Episode, URL), Error>```
+#### Primary Course( happy path ):
+1.Execute ‘func loadEpisode’ 
+2.PlayerModel retrieve episode and URL for Controller
+3.Render interface with episode
+4.AudioPlayer load sound URL
+5.AVPlayerItem is read to play
+6.AVPlayer start to play
+
+#### Index out of range ( sad path ):
+System delivers index out of range error
+
+#### Sound URL is missing ( sad path ):
+System delivers sound URL is missing error
+
+***
+
+### Manipulate episode with Slider
+
+#### Data:
+* Double
+
+#### Default configuration for AVPlayerManager:
+```
+public final class AVPlayerManager {
+    private var player:AVPlayer?
+    
+    private var timeObserver: Any?
+        
+    private var isSeekInProgress = false
+    
+    private var chaseTime: CMTime = .zero
+```
+
+#### Primary Course( happy path ):
+1. AVPlayer currentItem's duration is not nil
+2. Convert slider value to total second
+3. Convert sldier value, the process is shown as below:
+```
+if let duration = player?.currentItem?.duration {
+            let totalSecond = CMTimeGetSeconds(duration)
+            
+            let value = (sliderValue) * Float(totalSecond)
+            
+            let seekTime = CMTime(value: CMTimeValue(value), timescale: 1)
+           }
+```
+
+4. Execute ```func stopPlayingAndSeekSmoothlyToTime(newChaseTime:)``` 
+5. Pause AVPlayer
+6.  Compare ```currentChaseTime``` with ```newChaseTime```
+```
+if CMTimeCompare(newChaseTime, chaseTime) != 0 {
+            chaseTime = newChaseTime
+            
+            if !isSeekInProgress {
+                trySeekToChaseTime()
+            }
+        }
+```
+
+7. Check statement ```isSeekInProgress```
+```
+if !isSeekInProgress {
+                trySeekToChaseTime()
+            }
+```
+
+8. Check AVPlayer currentItem's status.
+```
+if status == .unknown {
+            // wait until item becomes ready
+        } else if status == .readyToPlay {
+            actuallySeekToTime()
+        }
+```
+
+9. ```isSeekInProgress = true```
+10. ```let seekTimeInProgress = chaseTime```
+11. Execute ```AVPlayer.seekseek(to: seekTimeInProgress, toleranceBefore: .zero, toleranceAfter: .zero, completion:)```
+12. Execute ```CMTimeCompare(seekTimeInProgress, self.chaseTime)```
+13. 
+```
+if CMTimeCompare(seekTimeInProgress, self.chaseTime) == 0 {
+                self.isSeekInProgress = false
+            } else {
+                self.trySeekToChaseTime()
+            }
+```
+
+14. notify PlayerViewController to update
+
+***
+
+
