@@ -270,4 +270,14 @@ if CMTimeCompare(seekTimeInProgress, self.chaseTime) == 0 {
 
 ***
 
+## App Architecture
 
+### Home Page
+
+<img src="https://i.postimg.cc/k4NF2y2Q/Feed-Loader-UML.png" alt="" width="650" height = "450" align="center" />
+
+***
+
+### Player Page
+
+<img src="https://i.postimg.cc/qMWhd3R4/Screen-Shot-2021-03-09-at-1-23-27-PM.png" alt="" width="550" height = "450" align="center" />
