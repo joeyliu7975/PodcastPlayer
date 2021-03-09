@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import PodcastPlayer
+import PodcastPlayer
 
 class EpisodeRemoteFeedLoaderTest: XCTestCase {
 
