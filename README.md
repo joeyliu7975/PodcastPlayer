@@ -24,16 +24,16 @@ Given the audioence has connectivity
 #### Data:
 * URL
 
-##### Primary Course( happy path ):
+#### Primary Course( happy path ):
 1. Execute ‘func load’ and with data above. 
 2. System download data with URL
 3. System validates downloading data
 4. System creates channel feed for validate data
 5. System deliver channel feed
 
-##### Invalid Data( sad path ):
+#### Invalid Data( sad path ):
 System delivers invalidate data error
-##### No Connectivity( sad path ):
+#### No Connectivity( sad path ):
 System delivers connectivity error
 
 ## Flowchart
