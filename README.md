@@ -37,7 +37,7 @@ System delivers invalidate data error
 System delivers connectivity error
 
 ## Flowchart
-<img src="https://i.postimg.cc/26wHQjpg/Screen-Shot-2021-03-08-at-11-55-12-PM.png" alt="" width="450" height = "650" align="center" />
+<img src="https://i.postimg.cc/26wHQjpg/Screen-Shot-2021-03-08-at-11-55-12-PM.png" alt="" width="350" height = "550" align="center" />
 
 ## Model Specs
 
