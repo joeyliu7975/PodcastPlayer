@@ -102,9 +102,9 @@ So I can learn more about the topic and project
 
 #### Primary Course( happy path ):
 
-1.Load episode
-2.```Kingfisher``` load episode coverImage with URL
-3.Render UI component with episode
+1.Load episode<br/>
+2.```Kingfisher``` load episode coverImage with URL<br/>
+3.Render UI component with episode<br/>
 
 #### ```Episode``` property contains valid value ( sad path ):
 System delivers invalid data error
@@ -139,9 +139,9 @@ The app should be able to let me play the podcast
 * URL ``` https://xxx.sound.mp3 ```
 
 #### Primary Course( happy path ):
-1.AVPlayerItem load url, and the url is valid
-2.AVPlayerItem is ready to play
-3.AVPlayer play the audio
+1.AVPlayerItem load url, and the url is valid<br/>
+2.AVPlayerItem is ready to play<br/>
+3.AVPlayer play the audio<br/>
 
 #### The url is invlid ( sad path ):
 System doesn't play the audio
@@ -151,8 +151,8 @@ System doesn't play the audio
 ### Play Audio
 
 #### Primary Course( happy path ):
-1.AVPlayerItem is ready to play
-2.AVPlayer play the audio
+1.AVPlayerItem is ready to play<br/>
+2.AVPlayer play the audio<br/>
 
 #### The AVPlayerItem is not ready( sad path ):
 System doesn't play the audio
@@ -162,8 +162,8 @@ System doesn't play the audio
 ### Pause Audio
 
 #### Primary Course( happy path ):
-1. AVPlayerItem is ready to play
-2. AVPlayer pause the audio
+1. AVPlayerItem is ready to play<br/>
+2. AVPlayer pause the audio<br/>
 
 #### The AVPlayerItem is not ready( sad path ):
 System currently doesnt' do anything about it
@@ -178,12 +178,12 @@ System currently doesnt' do anything about it
 * Output:
   ```Result<( Episode, URL), Error>```
 #### Primary Course( happy path ):
-1.Execute ‘func loadEpisode’ 
-2.PlayerModel retrieve episode and URL for Controller
-3.Render interface with episode
-4.AudioPlayer load sound URL
-5.AVPlayerItem is read to play
-6.AVPlayer start to play
+1. Execute ‘func loadEpisode’<br/>
+2. PlayerModel retrieve episode and URL for Controller<br/>
+3. Render interface with episode<br/>
+4. AudioPlayer load sound URL<br/>
+5. AVPlayerItem is read to play<br/>
+6. AVPlayer start to play<br/>
 
 #### Index out of range ( sad path ):
 System delivers index out of range error
@@ -211,8 +211,8 @@ public final class AVPlayerManager {
 ```
 
 #### Primary Course( happy path ):
-1. AVPlayer currentItem's duration is not nil
-2. Convert slider value to total second
+1. AVPlayer currentItem's duration is not nil<br/>
+2. Convert slider value to total second<br/>
 3. Convert sldier value, the process is shown as below:
 ```
 if let duration = player?.currentItem?.duration {
