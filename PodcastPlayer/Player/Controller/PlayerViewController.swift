@@ -10,9 +10,10 @@ import Kingfisher
 
 public final class PlayerViewController: UIViewController {
 
-    typealias TouchEvent = PlayerModel.EventType
+    public typealias TouchEvent = PlayerModel.EventType
+    public typealias AudioPlayable = (PlayPauseProtocol & EpisodeProgressTracking & EpisodeSoundLoader)
     
-    private var audioPlayer: (PlayPauseProtocol & EpisodeProgressTracking & EpisodeSoundLoader)?
+    private var audioPlayer: AudioPlayable?
     private var playerModel: EpisodeManipulatible?
     private var currentEpisode: Episode?
     
@@ -40,7 +41,7 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider!
     
-    public convenience init(audioPlayer: AVPlayerManager = AVPlayerManager(), episodes: [Episode], currentIndex: Int) {
+    public convenience init(audioPlayer: AudioPlayable = AVPlayerManager(), episodes: [Episode], currentIndex: Int) {
         self.init()
         self.audioPlayer = audioPlayer
         self.playerModel = PlayerModel(episodes: episodes, currentIndex: currentIndex)
