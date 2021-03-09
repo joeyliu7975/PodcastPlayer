@@ -96,6 +96,14 @@ extension PlayerViewController {
         audioPlayer?.notifyPlayerStatus = { [weak self] readyToPlay in
             self?.playerState = readyToPlay ? .playing : .stopped
         }
+        
+        audioPlayer?.loadingFailed = { [weak self] in
+            let dismissAction = UIAlertAction(title: "確認", style: .default) { [weak self] (_) in
+                self?.dismiss(animated: true)
+            }
+            
+            self?.popAlert(title: "錯誤", message: "無法讀取音檔", actions: [dismissAction])
+        }
     }
     
     //MARK: Handle Slide Change:

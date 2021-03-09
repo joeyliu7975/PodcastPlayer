@@ -25,6 +25,7 @@ typedef ChannelFeed Feed;
     -(void)play;
     -(void)pause;
     -(void)resetPlayer;
+@property (nonatomic, nullable)void(^loadingFailed)();
 @property (nonatomic, nullable)void(^notifyPlayerStatus)(BOOL);
 
 @end

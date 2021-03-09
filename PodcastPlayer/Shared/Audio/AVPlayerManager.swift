@@ -12,6 +12,8 @@ public final class AVPlayerManager {
     private var player:AVPlayer?
     
     private var timeObserver: Any?
+    
+    private var statusObserver: NSKeyValueObservation?
         
     private var isSeekInProgress = false
     
@@ -22,6 +24,8 @@ public final class AVPlayerManager {
     public var notifyPlayerStatus: ((Bool) -> Void)?
     // 播放下一集
     public var playNextProject:(() -> Void)?
+    
+    public var loadingFailed: (() -> Void)?
         
     public init(){}
 }
@@ -51,6 +55,7 @@ extension AVPlayerManager: PlayPauseProtocol {
         removeObserver()
         player = nil
         timeObserver = nil
+        statusObserver = nil
     }
 }
 
@@ -158,7 +163,7 @@ extension AVPlayerManager: EpisodeSoundLoader {
     public func load(with soundURL: URL) {
         let asset = AVAsset(url: soundURL)
         let playerItem = AVPlayerItem(asset: asset)
-                
+        
         if player?.currentItem == nil {
             player = AVPlayer(playerItem: playerItem)
             addObserver()
@@ -166,6 +171,12 @@ extension AVPlayerManager: EpisodeSoundLoader {
             pause()
             player?.replaceCurrentItem(with: playerItem)
         }
+        
+        statusObserver = player?.currentItem?.observe(\.status,changeHandler: { (item, change) in
+            if item.status == .failed {
+                self.loadingFailed?()
+            }
+        })
         
         trackDuration?(0)
         
