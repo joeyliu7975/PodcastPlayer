@@ -36,7 +36,7 @@ public final class EpisodeViewController: UIViewController {
     
     @IBAction func pressPlay(_ sender: UIButton) {
         guard let currentIndex = currentEpisodeIndex else { return }
-
+        
         let playerViewController = PlayerViewController(episodes: episodes, currentIndex: currentIndex)
         
         playerViewController.update = { [weak self] (episode) in

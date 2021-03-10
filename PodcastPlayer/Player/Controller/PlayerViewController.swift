@@ -171,6 +171,7 @@ private extension PlayerViewController {
             }
             return [dismissAction]
         }
+        
         let confirmAction = UIAlertAction(title: "確認", style: .default)
             
         return [confirmAction]

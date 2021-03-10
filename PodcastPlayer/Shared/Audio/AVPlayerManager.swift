@@ -172,9 +172,9 @@ extension AVPlayerManager: EpisodeSoundLoader {
             player?.replaceCurrentItem(with: playerItem)
         }
         
-        statusObserver = player?.currentItem?.observe(\.status,changeHandler: { (item, change) in
+        statusObserver = player?.currentItem?.observe(\.status,changeHandler: { [weak self] (item, change) in
             if item.status == .failed {
-                self.loadingFailed?()
+                self?.loadingFailed?()
             }
         })
         
