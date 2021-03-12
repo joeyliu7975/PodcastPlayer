@@ -7,17 +7,15 @@
 
 import Foundation
 
-public class DateformatterHelper {
+public final class DateformatterHelper {
     
     static let shared = DateformatterHelper()
     
     private init() {}
     
-    let cachedDateFormattersQueue = DispatchQueue(label: "com.boles.date.formatter.queue")
+    private let cachedDateFormattersQueue = DispatchQueue(label: "com.boles.date.formatter.queue")
     
     private var cachedDateFormatters = [String : DateFormatter]()
-    
-    
     
     // MARK: - Cached Formatters
     private func cachedDateFormatter(withFormat format: DateformatterHelper.DateFormatType) -> DateFormatter {
@@ -39,7 +37,7 @@ public class DateformatterHelper {
     }
     
     //MARK: -Format Homepage episode feed date
-    func formatEpisodeFeedDate(_ date: Date) -> String {
+    public func formatEpisodeFeedDate(_ date: Date) -> String {
         let dateFormatter = cachedDateFormatter(withFormat: .yearMonthDay)
         let formattedDate = dateFormatter.string(from: date)
         
@@ -47,7 +45,7 @@ public class DateformatterHelper {
     }
     
     //MARK: -Format Take date to specific Date
-    func convertDateFrom(string: String,from dateForm:DateformatterHelper.DateFormatType) -> String {
+    public func convertDateFrom(string: String,from dateForm:DateformatterHelper.DateFormatType) -> String {
         
         let startFormatter = cachedDateFormatter(withFormat: dateForm)
                 
@@ -63,5 +61,3 @@ extension DateformatterHelper {
         case detail = "E, d MMM yyyy HH:mm:ss Z"
     }
 }
-
-//Sun, 07 Feb 2021 22:00:28 +0000

@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		5B507977B11368B117CD7FB5 /* Pods_PodcastPlayer_PodcastPlayerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A39518460425BF0D571196 /* Pods_PodcastPlayer_PodcastPlayerUITests.framework */; };
 		7126749525FB2A290080D9B3 /* DateformatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7126749425FB2A290080D9B3 /* DateformatterHelper.swift */; };
+		712674A225FBC58B0080D9B3 /* HomepageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712674A125FBC58B0080D9B3 /* HomepageViewModel.swift */; };
 		712CB91325E9E72600034CE7 /* RemoteEpisodeFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712CB91225E9E72600034CE7 /* RemoteEpisodeFeedLoader.swift */; };
 		71329F3C25F64DE7001DE1E1 /* RemoteEpisodeFeedLoaderAPIIntegrationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71329F3B25F64DE7001DE1E1 /* RemoteEpisodeFeedLoaderAPIIntegrationTest.swift */; };
 		713D495025EB5C0D00058FD4 /* EpisodeFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D494E25EB5C0D00058FD4 /* EpisodeFeedTableViewCell.swift */; };
 		713D495125EB5C0D00058FD4 /* EpisodeFeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713D494F25EB5C0D00058FD4 /* EpisodeFeedTableViewCell.xib */; };
 		713D496B25EB719700058FD4 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D496A25EB719700058FD4 /* UITableView+Extension.swift */; };
-		713D497025EB745F00058FD4 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D496F25EB745F00058FD4 /* DateFormatter+Extension.swift */; };
 		7162BB6425F507E9006DD513 /* EpisodeFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7162BB6325F507E9006DD513 /* EpisodeFeedItem.m */; };
 		7165B70925ECE3F900D3A79D /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7165B70825ECE3F900D3A79D /* UIImage+Extension.swift */; };
 		716B644B25F0AF6000032560 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716B644A25F0AF6000032560 /* UIViewController+Extension.swift */; };
@@ -85,6 +85,7 @@
 		0F1BB758FF437D4D82629DCD /* Pods-PodcastPlayerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PodcastPlayerTests.debug.xcconfig"; path = "Target Support Files/Pods-PodcastPlayerTests/Pods-PodcastPlayerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4F4C0986976B55A4A3CFB6ED /* Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig"; path = "Target Support Files/Pods-PodcastPlayer-PodcastPlayerUITests/Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7126749425FB2A290080D9B3 /* DateformatterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateformatterHelper.swift; sourceTree = "<group>"; };
+		712674A125FBC58B0080D9B3 /* HomepageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewModel.swift; sourceTree = "<group>"; };
 		712CB91225E9E72600034CE7 /* RemoteEpisodeFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEpisodeFeedLoader.swift; sourceTree = "<group>"; };
 		71329F3925F64DE7001DE1E1 /* RemoteEpisodeFeedLoaderIntegrationTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemoteEpisodeFeedLoaderIntegrationTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		71329F3B25F64DE7001DE1E1 /* RemoteEpisodeFeedLoaderAPIIntegrationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEpisodeFeedLoaderAPIIntegrationTest.swift; sourceTree = "<group>"; };
@@ -92,7 +93,6 @@
 		713D494E25EB5C0D00058FD4 /* EpisodeFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeFeedTableViewCell.swift; sourceTree = "<group>"; };
 		713D494F25EB5C0D00058FD4 /* EpisodeFeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeFeedTableViewCell.xib; sourceTree = "<group>"; };
 		713D496A25EB719700058FD4 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
-		713D496F25EB745F00058FD4 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		7162BB6225F507A4006DD513 /* EpisodeFeedItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeFeedItem.h; sourceTree = "<group>"; };
 		7162BB6325F507E9006DD513 /* EpisodeFeedItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EpisodeFeedItem.m; sourceTree = "<group>"; };
 		7162BB7C25F510F0006DD513 /* Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Protocol.h; sourceTree = "<group>"; };
@@ -195,6 +195,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		712674A025FBC56C0080D9B3 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				712674A125FBC58B0080D9B3 /* HomepageViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		712CB8FD25E9E47A00034CE7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,7 +253,6 @@
 			isa = PBXGroup;
 			children = (
 				713D496A25EB719700058FD4 /* UITableView+Extension.swift */,
-				713D496F25EB745F00058FD4 /* DateFormatter+Extension.swift */,
 				71AE977525EBCBDB00E9284F /* UINavigationController+Extension.swift */,
 				71AE978025EBF95100E9284F /* UITableViewCell+Extension.swift */,
 				7165B70825ECE3F900D3A79D /* UIImage+Extension.swift */,
@@ -436,6 +443,7 @@
 			isa = PBXGroup;
 			children = (
 				71C049B825F48FFD00ACBA4C /* View */,
+				712674A025FBC56C0080D9B3 /* ViewModel */,
 				71C049B125F48F4200ACBA4C /* Controller */,
 				71C049B225F48F5D00ACBA4C /* Model */,
 			);
@@ -827,13 +835,13 @@
 				7189CE8325ED20F900434D6C /* PlayerViewController.swift in Sources */,
 				7189CEEA25EF7DEF00434D6C /* FeedMapper.swift in Sources */,
 				718C9D8E25ECD20A00B864E4 /* HomeXMLParser.swift in Sources */,
+				712674A225FBC58B0080D9B3 /* HomepageViewModel.swift in Sources */,
 				71AE978125EBF95100E9284F /* UITableViewCell+Extension.swift in Sources */,
 				71AE977625EBCBDB00E9284F /* UINavigationController+Extension.swift in Sources */,
 				7189CEC125EE2E8100434D6C /* AVPlayerManager.swift in Sources */,
 				716B645025F0D3C800032560 /* EpisodeFeedLoader.swift in Sources */,
 				71AE976D25EBC07D00E9284F /* HomepageTableHeaderView.swift in Sources */,
 				7183AAC225E764A300E1AD98 /* AppDelegate.swift in Sources */,
-				713D497025EB745F00058FD4 /* DateFormatter+Extension.swift in Sources */,
 				713D496B25EB719700058FD4 /* UITableView+Extension.swift in Sources */,
 				7165B70925ECE3F900D3A79D /* UIImage+Extension.swift in Sources */,
 				71CFF16E25EA4D6900C0D278 /* URLSessionHTTPClient.swift in Sources */,
