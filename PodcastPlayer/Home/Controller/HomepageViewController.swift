@@ -112,6 +112,11 @@ extension HomepageViewController: UITableViewDataSource {
         let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseIdentifier, for: indexPath)
        
         if let cellModel = feed?.episodes[indexPath.row] as? Episode {
+            
+            let dateString = DateformatterHelper.shared.convertDateFrom(string: cellModel.releaseDate, from: .detail)
+            
+            cellModel.releaseDate = dateString
+
             cell.render(with: cellModel)
         }
 
