@@ -10,6 +10,8 @@
 		5B507977B11368B117CD7FB5 /* Pods_PodcastPlayer_PodcastPlayerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A39518460425BF0D571196 /* Pods_PodcastPlayer_PodcastPlayerUITests.framework */; };
 		7126749525FB2A290080D9B3 /* DateformatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7126749425FB2A290080D9B3 /* DateformatterHelper.swift */; };
 		712674A225FBC58B0080D9B3 /* HomepageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712674A125FBC58B0080D9B3 /* HomepageViewModel.swift */; };
+		712674AF25FC5ED90080D9B3 /* EpisodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712674AE25FC5ED90080D9B3 /* EpisodeViewModel.swift */; };
+		712674BB25FC5F500080D9B3 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712674BA25FC5F500080D9B3 /* Box.swift */; };
 		712CB91325E9E72600034CE7 /* RemoteEpisodeFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712CB91225E9E72600034CE7 /* RemoteEpisodeFeedLoader.swift */; };
 		71329F3C25F64DE7001DE1E1 /* RemoteEpisodeFeedLoaderAPIIntegrationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71329F3B25F64DE7001DE1E1 /* RemoteEpisodeFeedLoaderAPIIntegrationTest.swift */; };
 		713D495025EB5C0D00058FD4 /* EpisodeFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D494E25EB5C0D00058FD4 /* EpisodeFeedTableViewCell.swift */; };
@@ -86,6 +88,8 @@
 		4F4C0986976B55A4A3CFB6ED /* Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig"; path = "Target Support Files/Pods-PodcastPlayer-PodcastPlayerUITests/Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7126749425FB2A290080D9B3 /* DateformatterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateformatterHelper.swift; sourceTree = "<group>"; };
 		712674A125FBC58B0080D9B3 /* HomepageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewModel.swift; sourceTree = "<group>"; };
+		712674AE25FC5ED90080D9B3 /* EpisodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewModel.swift; sourceTree = "<group>"; };
+		712674BA25FC5F500080D9B3 /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		712CB91225E9E72600034CE7 /* RemoteEpisodeFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEpisodeFeedLoader.swift; sourceTree = "<group>"; };
 		71329F3925F64DE7001DE1E1 /* RemoteEpisodeFeedLoaderIntegrationTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemoteEpisodeFeedLoaderIntegrationTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		71329F3B25F64DE7001DE1E1 /* RemoteEpisodeFeedLoaderAPIIntegrationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEpisodeFeedLoaderAPIIntegrationTest.swift; sourceTree = "<group>"; };
@@ -199,6 +203,14 @@
 			isa = PBXGroup;
 			children = (
 				712674A125FBC58B0080D9B3 /* HomepageViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		712674AD25FC5EC80080D9B3 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				712674AE25FC5ED90080D9B3 /* EpisodeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -418,6 +430,7 @@
 			children = (
 				71AE977B25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift */,
 				7126749425FB2A290080D9B3 /* DateformatterHelper.swift */,
+				712674BA25FC5F500080D9B3 /* Box.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -490,6 +503,7 @@
 			isa = PBXGroup;
 			children = (
 				7176312B25F490DE000E9E0B /* Controller */,
+				712674AD25FC5EC80080D9B3 /* ViewModel */,
 			);
 			path = Episode;
 			sourceTree = "<group>";
@@ -826,6 +840,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				716B644B25F0AF6000032560 /* UIViewController+Extension.swift in Sources */,
+				712674BB25FC5F500080D9B3 /* Box.swift in Sources */,
 				71AE977C25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift in Sources */,
 				71C0499325F336BB00ACBA4C /* HomeXMLParser.m in Sources */,
 				716B646125F0EC3A00032560 /* PlayerModel.swift in Sources */,
@@ -841,6 +856,7 @@
 				7189CEC125EE2E8100434D6C /* AVPlayerManager.swift in Sources */,
 				716B645025F0D3C800032560 /* EpisodeFeedLoader.swift in Sources */,
 				71AE976D25EBC07D00E9284F /* HomepageTableHeaderView.swift in Sources */,
+				712674AF25FC5ED90080D9B3 /* EpisodeViewModel.swift in Sources */,
 				7183AAC225E764A300E1AD98 /* AppDelegate.swift in Sources */,
 				713D496B25EB719700058FD4 /* UITableView+Extension.swift in Sources */,
 				7165B70925ECE3F900D3A79D /* UIImage+Extension.swift in Sources */,

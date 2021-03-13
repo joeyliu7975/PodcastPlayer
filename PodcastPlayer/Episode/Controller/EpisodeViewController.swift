@@ -12,38 +12,31 @@ public final class EpisodeViewController: UIViewController {
 
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var playButton: UIButton! {
-        didSet {
-            playButton.tintColor = .kkBlue
-        }
-    }
-            
-    private var episodes:[Episode] = []
-    private var currentEpisodeIndex: Int?
+    @IBOutlet weak var playButton: UIButton!
+    
+    private var viewModel: EpisodeViewModel?
     
     convenience init(episodes: [Episode], currentEpisodeIndex: Int) {
         self.init()
-        self.episodes = episodes
-        self.currentEpisodeIndex = currentEpisodeIndex
+
+        viewModel = EpisodeViewModel(epiosdes: episodes, at: currentEpisodeIndex)
     }
         
     public override func viewDidLoad() {
         super.viewDidLoad()
 
         setup()
-        load(episode: episodes[currentEpisodeIndex ?? 0])
+        viewModelBinding()
+        configure()
     }
     
     @IBAction func pressPlay(_ sender: UIButton) {
-        guard let currentIndex = currentEpisodeIndex else { return }
+        guard let episodes = viewModel?.episodes, let index = viewModel?.currentEpisodeIndex else { return }
         
-        let playerViewController = PlayerViewController(episodes: episodes, currentIndex: currentIndex)
+        let playerViewController = PlayerViewController(episodes: episodes, currentIndex: index)
         
         playerViewController.update = { [weak self] (episode) in
-            if let index = self?.episodes.firstIndex(of: episode) {
-                self?.currentEpisodeIndex = index
-                self?.load(episode: episode)
-            }
+            self?.viewModel?.update(episode: episode)
         }
                         
         present(playerViewController, animated: true)
@@ -56,6 +49,23 @@ private extension EpisodeViewController {
         playButton.layer.borderWidth = 12.0
         playButton.clipsToBounds = true
         playButton.layer.cornerRadius = playButton.frame.width / 2
+        playButton.tintColor = .kkBlue
+    }
+    
+    func configure() {
+        guard let episodes = viewModel?.episodes,let index = viewModel?.currentEpisodeIndex else { return }
+        
+        let episode = episodes[index]
+
+        viewModel?.update(episode: episode)
+    }
+    
+    func viewModelBinding() {
+        viewModel?.episodesViewModel.bind(listener: { [weak self](episode) in
+            guard let episode = episode else { return }
+            
+            self?.load(episode: episode)
+        })
     }
     
     func load(episode: Episode) {
