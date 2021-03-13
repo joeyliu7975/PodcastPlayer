@@ -11,13 +11,9 @@ import Kingfisher
 public final class PlayerViewController: UIViewController {
 
     public typealias AudioPlayable = (PlayPauseProtocol & EpisodeProgressTracking & EpisodeSoundLoader)
-    
+    public var updateEpisode: ((Episode) -> Void)?
     private var viewModel: PlayerViewModel?
-    
     private var audioPlayer: AudioPlayable?
-    private var playerModel: EpisodeManipulatible?
-    
-    var updateEpisode: ((Episode) -> Void)?
     
     @IBOutlet weak var episodeImageView: UIImageView!
     @IBOutlet weak var episodeLabel: UILabel!
@@ -44,6 +40,7 @@ public final class PlayerViewController: UIViewController {
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         guard let episode = viewModel?.currentEpisode else { return }
+        
         updateEpisode?(episode)
     }
     
@@ -63,14 +60,9 @@ public final class PlayerViewController: UIViewController {
         audioPlayer?.resetPlayer()
     }
 }
-
+// MARK: AVPlayerManager's callback
 extension PlayerViewController {
-    func renderInterface(with episode: Episode) {
-        episodeImageView.kf.setImage(with: episode.coverImage)
-        episodeLabel.text = episode.title
-    }
-    
-    func trackAudio() {
+    private func trackAudio() {
         audioPlayer?.trackDuration = { [weak self] (value) in
             self?.slider.value = Float(value)
         }
@@ -87,19 +79,9 @@ extension PlayerViewController {
             self?.viewModel?.handleError(error: .noSoundURL)
         }
     }
-    
-    //MARK: Handle Slide Change:
-    @objc func handleSlideChange() {
-        audioPlayer?.updateCurrentDuration(with: slider.value)
-    }
-    
-    @objc func slideIsDragging() {
-        viewModel?.updatePlayState(to: .stopped)
-        audioPlayer?.pause()
-    }
 }
 
-// MARK: Function that will only trigger once in viewDidLoad
+// MARK: UI Components setup
 private extension PlayerViewController {
     func setup() {
         playButton.tintColor = .kkBlue
@@ -120,11 +102,26 @@ private extension PlayerViewController {
         slider.addTarget(self, action: #selector(handleSlideChange), for: .touchUpInside)
         slider.addTarget(self, action: #selector(slideIsDragging), for: .valueChanged)
     }
+    // Render Episode Cover Image and Title
+    private func renderInterface(with episode: Episode) {
+        episodeImageView.kf.setImage(with: episode.coverImage)
+        episodeLabel.text = episode.title
+    }
+    
+    // Handle Slider's Action
+    @objc func handleSlideChange() {
+        audioPlayer?.updateCurrentDuration(with: slider.value)
+    }
+    
+    @objc func slideIsDragging() {
+        viewModel?.updatePlayState(to: .stopped)
+        audioPlayer?.pause()
+    }
 }
-   //MARK: Episode Loading:
+   //MARK: ViewModel Binding:
 extension PlayerViewController {
     func viewModelBinding() {
-        viewModel?.update = { [weak self] (episode, url) in
+        viewModel?.reload = { [weak self] (episode, url) in
             self?.renderInterface(with: episode)
             self?.audioPlayer?.load(with: url)
         }
@@ -139,12 +136,12 @@ extension PlayerViewController {
             self?.audioPlayer?.pause()
         }
         
-        viewModel?.soundtrackLoadingFailed = { [weak self] in
+        viewModel?.failOnLoadingSoundtrack = { [weak self] in
             let actions = self?.alertActions(with: .noSoundURL)
             self?.popAlert(title: "提醒", message: "無法讀取音檔", actions: actions!)
         }
         
-        viewModel?.episodeNotExistAlert = { [weak self] (event) in
+        viewModel?.cannotFindEpisode = { [weak self] (event) in
             let actions = self?.alertActions(with: .indexOutOfRange)
             
             switch event {
@@ -159,7 +156,7 @@ extension PlayerViewController {
     }
 }
 
-// MARK: Handle Alert event
+// MARK: Alert Handler
 private extension PlayerViewController {
     func alertActions(with error: PlayerModel.Error) -> [UIAlertAction] {
         var alertAction: UIAlertAction

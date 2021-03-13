@@ -24,13 +24,14 @@ public final class PlayerViewModel {
     }
     
     var currentEpisode: Episode?
-    //Closure:
-    var update: ((Episode, URL) -> Void)?
+    //Call back (reload new soundtrack)
+    var reload: ((Episode, URL) -> Void)?
+    //Call back (play & pause audio)
     var playAudio: (() -> Void)?
     var pauseAudio: (() -> Void)?
-    
-    var soundtrackLoadingFailed: (() -> Void)?
-    var episodeNotExistAlert: ((TouchEvent) -> Void)?
+    //Call back (poping alert controller)
+    var failOnLoadingSoundtrack: (() -> Void)?
+    var cannotFindEpisode: ((TouchEvent) -> Void)?
 
     public init(model: EpisodeManipulatible) {
         self.model = model
@@ -42,7 +43,7 @@ extension PlayerViewModel {
         model.getEpisode(with: event, completion: { [weak self] (result) in
             switch result {
             case let .success((episode, url)):
-                self?.update?(episode, url)
+                self?.reload?(episode, url)
                 self?.currentEpisode = episode
             case let .failure(error):
                 self?.handleError(error: error, event: event)
@@ -50,7 +51,7 @@ extension PlayerViewModel {
             }
         })
     }
-    
+    // Update player state with three different parameters
     func updatePlayState(to state: PlayerState) {
         playerState = state
     }
@@ -67,9 +68,9 @@ extension PlayerViewModel {
 extension PlayerViewModel {
     func handleError(error: PlayerModel.Error, event: TouchEvent? = nil) {
         if error == .noSoundURL {
-            soundtrackLoadingFailed?()
+            failOnLoadingSoundtrack?()
         } else if let event = event {
-            episodeNotExistAlert?(event)
+            cannotFindEpisode?(event)
         }
     }
 }
