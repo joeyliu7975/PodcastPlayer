@@ -8,9 +8,10 @@
 import Foundation
 
 public final class PlayerModel: EpisodeManipulatible {
+    public typealias Result = EpisodeManipulatible.Result
+    public typealias TouchEvent = PlayerModel.EventType
     // MARK: - Episode:
     private(set) public var episodes:[Episode] = []
-        
     private(set) public var currentIndex: Int
     
     public init(episodes:[Episode], currentIndex: Int) {
@@ -18,18 +19,10 @@ public final class PlayerModel: EpisodeManipulatible {
         self.currentIndex = currentIndex
     }
     
-    public enum Error: Swift.Error {
-        case indexOutOfRange
-        case noSoundURL
-    }
-    
-    public enum EventType {
-        case checkCurrentProject, checkPreviousProject, checkNextProject
-    }
-    
     public func getEpisode(with event: TouchEvent, completion: @escaping (Result) -> Void) {
         do {
             let result = try start(touchEvent: event)
+            
             updateIndex(after: event)
             completion(result)
         } catch {
@@ -37,12 +30,6 @@ public final class PlayerModel: EpisodeManipulatible {
         }
     }
 }
-
-extension PlayerModel {
-    public typealias Result = EpisodeManipulatible.Result
-    public typealias TouchEvent = EventType
-}
-
 //MARK: Error Handling
 public extension PlayerModel {
     // #1 處理使用者不同的操作
@@ -91,11 +78,19 @@ extension PlayerModel {
     }
 }
 
+extension PlayerModel {
+    public enum Error: Swift.Error {
+        case indexOutOfRange, noSoundURL
+    }
+    
+    public enum EventType {
+        case checkCurrentProject, checkPreviousProject, checkNextProject
+    }
+}
+
 public protocol EpisodeManipulatible {
     typealias Result = Swift.Result<(Episode, URL), PlayerModel.Error>
     typealias TouchEvent = PlayerModel.EventType
     
     func getEpisode(with event: TouchEvent, completion: @escaping (Result) -> Void)
-    var episodes:[Episode] { get }
-    var currentIndex: Int { get }
 }

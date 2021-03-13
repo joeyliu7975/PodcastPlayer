@@ -77,8 +77,7 @@ extension PlayerViewModel {
 
 extension PlayerViewModel {
     enum PlayerState {
-        case playing
-        case stopped
+        case playing, stopped
 
         mutating func toggle() {
             switch self {
