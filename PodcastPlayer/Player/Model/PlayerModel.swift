@@ -21,7 +21,9 @@ public final class PlayerModel: EpisodeManipulatible {
     
     public func getEpisode(with event: TouchEvent, completion: @escaping (Result) -> Void) {
         do {
-            let result = try start(touchEvent: event)
+            let index = getTargetIndex(afterTouchEvent: event)
+            
+            let result = try findEpisode(at: index)
             
             updateIndex(after: event)
             completion(result)
@@ -33,7 +35,7 @@ public final class PlayerModel: EpisodeManipulatible {
 //MARK: Error Handling
 public extension PlayerModel {
     // #1 處理使用者不同的操作
-    func start(touchEvent event: TouchEvent) throws -> Result {
+    func getTargetIndex(afterTouchEvent event: TouchEvent) -> Int {
         
         var targetIndex: Int
         
@@ -45,9 +47,14 @@ public extension PlayerModel {
         case .checkPreviousProject:
             targetIndex = currentIndex + 1
         }
-        // #2 檢查是否 index out of range
-        if episodes.indices.contains(targetIndex) {
-            let episode = episodes[targetIndex]
+        
+        return targetIndex
+    }
+    
+    // #2 檢查是否 index out of range
+    func findEpisode(at index: Int) throws -> Result {
+        if episodes.indices.contains(index) {
+            let episode = episodes[index]
             let result = try getSoundURL(with: episode)
             return result
         } else {
