@@ -30,18 +30,6 @@ public final class AVPlayerManager {
     public init(){}
 }
 
-extension AVPlayerManager {
-    //MARK: #1. Get total duration
-    private func getTotalDuration(currentPlayingItem: AVPlayerItem?,_ completion: (Float64) -> Void) {
-        guard
-            let playingItem = currentPlayingItem else { return }
-        
-        let duration = playingItem.duration
-        
-        completion(CMTimeGetSeconds(duration))
-    }
-}
-
 extension AVPlayerManager: PlayPauseProtocol {
     public func play() {
         player?.play()
@@ -52,10 +40,8 @@ extension AVPlayerManager: PlayPauseProtocol {
     }
     
     public func resetPlayer() {
-        removeObserver()
-        player = nil
-        timeObserver = nil
-        statusObserver = nil
+        removeTimeAndStatusObserver()
+        
     }
 }
 
@@ -115,8 +101,8 @@ private extension AVPlayerManager {
 }
 
 private extension AVPlayerManager {
-    // MARK: #Add Observer
-    func addObserver() {
+    // MARK: #Add Time Observer
+    func addTimeObserver() {
         guard let player = player else { return }
         
        timeObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(1, preferredTimescale: 1), queue: DispatchQueue.main) { [weak self] (CMTime) -> Void in
@@ -126,24 +112,32 @@ private extension AVPlayerManager {
             if status == .readyToPlay,
                let currentItem = player.currentItem {
                 
-                let totalDuration = CMTimeGetSeconds(currentItem.duration)
-                let currentDuration = CMTimeGetSeconds(player.currentTime())
+                let totalDuration = currentItem.duration.inSeconds
+                let currentDuration = player.currentTime().inSeconds
                 
                 self?.updateItemProgress(currentDuration: currentDuration, totalDuration: totalDuration)
             }
         }
     }
-    
-    // MARK: #Remove Observer
-    func removeObserver() {
+    // #Add Status Observer
+    func addStatusObserver() {
+        statusObserver = player?.currentItem?.observe(\.status,changeHandler: { [weak self] (item, change) in
+            if item.status == .failed {
+                self?.loadingFailed?()
+            }
+        })
+    }
+    // #Remove Time Observer
+    func removeTimeAndStatusObserver() {
         player?.currentItem?.cancelPendingSeeks()
         player?.currentItem?.asset.cancelLoading()
         
         if let observer = timeObserver {
             player?.removeTimeObserver(observer)
         }
+        
+        statusObserver = nil
     }
-    
     // 檢查 CurrentItemStatus
     func checkPlayerStatus() -> AVPlayerItem.Status {
         return player?.currentItem?.status ?? .unknown
@@ -157,6 +151,15 @@ private extension AVPlayerManager {
             trackDuration?(value)
         }
     }
+    // 第一次 soundURL
+    func loadPlayerItemForFirstTime(with playerItem: AVPlayerItem) {
+        player = AVPlayer(playerItem: playerItem)
+    }
+    // 更新 soundURL
+    func replaceNewPlayerItem(with playerItem: AVPlayerItem) {
+        pause()
+        player?.replaceCurrentItem(with: playerItem)
+    }
 }
 
 extension AVPlayerManager: EpisodeSoundLoader {
@@ -164,22 +167,10 @@ extension AVPlayerManager: EpisodeSoundLoader {
         let asset = AVAsset(url: soundURL)
         let playerItem = AVPlayerItem(asset: asset)
         
-        if player?.currentItem == nil {
-            player = AVPlayer(playerItem: playerItem)
-            addObserver()
-        } else {
-            pause()
-            player?.replaceCurrentItem(with: playerItem)
-        }
+        player?.currentItem == nil ? loadPlayerItemForFirstTime(with: playerItem) : replaceNewPlayerItem(with: playerItem)
         
-        statusObserver = player?.currentItem?.observe(\.status,changeHandler: { [weak self] (item, change) in
-            if item.status == .failed {
-                self?.loadingFailed?()
-            }
-        })
+        addStatusObserver()
         
-        trackDuration?(0)
-        
-        play()
+        trackDuration?(.zero)
     }
 }

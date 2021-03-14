@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B507977B11368B117CD7FB5 /* Pods_PodcastPlayer_PodcastPlayerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A39518460425BF0D571196 /* Pods_PodcastPlayer_PodcastPlayerUITests.framework */; };
 		710DDE4E25FCA79700CFF133 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710DDE4D25FCA79700CFF133 /* PlayerViewModel.swift */; };
+		710DDED125FE551000CFF133 /* AVPlayerItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710DDED025FE551000CFF133 /* AVPlayerItem+Extension.swift */; };
 		7126749525FB2A290080D9B3 /* DateformatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7126749425FB2A290080D9B3 /* DateformatterHelper.swift */; };
 		712674A225FBC58B0080D9B3 /* HomepageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712674A125FBC58B0080D9B3 /* HomepageViewModel.swift */; };
 		712674AF25FC5ED90080D9B3 /* EpisodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712674AE25FC5ED90080D9B3 /* EpisodeViewModel.swift */; };
@@ -88,6 +89,7 @@
 		0F1BB758FF437D4D82629DCD /* Pods-PodcastPlayerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PodcastPlayerTests.debug.xcconfig"; path = "Target Support Files/Pods-PodcastPlayerTests/Pods-PodcastPlayerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4F4C0986976B55A4A3CFB6ED /* Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig"; path = "Target Support Files/Pods-PodcastPlayer-PodcastPlayerUITests/Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		710DDE4D25FCA79700CFF133 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
+		710DDED025FE551000CFF133 /* AVPlayerItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayerItem+Extension.swift"; sourceTree = "<group>"; };
 		7126749425FB2A290080D9B3 /* DateformatterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateformatterHelper.swift; sourceTree = "<group>"; };
 		712674A125FBC58B0080D9B3 /* HomepageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewModel.swift; sourceTree = "<group>"; };
 		712674AE25FC5ED90080D9B3 /* EpisodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewModel.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				7165B70825ECE3F900D3A79D /* UIImage+Extension.swift */,
 				7189CEEE25EFE48100434D6C /* UIColor+Extension.swift */,
 				716B644A25F0AF6000032560 /* UIViewController+Extension.swift */,
+				710DDED025FE551000CFF133 /* AVPlayerItem+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -850,6 +853,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				710DDED125FE551000CFF133 /* AVPlayerItem+Extension.swift in Sources */,
 				716B644B25F0AF6000032560 /* UIViewController+Extension.swift in Sources */,
 				712674BB25FC5F500080D9B3 /* Box.swift in Sources */,
 				71AE977C25EBF8EF00E9284F /* ReuseIdentifying+Protocol.swift in Sources */,
