@@ -33,7 +33,7 @@ public final class PlayerViewController: UIViewController {
         
         setup()
         viewModelBinding()
-        viewModel?.loadEpisode(event:.checkCurrentProject)
+        loadEpisodeForFirstTime()
         trackAudio()
     }
     
@@ -42,6 +42,7 @@ public final class PlayerViewController: UIViewController {
         guard let episode = viewModel?.currentEpisode else { return }
         
         updateEpisode?(episode)
+        audioPlayer?.resetPlayer()
     }
     
     @IBAction func pressPlay(_ sender: UIButton) {
@@ -54,10 +55,6 @@ public final class PlayerViewController: UIViewController {
     
     @IBAction func pressPreviousEP(_ sender: UIButton) {
         viewModel?.loadEpisode(event: .checkPreviousProject)
-    }
-
-    deinit {
-        audioPlayer?.resetPlayer()
     }
 }
 // MARK: AVPlayerManager's callback
@@ -103,9 +100,14 @@ private extension PlayerViewController {
         slider.addTarget(self, action: #selector(slideIsDragging), for: .valueChanged)
     }
     // Render Episode Cover Image and Title
-    private func renderInterface(with episode: Episode) {
+   func renderInterface(with episode: Episode) {
         episodeImageView.kf.setImage(with: episode.coverImage)
         episodeLabel.text = episode.title
+    }
+    
+    // Load Episode
+    func loadEpisodeForFirstTime() {
+        viewModel?.loadEpisode(event:.checkCurrentProject)
     }
     
     // Handle Slider's Action
