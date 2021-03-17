@@ -1,5 +1,5 @@
 # PodcastPlayer
-[![Build Status](https://www.travis-ci.org/joeyliu7975/PodcastPlayer.svg?branch=main)
+[![Build Status](https://www.travis-ci.org/joeyliu7975/PodcastPlayer.svg?branch=main)](https://www.travis-ci.org/joeyliu7975/PodcastPlayer)
 
 ## Episode Feed Feature Specs (Homepage)
 
