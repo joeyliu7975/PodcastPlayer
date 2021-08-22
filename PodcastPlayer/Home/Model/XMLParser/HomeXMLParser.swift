@@ -101,7 +101,7 @@ public final class HomeXMLParser: NSObject, XMLParserDelegate {
 }
 
 extension HomeXMLParser: FeedMapper {
-    public func map(_ data: Data, _ response: HTTPURLResponse) throws -> ChannelFeed {
+	public func map(data: Data, response: HTTPURLResponse) throws -> ChannelFeed {
         //MARK:- 如果 response 是正常的，且 data 可以被成功解析...不然就 throw error
         if 200 ... 299 ~= response.statusCode, let feed = try? parse(data: data) {
             return feed

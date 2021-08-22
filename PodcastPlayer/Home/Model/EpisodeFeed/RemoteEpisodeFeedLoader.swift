@@ -43,7 +43,7 @@ public final class RemoteEpisodeFeedLoader: EpisodeFeedLoader {
 extension RemoteEpisodeFeedLoader {
     private func map(data: Data, response: HTTPURLResponse) -> Result {
         do {
-            let feed = try mapper.map(data, response)
+			let feed = try mapper.map(data: data, response: response)
             return .success(feed)
         } catch {
             return .failure(error as! RemoteEpisodeFeedLoader.Error)
