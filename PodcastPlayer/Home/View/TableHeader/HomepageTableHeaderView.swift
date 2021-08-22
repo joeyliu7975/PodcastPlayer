@@ -24,8 +24,8 @@ class HomepageTableHeaderView: UIView {
            NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
-            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
                ])
        }
 

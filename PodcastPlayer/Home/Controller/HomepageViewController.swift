@@ -21,13 +21,12 @@ public final class HomepageViewController: UIViewController {
         let headerView = HomepageTableHeaderView(frame: .zero)
         
         headerView.clipsToBounds = true
+		headerView.frame.size.height = HomepageViewController.tableHeaderHeight
         
         return headerView
     }()
 
-    private var tableHeaderHeight: CGFloat {
-        return 160.0
-    }
+	private static let tableHeaderHeight: CGFloat = 160.0
     
     public convenience init(loader: EpisodeFeedLoader){
         self.init()
@@ -39,11 +38,6 @@ public final class HomepageViewController: UIViewController {
         setupTableView()
         load()
         viewModelDataBinding()
-    }
-    
-    public override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        updateHeaderViewHeight(for: tableView.tableHeaderView)
     }
 }
 
@@ -81,12 +75,6 @@ private extension HomepageViewController {
                 self?.popAlert(title: "錯誤", message: "\(error)", actions: [confirmAction])
             }
         }
-    }
-    
-    func updateHeaderViewHeight(for header: UIView?) {
-        guard let header = header else { return }
-        
-        header.frame.size.height = tableHeaderHeight
     }
 }
 
