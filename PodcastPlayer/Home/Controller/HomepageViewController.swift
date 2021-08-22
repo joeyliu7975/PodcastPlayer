@@ -9,11 +9,13 @@ import UIKit
 import Kingfisher
 
 public final class HomepageViewController: UIViewController {
+	
+	typealias VideModel = HomepageViewModelInput & HomepageViewModelOutput
 
     @IBOutlet weak var tableView: UITableView!
     
     private var loader: EpisodeFeedLoader?
-    private var viewModel: HomepageViewModel?
+    private var viewModel: VideModel?
     
     private lazy var headerView: HomepageTableHeaderView = {
         let headerView = HomepageTableHeaderView(frame: .zero)
