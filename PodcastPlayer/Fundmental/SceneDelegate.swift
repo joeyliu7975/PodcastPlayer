@@ -20,12 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         window?.makeKeyAndVisible()
-        
-        let url = URL(string: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")!
-
-        let remoteFeedLoader = RemoteEpisodeFeedLoader(client: URLSessionHTTPClient(), url: url)
-        let homeViewController = HomepageViewController(loader: remoteFeedLoader)
-        let nav = UINavigationController(rootViewController: homeViewController)
+        let nav = UINavigationController(rootViewController: PodcastFeedViewControllerFactory.makeHomepageViewController())
         nav.navigationBar.tintColor = .black
         window?.rootViewController = nav
     }

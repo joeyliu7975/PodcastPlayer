@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DD4901829A60D15007AC66E /* PodcastFeedViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD4901729A60D15007AC66E /* PodcastFeedViewControllerFactory.swift */; };
 		5B507977B11368B117CD7FB5 /* Pods_PodcastPlayer_PodcastPlayerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A39518460425BF0D571196 /* Pods_PodcastPlayer_PodcastPlayerUITests.framework */; };
 		710DDE4E25FCA79700CFF133 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710DDE4D25FCA79700CFF133 /* PlayerViewModel.swift */; };
 		710DDED125FE551000CFF133 /* AVPlayerItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710DDED025FE551000CFF133 /* AVPlayerItem+Extension.swift */; };
@@ -86,6 +87,7 @@
 
 /* Begin PBXFileReference section */
 		0B700F3272DD8AC5D43BE7F9 /* Pods_PodcastPlayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PodcastPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0DD4901729A60D15007AC66E /* PodcastFeedViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastFeedViewControllerFactory.swift; sourceTree = "<group>"; };
 		0F1BB758FF437D4D82629DCD /* Pods-PodcastPlayerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PodcastPlayerTests.debug.xcconfig"; path = "Target Support Files/Pods-PodcastPlayerTests/Pods-PodcastPlayerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4F4C0986976B55A4A3CFB6ED /* Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig"; path = "Target Support Files/Pods-PodcastPlayer-PodcastPlayerUITests/Pods-PodcastPlayer-PodcastPlayerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		710DDE4D25FCA79700CFF133 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
@@ -193,6 +195,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DD4901629A60CC1007AC66E /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				0DD4901729A60D15007AC66E /* PodcastFeedViewControllerFactory.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
 		4D7982D1D414885881F8762D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,6 +415,7 @@
 		7183AAC025E764A300E1AD98 /* PodcastPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				0DD4901629A60CC1007AC66E /* Factories */,
 				71AE977A25EBF8A100E9284F /* Helper */,
 				713D496925EB717400058FD4 /* Extension */,
 				71C049B325F48FBF00ACBA4C /* Networking */,
@@ -879,6 +890,7 @@
 				71CFF16E25EA4D6900C0D278 /* URLSessionHTTPClient.swift in Sources */,
 				7189CEEF25EFE48100434D6C /* UIColor+Extension.swift in Sources */,
 				712CB91325E9E72600034CE7 /* RemoteEpisodeFeedLoader.swift in Sources */,
+				0DD4901829A60D15007AC66E /* PodcastFeedViewControllerFactory.swift in Sources */,
 				7183AAC425E764A300E1AD98 /* SceneDelegate.swift in Sources */,
 				7162BB6425F507E9006DD513 /* EpisodeFeedItem.m in Sources */,
 				7189CE8925ED390200434D6C /* HTTPClient.swift in Sources */,

@@ -31,7 +31,6 @@ public final class RemoteEpisodeFeedLoader: EpisodeFeedLoader {
             switch result {
             case let .success((data, response)):
                 // - MARK: 我想得到 .success(decoded data) 或 .failure(RemoteFeedLoader.Error)。這邊讓 private function map 處理
-                
                 completion(self.map(data: data, response: response))
             case .failure(_):
                 completion(.failure(Error.connectivityError))
@@ -39,7 +38,7 @@ public final class RemoteEpisodeFeedLoader: EpisodeFeedLoader {
         }
     }
 }
-// 去跑 FeedMapper 的 data,response 處理
+
 extension RemoteEpisodeFeedLoader {
     private func map(data: Data, response: HTTPURLResponse) -> Result {
         do {
