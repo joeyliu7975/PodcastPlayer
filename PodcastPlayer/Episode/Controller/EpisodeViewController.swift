@@ -33,13 +33,11 @@ public final class EpisodeViewController: UIViewController {
     @IBAction func pressPlay(_ sender: UIButton) {
         guard let episodes = viewModel?.episodes, let index = viewModel?.currentEpisodeIndex else { return }
         
-        let playerModel = PlayerModel(episodes: episodes, currentIndex: index)
-        
-        let playerViewController = PlayerViewController(playerModel: playerModel)
-        
-        playerViewController.updateEpisode = { [weak self] (episode) in
-            self?.viewModel?.update(episode: episode)
-        }
+        let playerViewController = PodcastFeedViewControllerFactory.makePlayerViewController(episodes: episodes,
+                                                                                             currentPage: index,
+                                                                                             updateEpisode: { [weak viewModel] (episode) in
+            viewModel?.update(episode: episode)
+        })
                         
         present(playerViewController, animated: true)
     }

@@ -20,4 +20,13 @@ class PodcastFeedViewControllerFactory {
         let episodeViewController = EpisodeViewController(episodes: episodes, currentEpisodeIndex: currenPage)
         return episodeViewController
     }
+    
+    static func makePlayerViewController(episodes: [Episode],
+                                         currentPage: Int,
+                                         updateEpisode: @escaping (Episode) -> Void) -> UIViewController {
+        let playerModel = PlayerModel(episodes: episodes, currentIndex: currentPage)
+        let playerViewController = PlayerViewController(playerModel: playerModel)
+        playerViewController.updateEpisode = updateEpisode
+        return playerViewController
+    }
 }
