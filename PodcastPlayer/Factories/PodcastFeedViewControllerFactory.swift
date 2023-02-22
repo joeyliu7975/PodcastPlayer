@@ -15,4 +15,9 @@ class PodcastFeedViewControllerFactory {
         let homeViewController = HomepageViewController(loader: remoteFeedLoader)
         return homeViewController
     }
+    
+    static func makeEpisodePageViewController(episodes: [Episode], currenPage: Int) -> UIViewController {
+        let episodeViewController = EpisodeViewController(episodes: episodes, currentEpisodeIndex: currenPage)
+        return episodeViewController
+    }
 }

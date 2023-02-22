@@ -82,7 +82,8 @@ extension HomepageViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let episodes = viewModel?.feed?.episodes as? [Episode], !episodes.isEmpty else { return }
         
-        let episodeViewController = EpisodeViewController(episodes: episodes, currentEpisodeIndex: indexPath.row)
+        let episodeViewController = PodcastFeedViewControllerFactory.makeEpisodePageViewController(episodes: episodes,
+                                                                                                   currenPage: indexPath.row)
 
         navigationController?.pushViewController(episodeViewController, animated: true)
         
