@@ -9,8 +9,7 @@ import UIKit
 
 class PodcastFeedViewControllerFactory {
     
-    static func makeHomepageViewController() -> UIViewController {
-        let url = URL(string: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")!
+    static func makeHomepageViewController(url: URL) -> UIViewController {
         let remoteFeedLoader = RemoteEpisodeFeedLoader(client: URLSessionHTTPClient(), url: url)
         let homeViewController = HomepageViewController(loader: remoteFeedLoader)
         return homeViewController
