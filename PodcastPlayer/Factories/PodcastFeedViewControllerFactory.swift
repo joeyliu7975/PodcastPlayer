@@ -27,10 +27,14 @@ class PodcastFeedViewControllerFactory {
     
     static func makePlayerViewController(episodes: [Episode],
                                          currentPage: Int,
-                                         updateEpisode: @escaping (Episode) -> Void) -> UIViewController {
+                                         updateEpisode: @escaping (Episode) -> Void,
+                                         failOnLoadingSoundtrack: @escaping () -> Void,
+                                         cannotFindEpisode: @escaping ( (PlayerViewController.TouchEvent) -> Void)) -> UIViewController {
         let playerModel = PlayerModel(episodes: episodes, currentIndex: currentPage)
         let playerViewController = PlayerViewController(playerModel: playerModel,
-                                                        updateEpisode: updateEpisode)
+                                                        updateEpisode: updateEpisode,
+                                                        failOnLoadingSoundtrack: failOnLoadingSoundtrack,
+                                                        cannotFindEpisode: cannotFindEpisode)
         return playerViewController
     }
 }

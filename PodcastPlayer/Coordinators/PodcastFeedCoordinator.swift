@@ -39,9 +39,52 @@ final class PodcastFeedCoordinator: Coordinating {
         navigationViewController.pushViewController(episodeViewController, animated: true)
     }
     
-    func tapOnPlay(episodes: [Episode], currentPage: Int, playingEpisode: @escaping (Episode) -> Void) {
-        let playerVC = PodcastFeedViewControllerFactory.makePlayerViewController(episodes: episodes, currentPage: currentPage, updateEpisode: playingEpisode)
+    func tapOnPlay(episodes: [Episode],
+                   currentPage: Int,
+                   playingEpisode: @escaping (Episode) -> Void) {
+        let playerVC = PodcastFeedViewControllerFactory.makePlayerViewController(episodes: episodes,
+                                                                                 currentPage: currentPage,
+                                                                                 updateEpisode: playingEpisode,
+                                                                                 failOnLoadingSoundtrack: failOnLoadingSoundtrack) { [weak self] event in
+            self?.cannotFindEpisode(event: event)
+        }
+        
         navigationViewController.present(playerVC, animated: true)
+    }
+    
+    private func failOnLoadingSoundtrack() {
+        let actions = alertActions(with: .noSoundURL)
+        navigationViewController.presentedViewController?.popAlert(title: "提醒", message: "無法讀取音檔", actions: actions)
+    }
+    
+    private func cannotFindEpisode(event: PlayerViewController.TouchEvent) {
+        let actions = alertActions(with: .indexOutOfRange)
+        let viewController = navigationViewController.presentedViewController
+        
+        switch event {
+        case .checkCurrentProject:
+            viewController?.popAlert(title: "提醒", message: "當集 Podcast 讀取失敗", actions: actions)
+        case .checkNextProject:
+            viewController?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actions: actions)
+        case .checkPreviousProject:
+            viewController?.popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actions: actions)
+        }
+    }
+    
+    //MARK: AlertAction
+    private func alertActions(with error: PlayerModel.Error) -> [UIAlertAction] {
+        var alertAction: UIAlertAction
+        
+        switch error {
+        case .noSoundURL:
+            alertAction = UIAlertAction(title: "確認", style: .default) { [weak navigationViewController] (_) in
+                navigationViewController?.topViewController?.dismiss(animated: true)
+            }
+        case .indexOutOfRange:
+            alertAction = UIAlertAction(title: "確認", style: .default)
+        }
+           
+        return [alertAction]
     }
 }
 
