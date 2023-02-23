@@ -9,14 +9,16 @@ import UIKit
 
 class PodcastFeedViewControllerFactory {
     
-    static func makeHomepageViewController(url: URL) -> UIViewController {
+    static func makeHomepageViewController(url: URL,
+                                           tapOnEpisode: @escaping (([Episode], Int) -> Void)) -> UIViewController {
         let remoteFeedLoader = RemoteEpisodeFeedLoader(client: URLSessionHTTPClient(), url: url)
-        let homeViewController = HomepageViewController(loader: remoteFeedLoader)
+        let homeViewController = HomepageViewController(loader: remoteFeedLoader, tapOnEpisode: tapOnEpisode)
         return homeViewController
     }
     
     static func makeEpisodePageViewController(episodes: [Episode], currenPage: Int) -> UIViewController {
-        let episodeViewController = EpisodeViewController(episodes: episodes, currentEpisodeIndex: currenPage)
+        let episodeViewController = EpisodeViewController(episodes: episodes,
+                                                          currentEpisodeIndex: currenPage)
         return episodeViewController
     }
     
