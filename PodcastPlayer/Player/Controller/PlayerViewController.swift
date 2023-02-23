@@ -11,7 +11,7 @@ import Kingfisher
 public final class PlayerViewController: UIViewController {
 
     public typealias AudioPlayable = (PlayPauseProtocol & EpisodeProgressTracking & EpisodeSoundLoader)
-    public var updateEpisode: ((Episode) -> Void)?
+    public let updateEpisode: (Episode) -> Void
     private var viewModel: PlayerViewModel?
     private var audioPlayer: AudioPlayable?
     
@@ -22,10 +22,15 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider!
     
-    public convenience init(audioPlayer: AudioPlayable = AVPlayerManager(), playerModel: EpisodeManipulatible) {
-        self.init()
+    init(audioPlayer: AudioPlayable = AVPlayerManager(), playerModel: EpisodeManipulatible, updateEpisode: @escaping (Episode) -> Void) {
         self.audioPlayer = audioPlayer
         self.viewModel = PlayerViewModel(model: playerModel)
+        self.updateEpisode = updateEpisode
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func viewDidLoad() {
@@ -41,7 +46,7 @@ public final class PlayerViewController: UIViewController {
         super.viewWillDisappear(animated)
         guard let episode = viewModel?.currentEpisode else { return }
         
-        updateEpisode?(episode)
+        updateEpisode(episode)
         audioPlayer?.resetPlayer()
     }
     

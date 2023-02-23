@@ -10,6 +10,7 @@ import UIKit
 final class PodcastFeedCoordinator: Coordinating {
     
     typealias MakeHomeViewController = (URL, @escaping (([Episode], Int) -> Void)) -> UIViewController
+    
     private let navigationViewController: UINavigationController
     private let makeHomeViewController: MakeHomeViewController
     private let homePageUrl: URL
@@ -31,8 +32,16 @@ final class PodcastFeedCoordinator: Coordinating {
     
     func tapOnEpisode(episodes: [Episode], currentPage: Int) {
         let episodeViewController = PodcastFeedViewControllerFactory.makeEpisodePageViewController(episodes: episodes,
-                                                                                                   currenPage: currentPage)
+                                                                                                   currenPage: currentPage,
+                                                                                                   onTapPlay: { [weak self] (episodes, page, playingEpisode) in
+            self?.tapOnPlay(episodes: episodes, currentPage: page, playingEpisode: playingEpisode)
+        })
         navigationViewController.pushViewController(episodeViewController, animated: true)
+    }
+    
+    func tapOnPlay(episodes: [Episode], currentPage: Int, playingEpisode: @escaping (Episode) -> Void) {
+        let playerVC = PodcastFeedViewControllerFactory.makePlayerViewController(episodes: episodes, currentPage: currentPage, updateEpisode: playingEpisode)
+        navigationViewController.present(playerVC, animated: true)
     }
 }
 

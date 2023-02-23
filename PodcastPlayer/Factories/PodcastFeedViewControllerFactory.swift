@@ -16,9 +16,12 @@ class PodcastFeedViewControllerFactory {
         return homeViewController
     }
     
-    static func makeEpisodePageViewController(episodes: [Episode], currenPage: Int) -> UIViewController {
+    static func makeEpisodePageViewController(episodes: [Episode],
+                                              currenPage: Int,
+                                              onTapPlay: @escaping ([Episode], Int, @escaping (Episode) -> Void) -> Void) -> UIViewController {
         let episodeViewController = EpisodeViewController(episodes: episodes,
-                                                          currentEpisodeIndex: currenPage)
+                                                          currentEpisodeIndex: currenPage,
+                                                          onTapPaly: onTapPlay)
         return episodeViewController
     }
     
@@ -26,8 +29,8 @@ class PodcastFeedViewControllerFactory {
                                          currentPage: Int,
                                          updateEpisode: @escaping (Episode) -> Void) -> UIViewController {
         let playerModel = PlayerModel(episodes: episodes, currentIndex: currentPage)
-        let playerViewController = PlayerViewController(playerModel: playerModel)
-        playerViewController.updateEpisode = updateEpisode
+        let playerViewController = PlayerViewController(playerModel: playerModel,
+                                                        updateEpisode: updateEpisode)
         return playerViewController
     }
 }
