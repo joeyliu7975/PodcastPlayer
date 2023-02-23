@@ -12,8 +12,6 @@ extension UIViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         actions.forEach { alert.addAction($0) }
-//        let action = UIAlertAction(title: actionTitle, style: .cancel, handler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>)
-//        alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
 }

@@ -14,14 +14,21 @@ public final class EpisodeViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var playButton: UIButton!
     
+    private let updateEpisode: ([Episode], Int, @escaping (Episode) -> Void) -> Void
     private var viewModel: EpisodeViewModel?
     
-    convenience init(episodes: [Episode], currentEpisodeIndex: Int) {
-        self.init()
-
-        viewModel = EpisodeViewModel(epiosdes: episodes, at: currentEpisodeIndex)
+    init(episodes: [Episode],
+         currentEpisodeIndex: Int,
+         onTapPaly: @escaping ([Episode], Int, @escaping (Episode) -> Void) -> Void) {
+        self.viewModel = EpisodeViewModel(epiosdes: episodes, at: currentEpisodeIndex)
+        self.updateEpisode = onTapPaly
+        super.init(nibName: nil, bundle: nil)
     }
-        
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,16 +39,9 @@ public final class EpisodeViewController: UIViewController {
     
     @IBAction func pressPlay(_ sender: UIButton) {
         guard let episodes = viewModel?.episodes, let index = viewModel?.currentEpisodeIndex else { return }
-        
-        let playerModel = PlayerModel(episodes: episodes, currentIndex: index)
-        
-        let playerViewController = PlayerViewController(playerModel: playerModel)
-        
-        playerViewController.updateEpisode = { [weak self] (episode) in
-            self?.viewModel?.update(episode: episode)
+        updateEpisode(episodes, index) { [viewModel] (episode) in
+            viewModel?.update(episode: episode)
         }
-                        
-        present(playerViewController, animated: true)
     }
 }
 

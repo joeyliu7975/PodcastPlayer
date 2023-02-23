@@ -43,6 +43,13 @@ public final class HomepageViewModel: HomepageViewModelOutput {
 }
 // MARK: ViewModel Input:
 extension HomepageViewModel: HomepageViewModelInput {
+    public func tapOnEpisode(at index: Int) -> ([Episode], Int)? {
+        guard let episodes = feed?.episodes as? [Episode], !episodes.isEmpty else {
+            return nil
+        }
+        return (episodes, index)
+    }
+    
 	public func load() {
 		loader?.load(completion: { [weak self] (result) in
 			switch result {

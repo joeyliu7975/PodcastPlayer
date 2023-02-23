@@ -14,8 +14,9 @@ public final class HomepageViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    private let tapOnEpisode: (([Episode], Int) -> Void)
     private var loader: EpisodeFeedLoader?
-    private var viewModel: VideModel?
+    private var viewModel: VideModel
     
     private lazy var headerView: HomepageTableHeaderView = {
         let headerView = HomepageTableHeaderView(frame: .zero)
@@ -28,9 +29,15 @@ public final class HomepageViewController: UIViewController {
 
 	private static let tableHeaderHeight: CGFloat = 160.0
     
-    public convenience init(loader: EpisodeFeedLoader){
-        self.init()
+    init(loader: EpisodeFeedLoader,
+         tapOnEpisode: @escaping (([Episode], Int) -> Void)) {
         self.viewModel = HomepageViewModel(loader: loader)
+        self.tapOnEpisode = tapOnEpisode
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func viewDidLoad() {
@@ -43,7 +50,7 @@ public final class HomepageViewController: UIViewController {
 
 private extension HomepageViewController {
     func load() {
-        viewModel?.load()
+        viewModel.load()
     }
     
     func setupTableView() {
@@ -57,19 +64,19 @@ private extension HomepageViewController {
     }
     
     func viewModelDataBinding() {
-        viewModel?.refreshData = { [weak self] in
+        viewModel.refreshData = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
         }
         
-        viewModel?.configureHeaderView = { [weak self] (imageURL) in
+        viewModel.configureHeaderView = { [weak self] (imageURL) in
             DispatchQueue.main.async {
                 self?.headerView.configure(with: imageURL)
             }
         }
         
-        viewModel?.handleError = { [weak self] (error) in
+        viewModel.handleError = { [weak self] (error) in
             DispatchQueue.main.async {
                 let confirmAction = UIAlertAction(title: "確認", style: .default)
                 self?.popAlert(title: "錯誤", message: "\(error)", actions: [confirmAction])
@@ -80,19 +87,15 @@ private extension HomepageViewController {
 
 extension HomepageViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let episodes = viewModel?.feed?.episodes as? [Episode], !episodes.isEmpty else { return }
-        
-        let episodeViewController = EpisodeViewController(episodes: episodes, currentEpisodeIndex: indexPath.row)
-
-        navigationController?.pushViewController(episodeViewController, animated: true)
-        
+        guard let episodes = viewModel.feed?.episodes as? [Episode], !episodes.isEmpty else { return }
+        tapOnEpisode(episodes, indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 extension HomepageViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.feed?.episodes.count ?? 0
+        return viewModel.feed?.episodes.count ?? 0
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -102,7 +105,7 @@ extension HomepageViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: EpisodeFeedTableViewCell = tableView.makeCell(with: EpisodeFeedTableViewCell.reuseIdentifier, for: indexPath)
         
-        if let cellModel = try? viewModel?.getEpisode(at: indexPath.row) {
+        if let cellModel = try? viewModel.getEpisode(at: indexPath.row) {
             cell.render(with: cellModel)
         }
         

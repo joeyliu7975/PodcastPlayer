@@ -11,7 +11,11 @@ import Kingfisher
 public final class PlayerViewController: UIViewController {
 
     public typealias AudioPlayable = (PlayPauseProtocol & EpisodeProgressTracking & EpisodeSoundLoader)
-    public var updateEpisode: ((Episode) -> Void)?
+    public typealias TouchEvent = PlayerModel.TouchEvent
+    
+    private let updateEpisode: (Episode) -> Void
+    private let failOnLoadingSoundtrack: (() -> Void)
+    private let cannotFindEpisode: ((TouchEvent) -> Void)
     private var viewModel: PlayerViewModel?
     private var audioPlayer: AudioPlayable?
     
@@ -22,10 +26,21 @@ public final class PlayerViewController: UIViewController {
     @IBOutlet weak var previousEPButton: UIButton!
     @IBOutlet weak var slider: UISlider!
     
-    public convenience init(audioPlayer: AudioPlayable = AVPlayerManager(), playerModel: EpisodeManipulatible) {
-        self.init()
+    init(audioPlayer: AudioPlayable = AVPlayerManager(),
+         playerModel: EpisodeManipulatible,
+         updateEpisode: @escaping (Episode) -> Void,
+         failOnLoadingSoundtrack: @escaping (() -> Void),
+         cannotFindEpisode: @escaping ((TouchEvent) -> Void)) {
         self.audioPlayer = audioPlayer
         self.viewModel = PlayerViewModel(model: playerModel)
+        self.updateEpisode = updateEpisode
+        self.failOnLoadingSoundtrack = failOnLoadingSoundtrack
+        self.cannotFindEpisode = cannotFindEpisode
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func viewDidLoad() {
@@ -41,7 +56,7 @@ public final class PlayerViewController: UIViewController {
         super.viewWillDisappear(animated)
         guard let episode = viewModel?.currentEpisode else { return }
         
-        updateEpisode?(episode)
+        updateEpisode(episode)
         audioPlayer?.resetPlayer()
     }
     
@@ -138,40 +153,7 @@ extension PlayerViewController {
             self?.audioPlayer?.pause()
         }
         
-        viewModel?.failOnLoadingSoundtrack = { [weak self] in
-            let actions = self?.alertActions(with: .noSoundURL)
-            self?.popAlert(title: "提醒", message: "無法讀取音檔", actions: actions!)
-        }
-        
-        viewModel?.cannotFindEpisode = { [weak self] (event) in
-            let actions = self?.alertActions(with: .indexOutOfRange)
-            
-            switch event {
-            case .checkCurrentProject:
-                self?.popAlert(title: "提醒", message: "當集 Podcast 讀取失敗", actions: actions!)
-            case .checkNextProject:
-                self?.popAlert(title: "提醒", message: "這首已經是最新的 Podcast 了", actions: actions!)
-            case .checkPreviousProject:
-                self?.popAlert(title: "提醒", message: "這首已經是最舊的 Podcast 了", actions: actions!)
-            }
-        }
-    }
-}
-
-// MARK: Alert Handler
-private extension PlayerViewController {
-    func alertActions(with error: PlayerModel.Error) -> [UIAlertAction] {
-        var alertAction: UIAlertAction
-        
-        switch error {
-        case .noSoundURL:
-            alertAction = UIAlertAction(title: "確認", style: .default) { [weak self] (_) in
-                self?.dismiss(animated: true)
-            }
-        case .indexOutOfRange:
-            alertAction = UIAlertAction(title: "確認", style: .default)
-        }
-           
-        return [alertAction]
+        viewModel?.failOnLoadingSoundtrack = failOnLoadingSoundtrack
+        viewModel?.cannotFindEpisode = cannotFindEpisode
     }
 }

@@ -19,11 +19,16 @@ public final class EpisodeViewModel {
         self.currentEpisodeIndex = index
     }
     
-    public func update(to newIndex: Int) {
-        self.currentEpisodeIndex = newIndex
-    }
-    
     public func update(episode: Episode) {
         self.episodesViewModel.value = episode
+        //TODO: Update currentEpisodeIndex's method need to be refactored
+        if let index = episodes.firstIndex(where: { $0.title == episode.title }),
+        currentEpisodeIndex == index {
+            update(to: index)
+        }
+    }
+    
+    private func update(to newIndex: Int) {
+        self.currentEpisodeIndex = newIndex
     }
 }
